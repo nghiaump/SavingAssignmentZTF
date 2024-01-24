@@ -1,0 +1,17 @@
+// mid_saving.proto
+syntax = "proto3";
+
+package protobuf;
+
+import "user.proto";
+import "saving.proto";
+
+service MidSavingService {
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
+  rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse);
+  rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse);
+  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
+}
+
+

@@ -1,0 +1,41 @@
+// user.proto
+syntax = "proto3";
+
+package protobuf;
+
+service UserService {
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
+}
+
+message User{
+  string userId = 1;
+  string idCardNumber = 2;
+  string userName = 3;
+  int32 kycLevel = 4;
+  string registeredDate = 5;
+}
+
+message KYC{
+  string userId = 1;
+  int32 level = 2;
+}
+
+message RegisterUserRequest {
+  string idCardNumber = 1;
+  string userName = 2;
+}
+
+message RegisterUserResponse {
+  bool success = 1;
+  string userId = 2;
+}
+
+message GetCurrentKYCRequest {
+  string userId = 1;
+}
+
+message GetCurrentKYCResponse {
+  string userId = 1;
+  int32 kycLevel = 2;
+}

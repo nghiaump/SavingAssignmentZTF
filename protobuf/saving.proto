@@ -1,0 +1,59 @@
+// savings.proto
+syntax = "proto3";
+
+package protobuf;
+
+message SavingAccount {
+  string id = 1;
+  string userID = 2;
+  int64 balance = 3;
+  string termType = 4;
+  int32 term = 5;
+  string createdDate = 6;
+  string dueDate = 7;
+  float rate = 8;
+}
+
+service SavingsService {
+  rpc OpenSavingsAccount(SavingAccount) returns (SavingAccount);
+  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
+  rpc UpdateBalance(WithdrawalRequest) returns (SavingAccount);
+}
+
+message OpenSavingsAccountRequest {
+  string userId = 1;
+  int64 balance = 2;
+  string termType = 3;
+  int32 term = 4;
+  string createdDate = 5;
+}
+
+message OpenSavingsAccountResponse {
+  bool success = 1;
+  string userId = 2;
+  string accountId = 3;
+  int64 balance = 4;
+  float rate = 5;
+  string createdDate = 6;
+  string dueDate = 7;
+  int64 expectedInterest = 8;
+}
+
+message WithdrawalRequest {
+  string userId = 1;
+  string accountId = 2;
+  int64 amount = 3;
+  string date = 4;
+}
+
+message WithdrawalResponse {
+  bool success = 1;
+  SavingAccount acc = 2;
+  int64 withdrawnAmount = 3;
+}
+
+message AccountInquiryRequest {
+  string userId = 1;
+  string accountId = 2;
+}
+
