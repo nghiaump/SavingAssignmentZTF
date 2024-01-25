@@ -1,8 +1,9 @@
-module github.com/nghiaump/savingaccproto
+module github.com/nghiaump/SavingAssignmentZTF
 
 go 1.21
 
 require (
+	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.3
 	google.golang.org/grpc v1.60.1
 )
