@@ -1,10 +1,8 @@
 # Bài tập Module Programmer's Way
 
-  
 
 Người thực hiện: Nguyễn Đại Nghĩa
 
-  
   
 
 ## Yêu cầu
