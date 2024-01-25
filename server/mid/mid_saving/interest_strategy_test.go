@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "SavingProto"
+	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"math"
 	"reflect"
 	"testing"

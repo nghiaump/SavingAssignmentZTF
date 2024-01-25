@@ -2,10 +2,9 @@ package main
 
 import (
 	"context"
-	pb "github.com/nghiaump/savingaccproto"
+	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/status"
 	"log"
 	"net"
@@ -23,21 +22,12 @@ type MidServiceHandler struct {
 	savingServiceClient pb.SavingsServiceClient
 }
 
-func CreateMidServiceHandler() (*MidServiceHandler, []*grpc.ClientConn) {
-	midServiceHandler := MidServiceHandler{}
-	connUserCore, errUserCore := grpc.Dial(AddressUserCore, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if errUserCore != nil {
-		log.Fatalf("Cannot connect to User Core: %v", errUserCore)
+func CreateMidServiceHandler(userServiceClient pb.UserServiceClient, savingServiceClient pb.SavingsServiceClient) *MidServiceHandler {
+	midServiceHandler := MidServiceHandler{
+		userServiceClient:   userServiceClient,
+		savingServiceClient: savingServiceClient,
 	}
-	midServiceHandler.userServiceClient = pb.NewUserServiceClient(connUserCore)
-
-	connSavingCore, errSavingCore := grpc.Dial(AddressSavingCore, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if errSavingCore != nil {
-		log.Fatalf("Cannot connect to User Core: %v", errSavingCore)
-	}
-	midServiceHandler.savingServiceClient = pb.NewSavingsServiceClient(connSavingCore)
-
-	return &midServiceHandler, []*grpc.ClientConn{connUserCore, connSavingCore}
+	return &midServiceHandler
 }
 
 func StartMidServer(midHandler *MidServiceHandler, port string) {

@@ -11,8 +11,10 @@ require (
 )
 
 require (
+	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
-	github.com/nghiaump/savingaccproto v0.0.0-20240124173633-ea631df393c9 // indirect
+	github.com/nghiaump/SavingAssignmentZTF v0.0.0-20240125093006-70f0cef66333 // indirect
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240125093006-70f0cef66333 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	pb "github.com/nghiaump/savingaccproto"
+	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 )
 
 // SavingAccountPT includes Calculator, which uses StrategyPattern
