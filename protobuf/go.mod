@@ -1,4 +1,4 @@
-module github.com/nghiaump/SavingAssignmentZTF
+module github.com/nghiaump/SavingAssignmentZTF/protobuf
 
 go 1.21
 
