@@ -29,7 +29,7 @@ func StartSavingServer(handler *SavingServiceHandler, port string) {
 	s := grpc.NewServer()
 	log.Println("Creating SavingServiceHandler")
 	pb.RegisterSavingsServiceServer(s, handler)
-	log.Printf("Starting gRPC Saving Service listener on Port " + port)
+	log.Printf("Starting gRPC Saving Service listener on SavingPort " + port)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

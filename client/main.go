@@ -6,14 +6,23 @@ import (
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"log"
+	"os"
 )
 
 const (
-	addressMidSaving = "localhost:50050"
+	ContainerMidSavingEnv = "CONTAINER_MID_SAVING_HOST"
+	MidPort               = ":50050"
 )
 
 func main() {
-	conn, err := grpc.Dial(addressMidSaving, grpc.WithInsecure())
+	addressMidSavingCore := os.Getenv(ContainerMidSavingEnv)
+	if addressMidSavingCore == "" {
+		fmt.Println("Biến môi trường CONTAINER_MID_SAVING_HOST không được cung cấp.")
+		return
+	} else {
+		fmt.Printf("address mid container: %v", addressMidSavingCore)
+	}
+	conn, err := grpc.Dial(addressMidSavingCore+MidPort, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

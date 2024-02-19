@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  saving-client:
+    image: docker-saving-client:1.0
+    environment:
+      - CONTAINER_MID_SAVING_HOST=mid-saving
+    networks:
+      - my_network
+    stdin_open: true
+    tty: true
+
+  mid-saving:
+    image: docker-mid-saving:1.0
+    depends_on:
+      - user-core
+      - saving-core
+    environment:
+      - CONTAINER_USER_CORE_HOST=user-core
+      - CONTAINER_SAVING_CORE_HOST=saving-core
+    networks:
+      - my_network
+
+  user-core:
+    image: docker-core-user:1.0
+    networks:
+      - my_network
+
+  saving-core:
+    image: docker-core-saving:1.0
+    networks:
+      - my_network
+
+networks:
+  my_network:

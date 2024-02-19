@@ -11,8 +11,6 @@ import (
 )
 
 const (
-	AddressUserCore     = "localhost:50051"
-	AddressSavingCore   = "localhost:50052"
 	WithdrawalLimitKYC3 = 150000000
 	WithdrawalLimitKYC2 = 100000000
 )
