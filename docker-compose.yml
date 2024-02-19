@@ -2,6 +2,9 @@ version: '3'
 
 services:
   saving-client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
     image: docker-saving-client:1.0
     environment:
       - CONTAINER_MID_SAVING_HOST=mid-saving
@@ -11,6 +14,9 @@ services:
     tty: true
 
   mid-saving:
+    build:
+      context: ./server/mid/mid_saving
+      dockerfile: Dockerfile
     image: docker-mid-saving:1.0
     depends_on:
       - user-core
@@ -22,11 +28,17 @@ services:
       - my_network
 
   user-core:
+    build:
+      context: ./server/core/user
+      dockerfile: Dockerfile
     image: docker-core-user:1.0
     networks:
       - my_network
 
   saving-core:
+    build:
+      context: ./server/core/saving
+      dockerfile: Dockerfile
     image: docker-core-saving:1.0
     networks:
       - my_network
