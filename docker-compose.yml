@@ -32,6 +32,10 @@ services:
       context: ./server/core/user
       dockerfile: Dockerfile
     image: docker-core-user:1.0
+    depends_on:
+      - elasticsearch
+    environment:
+      - CONTAINER_ES_HOST=elasticsearch
     networks:
       - my_network
 
@@ -40,8 +44,39 @@ services:
       context: ./server/core/saving
       dockerfile: Dockerfile
     image: docker-core-saving:1.0
+    depends_on:
+      - elasticsearch
+    environment:
+      - CONTAINER_ES_HOST=elasticsearch
     networks:
       - my_network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+    container_name: elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=datasearch
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - cluster.initial_master_nodes=elasticsearch
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - esdata:/var/lib/docker/volumes/elasticsearch_esdata/_data
+    networks:
+      - my_network
+
+volumes:
+  esdata:
+    driver_opts:
+      device: /Users/lap14122/Documents/ESLearn/elasticsearch/data
+      o: bind
+      type: bind
 
 networks:
   my_network:

@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"github.com/elastic/go-elasticsearch/v7"
+	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
@@ -10,15 +13,18 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"strings"
 )
 
 type UserServiceHandler struct {
-	usersMap map[string]*pb.User
 	kycMap   map[string]*pb.KYC
+	usersMap map[string]*pb.User
+	esClient *elasticsearch.Client
 }
 
-func NewUserServiceHandler() *UserServiceHandler {
+func NewUserServiceHandler(client *elasticsearch.Client) *UserServiceHandler {
 	handler := UserServiceHandler{}
+	handler.esClient = client
 	return &handler
 }
 
@@ -45,17 +51,18 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 			"Error while generating UserID %v", err)
 	}
 
-	if handler.usersMap == nil {
-		handler.usersMap = make(map[string]*pb.User)
+	indexReq := esapi.IndexRequest{
+		Index:   "user",
+		Body:    strings.NewReader(fmt.Sprintf(`{"name" : "%s", "cccd": "%s"}`, req.UserName, req.IdCardNumber)),
+		Refresh: "true",
 	}
 
-	handler.usersMap[out.String()] = &pb.User{
-		UserId:         out.String(),
-		IdCardNumber:   req.IdCardNumber,
-		UserName:       req.UserName,
-		KycLevel:       GenKYCDefault(), // TODO
-		RegisteredDate: "01012024",      // TODO
+	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
+	if err2 != nil {
+		log.Printf("Error indexing document: %v\n", err2)
 	}
+	defer indexRes.Body.Close()
+	log.Printf("Indexed new User to ElasticSearch %v\n", indexRes)
 	return &pb.RegisterUserResponse{Success: true, UserId: out.String()}, status.New(codes.OK, "").Err()
 }
 

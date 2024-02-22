@@ -25,10 +25,14 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type User struct {
-	UserId               string   `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty"`
-	IdCardNumber         string   `protobuf:"bytes,2,opt,name=idCardNumber,proto3" json:"idCardNumber,omitempty"`
-	UserName             string   `protobuf:"bytes,3,opt,name=userName,proto3" json:"userName,omitempty"`
-	KycLevel             int32    `protobuf:"varint,4,opt,name=kycLevel,proto3" json:"kycLevel,omitempty"`
+	// @gotags: es:"user_id"
+	UserId string `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty" es:"user_id"`
+	// @gotags: es:"cccd"
+	IdCardNumber string `protobuf:"bytes,2,opt,name=idCardNumber,proto3" json:"idCardNumber,omitempty" es:"cccd"`
+	// @gotags: es:"username"
+	UserName string `protobuf:"bytes,3,opt,name=userName,proto3" json:"userName,omitempty" es:"username"`
+	// @gotags: es:"kyc_level"
+	KycLevel             int32    `protobuf:"varint,4,opt,name=kycLevel,proto3" json:"kycLevel,omitempty" es:"kyc_level"`
 	RegisteredDate       string   `protobuf:"bytes,5,opt,name=registeredDate,proto3" json:"registeredDate,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
@@ -143,8 +147,10 @@ func (m *KYC) GetLevel() int32 {
 }
 
 type RegisterUserRequest struct {
-	IdCardNumber         string   `protobuf:"bytes,1,opt,name=idCardNumber,proto3" json:"idCardNumber,omitempty"`
-	UserName             string   `protobuf:"bytes,2,opt,name=userName,proto3" json:"userName,omitempty"`
+	// @gotags: es:"cccd"
+	IdCardNumber string `protobuf:"bytes,1,opt,name=idCardNumber,proto3" json:"idCardNumber,omitempty" es:"cccd"`
+	// @gotags: es:"username"
+	UserName             string   `protobuf:"bytes,2,opt,name=userName,proto3" json:"userName,omitempty" es:"username"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`

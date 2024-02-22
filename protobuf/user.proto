@@ -9,10 +9,18 @@ service UserService {
 }
 
 message User{
+  // @gotags: es:"user_id"
   string userId = 1;
+
+  // @gotags: es:"cccd"
   string idCardNumber = 2;
+
+  // @gotags: es:"username"
   string userName = 3;
+
+  // @gotags: es:"kyc_level"
   int32 kycLevel = 4;
+
   string registeredDate = 5;
 }
 
@@ -22,7 +30,10 @@ message KYC{
 }
 
 message RegisterUserRequest {
+  // @gotags: es:"cccd"
   string idCardNumber = 1;
+
+  // @gotags: es:"username"
   string userName = 2;
 }
 

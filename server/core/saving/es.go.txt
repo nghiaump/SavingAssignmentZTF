@@ -1,0 +1,89 @@
+package main
+
+import (
+	"time"
+)
+
+// SavingAccount is a struct for saving and searching
+type SavingAccount struct {
+	ID             string    `json:"id"`
+	UserID         string    `json:"user_id"`
+	CreatedDate    time.Time `json:"created_date"`
+	Balance        int64     `json:"balance"`
+	CurrentBalance int64     `json:"current_balance"`
+	TermInDays     int       `json:"term_in_days"`
+	InterestRate   float64   `json:"interest_rate"`
+}
+
+// Withdrawal is a struct
+type Withdrawal struct {
+	ID     string    `json:"id"`
+	AccID  string    `json:"acc_id"`
+	Time   time.Time `json:"time"`
+	Amount int64     `json:"amount"`
+	Total  int64     `json:"total"`
+}
+
+const AccountMapping = `
+{
+	"settings":{
+		"number_of_shards": 1,
+		"number_of_replicas": 1
+	},
+	"mappings":{
+		"saving_account":{
+			"properties":{
+				"id":{
+					"type":"keyword"
+				},
+				"user_id":{
+					"type":"keyword"
+				},
+				"created_date":{
+					"type":"date"
+				},
+				"balance":{
+					"type":"long"
+				},
+				"current_balance":{
+					"type":"long"
+				},
+				"term_in_days":{
+					"type":"integer"
+				},
+				"interest_rate":{
+					"type":"double"
+				}
+			}
+		}
+	}
+}`
+
+const WithdrawalMapping = `
+{
+	"settings":{
+		"number_of_shards": 1,
+		"number_of_replicas": 0
+	},
+	"mappings":{
+		"withdrawal":{
+			"properties":{
+				"id":{
+					"type":"keyword"
+				},
+				"acc_id":{
+					"type":"keyword"
+				},
+				"time":{
+					"type":"date"
+				},
+				"amount":{
+					"type":"long"
+				},
+				"total":{
+					"type":"long"
+				}
+			}
+		}
+	}
+}`
