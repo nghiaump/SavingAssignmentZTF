@@ -21,7 +21,10 @@ message User{
   // @gotags: es:"kyc_level"
   int32 kycLevel = 4;
 
+  // @gotags: es:"registered_date"
   string registeredDate = 5;
+
+  repeated string accountList = 6;
 }
 
 message KYC{

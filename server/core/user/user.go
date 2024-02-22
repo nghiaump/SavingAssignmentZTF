@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
@@ -13,8 +14,12 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"reflect"
 	"strings"
 )
+
+const ESDocumentTag = "es"
+const ESUserIndex = "user"
 
 type UserServiceHandler struct {
 	kycMap   map[string]*pb.KYC
@@ -51,9 +56,38 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 			"Error while generating UserID %v", err)
 	}
 
+	newUser := FillUserFromRegisterRequest(req, out.String())
+
+	val := reflect.ValueOf(newUser)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	if val.Kind() != reflect.Struct {
+		fmt.Println("Error: val.Kind() != reflect.Struct")
+	}
+
+	doc := make(map[string]interface{})
+
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Type().Field(i)
+		fieldName := field.Tag.Get(ESDocumentTag)
+
+		if fieldName != "" {
+			doc[fieldName] = val.Field(i).Interface()
+		}
+	}
+
+	// Chuyển đổi map thành chuỗi JSON
+	jsonStr, err := json.Marshal(doc)
+	if err != nil {
+		// Xử lý lỗi nếu có
+	}
+
+	log.Printf("Test json marshal %v", string(jsonStr))
 	indexReq := esapi.IndexRequest{
-		Index:   "user",
-		Body:    strings.NewReader(fmt.Sprintf(`{"name" : "%s", "cccd": "%s"}`, req.UserName, req.IdCardNumber)),
+		Index:   ESUserIndex,
+		Body:    strings.NewReader(string(jsonStr)),
 		Refresh: "true",
 	}
 
@@ -64,6 +98,16 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 	defer indexRes.Body.Close()
 	log.Printf("Indexed new User to ElasticSearch %v\n", indexRes)
 	return &pb.RegisterUserResponse{Success: true, UserId: out.String()}, status.New(codes.OK, "").Err()
+}
+
+func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.User {
+	return &pb.User{
+		UserId:         id,
+		IdCardNumber:   req.IdCardNumber,
+		UserName:       req.UserName,
+		KycLevel:       0,
+		RegisteredDate: "01012024", //TODO
+	}
 }
 
 func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
