@@ -12,6 +12,7 @@ service MidSavingService {
   rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse);
   rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse);
   rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
+  rpc GetAllAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
 }
 
 
