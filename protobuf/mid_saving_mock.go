@@ -55,6 +55,26 @@ func (mr *MockMidSavingServiceClientMockRecorder) AccountInquiry(ctx, in interfa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountInquiry", reflect.TypeOf((*MockMidSavingServiceClient)(nil).AccountInquiry), varargs...)
 }
 
+// GetAllAccountsByUserID mocks base method.
+func (m *MockMidSavingServiceClient) GetAllAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetAllAccountsByUserID", varargs...)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllAccountsByUserID indicates an expected call of GetAllAccountsByUserID.
+func (mr *MockMidSavingServiceClientMockRecorder) GetAllAccountsByUserID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAccountsByUserID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetAllAccountsByUserID), varargs...)
+}
+
 // GetCurrentKYC mocks base method.
 func (m *MockMidSavingServiceClient) GetCurrentKYC(ctx context.Context, in *GetCurrentKYCRequest, opts ...grpc.CallOption) (*GetCurrentKYCResponse, error) {
 	m.ctrl.T.Helper()
@@ -171,6 +191,21 @@ func (m *MockMidSavingServiceServer) AccountInquiry(arg0 context.Context, arg1 *
 func (mr *MockMidSavingServiceServerMockRecorder) AccountInquiry(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountInquiry", reflect.TypeOf((*MockMidSavingServiceServer)(nil).AccountInquiry), arg0, arg1)
+}
+
+// GetAllAccountsByUserID mocks base method.
+func (m *MockMidSavingServiceServer) GetAllAccountsByUserID(arg0 context.Context, arg1 *AccountInquiryRequest) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllAccountsByUserID", arg0, arg1)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllAccountsByUserID indicates an expected call of GetAllAccountsByUserID.
+func (mr *MockMidSavingServiceServerMockRecorder) GetAllAccountsByUserID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAccountsByUserID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetAllAccountsByUserID), arg0, arg1)
 }
 
 // GetCurrentKYC mocks base method.

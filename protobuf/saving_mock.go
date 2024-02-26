@@ -55,6 +55,26 @@ func (mr *MockSavingsServiceClientMockRecorder) AccountInquiry(ctx, in interface
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountInquiry", reflect.TypeOf((*MockSavingsServiceClient)(nil).AccountInquiry), varargs...)
 }
 
+// GetAllAccountsByUserID mocks base method.
+func (m *MockSavingsServiceClient) GetAllAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetAllAccountsByUserID", varargs...)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllAccountsByUserID indicates an expected call of GetAllAccountsByUserID.
+func (mr *MockSavingsServiceClientMockRecorder) GetAllAccountsByUserID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAccountsByUserID", reflect.TypeOf((*MockSavingsServiceClient)(nil).GetAllAccountsByUserID), varargs...)
+}
+
 // OpenSavingsAccount mocks base method.
 func (m *MockSavingsServiceClient) OpenSavingsAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*SavingAccount, error) {
 	m.ctrl.T.Helper()
@@ -131,6 +151,21 @@ func (m *MockSavingsServiceServer) AccountInquiry(arg0 context.Context, arg1 *Ac
 func (mr *MockSavingsServiceServerMockRecorder) AccountInquiry(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountInquiry", reflect.TypeOf((*MockSavingsServiceServer)(nil).AccountInquiry), arg0, arg1)
+}
+
+// GetAllAccountsByUserID mocks base method.
+func (m *MockSavingsServiceServer) GetAllAccountsByUserID(arg0 context.Context, arg1 *AccountInquiryRequest) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAllAccountsByUserID", arg0, arg1)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAllAccountsByUserID indicates an expected call of GetAllAccountsByUserID.
+func (mr *MockSavingsServiceServerMockRecorder) GetAllAccountsByUserID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAllAccountsByUserID", reflect.TypeOf((*MockSavingsServiceServer)(nil).GetAllAccountsByUserID), arg0, arg1)
 }
 
 // OpenSavingsAccount mocks base method.
