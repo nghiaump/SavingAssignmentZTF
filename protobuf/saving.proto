@@ -8,30 +8,30 @@ message SavingAccount {
   string id = 1;
 
   // @gotags: es:"user_id"
-  string userID = 2;
+  string user_id = 2 [json_name = "user_id"];
 
   // @gotags: es:"balance"
   int64 balance = 3;
 
-  string term_type = 4;
+  string term_type = 4 [json_name = "term_type"];
 
   int32 term = 5;
 
   // gotags: es:"term_in_days"
-  int32 term_in_days = 6;
+  int32 term_in_days = 6 [json_name = "term_in_days"];
 
   // @gotags: es:"created_date"
-  string created_date = 7;
+  string created_date = 7 [json_name = "created_date"];
 
   // @gotags: es:"due_date"
-  string due_date = 8;
+  string due_date = 8 [json_name = "due_date"];
 
   // @gotags: es:"rate"
   float rate = 9;
 }
 
 message SavingAccountList{
-  repeated SavingAccount accList = 1;
+  repeated SavingAccount acc_list = 1 [json_name = "acc_list"];
 }
 
 service SavingsService {
@@ -42,27 +42,27 @@ service SavingsService {
 }
 
 message OpenSavingsAccountRequest {
-  string userId = 1;
+  string user_id = 1 [json_name = "user_id"];
   int64 balance = 2;
-  string termType = 3;
+  string term_type = 3 [json_name = "term_type"];
   int32 term = 4;
-  string createdDate = 5;
+  string created_date = 5 [json_name = "created_date"];
 }
 
 message OpenSavingsAccountResponse {
   bool success = 1;
-  string userId = 2;
-  string accountId = 3;
+  string user_id = 2 [json_name = "user_id"];
+  string account_id = 3 [json_name = "account_id"];
   int64 balance = 4;
   float rate = 5;
-  string createdDate = 6;
-  string dueDate = 7;
-  int64 expectedInterest = 8;
+  string created_date = 6 [json_name = "created_date"];
+  string due_date = 7 [json_name = "due_date"];
+  int64 expected_interest = 8 [json_name = "expected_interest"];
 }
 
 message WithdrawalRequest {
-  string userId = 1;
-  string accountId = 2;
+  string user_id = 1 [json_name = "user_id"];
+  string account_id = 2 [json_name = "account_id"];
   int64 amount = 3;
   string date = 4;
 }
@@ -70,11 +70,11 @@ message WithdrawalRequest {
 message WithdrawalResponse {
   bool success = 1;
   SavingAccount acc = 2;
-  int64 withdrawnAmount = 3;
+  int64 withdrawn_amount = 3 [json_name = "withdrawn_amount"];
 }
 
 message AccountInquiryRequest {
-  string userId = 1;
-  string accountId = 2;
+  string user_id = 1 [json_name = "user_id"];
+  string account_id = 2 [json_name = "account_id"];
 }
 

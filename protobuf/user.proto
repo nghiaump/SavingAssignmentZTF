@@ -10,46 +10,46 @@ service UserService {
 
 message User{
   // @gotags: es:"user_id"
-  string user_id = 1;
+  string user_id = 1 [json_name = "user_id"];
 
   // @gotags: es:"cccd"
-  string id_card_number = 2;
+  string id_card_number = 2 [json_name = "id_card_number"];
 
   // @gotags: es:"username"
-  string user_name = 3;
+  string user_name = 3 [json_name = "user_name"];
 
   // @gotags: es:"kyc_level"
-  int32 kyc_level = 4;
+  int32 kyc_level = 4 [json_name = "kyc_level"];
 
   // @gotags: es:"registered_date"
-  string registered_date = 5;
+  string registered_date = 5 [json_name = "registered_date"];
 
-  repeated string account_list = 6;
+  repeated string account_list = 6 [json_name = "account_list"];
 }
 
 message KYC{
-  string user_id = 1;
-  int32 level = 2;
+  string user_id = 1 [json_name = "user_id"];
+  int32 level = 2 [json_name = "level"];
 }
 
 message RegisterUserRequest {
   // @gotags: es:"id_card_number"
-  string id_card_number = 1;
+  string id_card_number = 1 [json_name = "id_card_number"];
 
   // @gotags: es:"user_name"
-  string user_name = 2;
+  string user_name = 2 [json_name = "user_name"];
 }
 
 message RegisterUserResponse {
   bool success = 1;
-  string userId = 2;
+  string userId = 2 [json_name = "user_id"];
 }
 
 message GetCurrentKYCRequest {
-  string userId = 1;
+  string user_id = 1 [json_name = "user_id"];
 }
 
 message GetCurrentKYCResponse {
-  string userId = 1;
-  int32 kycLevel = 2;
+  string user_id = 1 [json_name = "user_id"];
+  int32 kyc_level = 2 [json_name = "kyc_level"];
 }
