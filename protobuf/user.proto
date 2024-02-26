@@ -10,34 +10,34 @@ service UserService {
 
 message User{
   // @gotags: es:"user_id"
-  string userId = 1;
+  string user_id = 1;
 
   // @gotags: es:"cccd"
-  string idCardNumber = 2;
+  string id_card_number = 2;
 
   // @gotags: es:"username"
-  string userName = 3;
+  string user_name = 3;
 
   // @gotags: es:"kyc_level"
-  int32 kycLevel = 4;
+  int32 kyc_level = 4;
 
   // @gotags: es:"registered_date"
-  string registeredDate = 5;
+  string registered_date = 5;
 
-  repeated string accountList = 6;
+  repeated string account_list = 6;
 }
 
 message KYC{
-  string userId = 1;
+  string user_id = 1;
   int32 level = 2;
 }
 
 message RegisterUserRequest {
-  // @gotags: es:"cccd"
-  string idCardNumber = 1;
+  // @gotags: es:"id_card_number"
+  string id_card_number = 1;
 
-  // @gotags: es:"username"
-  string userName = 2;
+  // @gotags: es:"user_name"
+  string user_name = 2;
 }
 
 message RegisterUserResponse {

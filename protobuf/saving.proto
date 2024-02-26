@@ -4,7 +4,7 @@ syntax = "proto3";
 package protobuf;
 
 message SavingAccount {
-  // @gotags: es:"acc_id"
+  // @gotags: es:"id"
   string id = 1;
 
   // @gotags: es:"user_id"
@@ -13,18 +13,18 @@ message SavingAccount {
   // @gotags: es:"balance"
   int64 balance = 3;
 
-  string termType = 4;
+  string term_type = 4;
 
   int32 term = 5;
 
   // gotags: es:"term_in_days"
-  int32 termInDays = 6;
+  int32 term_in_days = 6;
 
   // @gotags: es:"created_date"
-  string createdDate = 7;
+  string created_date = 7;
 
   // @gotags: es:"due_date"
-  string dueDate = 8;
+  string due_date = 8;
 
   // @gotags: es:"rate"
   float rate = 9;
