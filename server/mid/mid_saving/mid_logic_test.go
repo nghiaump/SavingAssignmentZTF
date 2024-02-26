@@ -155,7 +155,7 @@ func TestOpenSavingAccount(t *testing.T) {
 		}, nil)
 
 		savingServiceMock.EXPECT().OpenSavingsAccount(gomock.Any(), gomock.Any()).Return(&pb.SavingAccount{
-			UserID:      "abc-123",
+			UserId:      "abc-123",
 			Balance:     10000000,
 			TermType:    "DAYS",
 			Term:        21,
@@ -173,7 +173,7 @@ func TestOpenSavingAccount(t *testing.T) {
 		})
 
 		expectedRes := &pb.SavingAccount{
-			UserID:      "abc-123",
+			UserId:      "abc-123",
 			Balance:     10000000,
 			TermType:    "DAYS",
 			Term:        21,
@@ -182,7 +182,7 @@ func TestOpenSavingAccount(t *testing.T) {
 			Rate:        17500,
 		}
 
-		if res.UserId != expectedRes.UserID {
+		if res.UserId != expectedRes.UserId {
 			t.Errorf("Expected UserID %v but output is %v", expectedRes, res)
 		}
 		if res.Balance != expectedRes.Balance {

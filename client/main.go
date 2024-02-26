@@ -34,6 +34,7 @@ func main() {
 	const ActionCreateSavingAccout = 3
 	const ActionInquireSavingAccount = 4
 	const ActionWithdrawal = 5
+	const ActionGetAllAccountsByUserID = 6
 
 	currentAction := ActionRegisterUser
 	for {
@@ -43,6 +44,7 @@ func main() {
 		fmt.Println("3. Open Saving Account: using UserID (complex),...")
 		fmt.Println("4. Checking Saving Account: using AccountID (complex)")
 		fmt.Println("5. Withdraw")
+		fmt.Println("6. Get all saving account by UserID")
 		fmt.Scan(&currentAction)
 		ctx := context.Background()
 
@@ -182,6 +184,23 @@ func main() {
 					log.Println("Withdrawn successfully")
 					log.Printf("Amount: %v, remain %v", withDrawRes.WithdrawnAmount, withDrawRes.Acc)
 				}
+			}
+
+		case ActionGetAllAccountsByUserID:
+			{
+				var userID string
+				fmt.Print("userID: ")
+				fmt.Scan(&userID)
+
+				log.Printf("Calling Get All Acc for userID %v", userID)
+				fmt.Printf("Calling Get All Acc for userID %v", userID)
+				listAcc, _ := c.GetAllAccountsByUserID(ctx, &pb.AccountInquiryRequest{
+					UserId:    userID,
+					AccountId: "",
+				})
+
+				fmt.Println(listAcc)
+
 			}
 
 		}

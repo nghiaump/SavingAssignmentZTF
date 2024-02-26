@@ -20,7 +20,7 @@ type SavingAccountPT struct {
 
 func (acc *SavingAccountPT) ParseFrom(pbAcc *pb.SavingAccount) {
 	acc.Id = pbAcc.GetId()
-	acc.UserID = pbAcc.GetUserID()
+	acc.UserID = pbAcc.GetUserId()
 	acc.Balance = pbAcc.GetBalance()
 	acc.TermType = pbAcc.GetTermType()
 	acc.Term = pbAcc.GetTerm()

@@ -18,6 +18,16 @@ github.com/mailru/easyjson v0.7.7 h1:UGYAvKxe3sBsEDzO8ZeWOSlIQfWFlxbzLZe7hwFURr0
 github.com/mailru/easyjson v0.7.7/go.mod h1:xzfreul335JAWq5oZzymOObrkdz5UnU4kGfJJLY9Nlc=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240125133619-845258c04fc2 h1:XA47P7JiTRHNWHq510Orxl2NFhJNLnEPFt9q2OtnZEA=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240125133619-845258c04fc2/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240222083402-1fa6abe17145 h1:XP/sPNHOX+WYPrG4tNRo1U1qNXVWcDobcNTdYZlvWWU=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240222083402-1fa6abe17145/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240222104255-26cecb8338a0 h1:D4KyLdcbTeTSGDPFnvve/jG1o0SplYUDBmooh9Uw/6I=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240222104255-26cecb8338a0/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226165404-d0dd2d80bb98 h1:RROGHo9jan8Th+xIpmNME48ZXntjqZqdp2jRVoMZ488=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226165404-d0dd2d80bb98/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226172130-0f0889d2c74a h1:fOhnbtFg2w4QmXGH2x+WkZjf+ZzMUoDv98urR3CVk0o=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226172130-0f0889d2c74a/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226174841-6082d51b1a1d h1:RTDj15fCL1bH3eaivBnuolNV2ecDBD44piryniqZkGE=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226174841-6082d51b1a1d/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/olivere/elastic v6.2.37+incompatible h1:UfSGJem5czY+x/LqxgeCBgjDn6St+z8OnsCuxwD3L0U=
 github.com/olivere/elastic v6.2.37+incompatible/go.mod h1:J+q1zQJTgAz9woqsbVRqGeB5G1iqDKVBWLNSYW8yfJ8=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

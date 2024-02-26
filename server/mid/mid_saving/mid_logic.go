@@ -92,7 +92,7 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 
 	savingAcc := &pb.SavingAccount{
 		Id:          "",
-		UserID:      req.UserId,
+		UserId:      req.UserId,
 		Balance:     req.Balance,
 		TermType:    req.TermType,
 		Term:        req.Term,
@@ -112,7 +112,7 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 	log.Printf("Created new SavingAccount successfully\nUserID: %v, Account Detail: %v", req.UserId, accRes)
 	return &pb.OpenSavingsAccountResponse{
 		Success:          true,
-		UserId:           accRes.UserID,
+		UserId:           accRes.UserId,
 		AccountId:        accRes.Id,
 		Balance:          accRes.Balance,
 		Rate:             accRes.Rate,
@@ -205,4 +205,14 @@ func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.Ac
 	}
 	log.Printf("Inquired account successfully\nAccountID: %v, Detail: %v", req.AccountId, res)
 	return res, status.New(codes.OK, "").Err()
+}
+
+func (handler *MidServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
+	log.Printf("Calling GetAllAcc for userID: %v", req.UserId)
+	res, _ := handler.savingServiceClient.GetAllAccountsByUserID(ctx, req)
+	log.Printf("Result received from core_saving: %v\n", res)
+	//for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
+	//	log.Printf(" * ID=%s, %s", hit.(map[string]interface{})["_id"], hit.(map[string]interface{})["_source"])
+	//}
+	return nil, nil
 }

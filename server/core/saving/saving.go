@@ -2,6 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+	"github.com/elastic/go-elasticsearch/v7"
+	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
@@ -9,14 +13,21 @@ import (
 	"google.golang.org/grpc/status"
 	"log"
 	"net"
+	"reflect"
+	"strings"
 )
+
+const ESDocumentTag = "es"
+const ESSavingIndex = "saving"
 
 type SavingServiceHandler struct {
 	accountMap map[string]*pb.SavingAccount
+	esClient   *elasticsearch.Client
 }
 
-func NewSavingServiceHandler() *SavingServiceHandler {
+func NewSavingServiceHandler(client *elasticsearch.Client) *SavingServiceHandler {
 	handler := SavingServiceHandler{}
+	handler.esClient = client
 	return &handler
 }
 
@@ -41,14 +52,49 @@ func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req
 		return nil, status.Errorf(codes.Internal,
 			"Error while generating AccountID", err)
 	}
-	log.Printf("Calling OpenSavingAccount(), userID: %v, accountID: %v", req.UserID, out.String())
-
-	if handler.accountMap == nil {
-		handler.accountMap = make(map[string]*pb.SavingAccount)
-	}
+	log.Printf("Calling OpenSavingAccount(), userID: %v, accountID: %v", req.UserId, out.String())
 
 	req.Id = out.String()
-	handler.accountMap[req.Id] = req
+	val := reflect.ValueOf(req)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	if val.Kind() != reflect.Struct {
+		fmt.Println("Error: val.Kind() != reflect.Struct")
+	}
+
+	doc := make(map[string]interface{})
+
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Type().Field(i)
+		fieldName := field.Tag.Get(ESDocumentTag)
+
+		if fieldName != "" {
+			doc[fieldName] = val.Field(i).Interface()
+		}
+	}
+
+	// Chuyển đổi map thành chuỗi JSON
+	jsonStr, err := json.Marshal(doc)
+	if err != nil {
+		// TODO
+	}
+
+	log.Printf("Test json marshal %v", string(jsonStr))
+	indexReq := esapi.IndexRequest{
+		Index:   ESSavingIndex,
+		Body:    strings.NewReader(string(jsonStr)),
+		Refresh: "true",
+	}
+
+	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
+	if err2 != nil {
+		log.Printf("Error indexing document: %v\n", err2)
+	}
+	defer indexRes.Body.Close()
+	log.Printf("Indexed new Saving Account to ElasticSearch %v\n", indexRes)
+
 	return req, status.New(codes.OK, "").Err()
 }
 
@@ -57,11 +103,11 @@ func (handler *SavingServiceHandler) AccountInquiry(ctx context.Context, req *pb
 
 	acc, exists := handler.accountMap[req.AccountId]
 	if exists {
-		if req.UserId == acc.UserID {
+		if req.UserId == acc.UserId {
 			log.Printf("Account %v exist", req.AccountId)
 			return &pb.SavingAccount{
 				Id:          req.AccountId,
-				UserID:      req.UserId,
+				UserId:      req.UserId,
 				Balance:     acc.Balance,
 				TermType:    acc.TermType,
 				Term:        acc.Term,
@@ -86,7 +132,7 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 		// Only update balance
 		updatedAcc := &pb.SavingAccount{
 			Id:          acc.Id,
-			UserID:      acc.UserID,
+			UserId:      acc.UserId,
 			Balance:     acc.Balance - req.Amount,
 			TermType:    acc.TermType,
 			Term:        acc.Term,
@@ -98,4 +144,14 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 		return updatedAcc, status.New(codes.OK, "").Err()
 	}
 	return nil, status.Errorf(codes.NotFound, "Account %v does not exist.", req.AccountId)
+}
+
+func (handler *SavingServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
+	log.Printf("Get all accounts by UserID %v", req.UserId)
+	//_ := []pb.SavingAccount{}
+	res := GetAllAccountsByUserIDHelper(req.UserId, handler.esClient)
+	// Print the ID and document source for each hit.
+
+	log.Println(res)
+	return nil, nil
 }

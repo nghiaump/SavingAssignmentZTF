@@ -58,6 +58,14 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 
 	newUser := FillUserFromRegisterRequest(req, out.String())
 
+	if handler.kycMap == nil {
+		handler.kycMap = make(map[string]*pb.KYC)
+	}
+	handler.kycMap[out.String()] = &pb.KYC{
+		UserId: out.String(),
+		Level:  2,
+	}
+
 	val := reflect.ValueOf(newUser)
 	if val.Kind() == reflect.Ptr {
 		val = val.Elem()
@@ -81,7 +89,7 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 	// Chuyển đổi map thành chuỗi JSON
 	jsonStr, err := json.Marshal(doc)
 	if err != nil {
-		// Xử lý lỗi nếu có
+		// TODO
 	}
 
 	log.Printf("Test json marshal %v", string(jsonStr))
@@ -105,7 +113,7 @@ func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.Use
 		UserId:         id,
 		IdCardNumber:   req.IdCardNumber,
 		UserName:       req.UserName,
-		KycLevel:       0,
+		KycLevel:       2,          //TODO
 		RegisteredDate: "01012024", //TODO
 	}
 }
@@ -113,11 +121,11 @@ func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.Use
 func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
 	log.Printf("Calling GetCurrentKYC for userID: %v", req.UserId)
 
-	_, exists := handler.usersMap[req.UserId]
-	if !exists {
-		log.Printf("unregistered userID")
-		return nil, status.New(codes.NotFound, "").Err()
-	}
+	//_, exists := handler.usersMap[req.UserId]
+	//if !exists {
+	//	log.Printf("unregistered userID")
+	//	return nil, status.New(codes.NotFound, "").Err()
+	//}
 
 	var kycLevel int32
 	if handler.kycMap == nil {
