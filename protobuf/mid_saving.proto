@@ -13,6 +13,7 @@ service MidSavingService {
   rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse);
   rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
   rpc GetAllAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
+  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
 }
 
 

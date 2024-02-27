@@ -30,6 +30,14 @@ message SavingAccount {
   float rate = 9;
 }
 
+message Filter {
+  int32 kyc = 1;
+  int32 term_in_days = 2 [json_name = "term_in_days"];
+  string due_date_earliest = 3 [json_name = "due_date_earliest"];
+  string due_date_latest = 4 [json_name = "due_date_latest"];
+  int64 min_balance = 5 [json_name = "min_balance"];
+}
+
 message SavingAccountList{
   repeated SavingAccount acc_list = 1 [json_name = "acc_list"];
 }
@@ -39,6 +47,7 @@ service SavingsService {
   rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
   rpc UpdateBalance(WithdrawalRequest) returns (SavingAccount);
   rpc GetAllAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
+  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
 }
 
 message OpenSavingsAccountRequest {
