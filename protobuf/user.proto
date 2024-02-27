@@ -10,7 +10,7 @@ service UserService {
 
 message User{
   // @gotags: es:"user_id"
-  string user_id = 1 [json_name = "user_id"];
+  string id = 1 [json_name = "id"];
 
   // @gotags: es:"id_card_number"
   string id_card_number = 2 [json_name = "id_card_number"];
