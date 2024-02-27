@@ -7,6 +7,7 @@ service UserService {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
   rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
   rpc SearchUserByFilter(UserFilter) returns (UserList);
+  rpc SearchUserByIdCardNumber(IDCardNumber) returns (User);
 }
 
 message User{
@@ -40,6 +41,10 @@ message User{
 
   // @gotags: es:"account_list"
   repeated string account_list = 10 [json_name = "account_list"];
+}
+
+message IDCardNumber{
+  string id_card_number = 1;
 }
 
 message UserList{
