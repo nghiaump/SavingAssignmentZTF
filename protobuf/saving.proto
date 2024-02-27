@@ -36,6 +36,8 @@ message Filter {
   string due_date_earliest = 3 [json_name = "due_date_earliest"];
   string due_date_latest = 4 [json_name = "due_date_latest"];
   int64 min_balance = 5 [json_name = "min_balance"];
+  int32 page_size = 6 [json_name = "page_size"];
+  int32 page_index = 7 [json_name = "page_index"];
 }
 
 message SavingAccountList{
