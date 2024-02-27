@@ -6,6 +6,7 @@ package protobuf;
 service UserService {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
   rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
+  rpc SearchUserByFilter(UserFilter) returns (UserList);
 }
 
 message User{
@@ -22,8 +23,8 @@ message User{
   string dob = 4;
 
   // @gotags: es:"gender"
-  // false for male, true for female
-  bool gender = 5;
+  // 0 for male, 1 for female
+  int32 gender = 5;
 
   // @gotags: es:"address"
   string address = 6;
@@ -39,7 +40,10 @@ message User{
 
   // @gotags: es:"account_list"
   repeated string account_list = 10 [json_name = "account_list"];
+}
 
+message UserList{
+  repeated User user_list = 1 [json_name = "user_list"];
 }
 
 message KYC{
@@ -50,12 +54,33 @@ message KYC{
   int32 level = 2 [json_name = "level"];
 }
 
+message UserFilter {
+  int32 kyc = 1;
+  string registered_date_range_earliest = 2 [json_name = "registered_date_range_earliest"];
+  string registered_date_range_latest = 3 [json_name = "registered_date_range_latest"];
+  int32 gender = 4;
+  string address = 5;
+  string account_id = 6 [json_name = "account_id"];
+}
+
 message RegisterUserRequest {
   // @gotags: es:"id_card_number"
   string id_card_number = 1 [json_name = "id_card_number"];
 
   // @gotags: es:"user_name"
   string user_name = 2 [json_name = "user_name"];
+
+  // @gotags: es:"dob"
+  string dob = 3;
+
+  // @gotags: es:"gender"
+  int32 gender = 4;
+
+  // @gotags: es:"address"
+  string address = 5;
+
+  // @gotags: es:"phone_number"
+  string phone_number = 6 [json_name = "phone_number"];
 }
 
 message RegisterUserResponse {

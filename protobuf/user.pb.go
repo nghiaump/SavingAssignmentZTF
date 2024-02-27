@@ -34,8 +34,8 @@ type User struct {
 	// @gotags: es:"dob"
 	Dob string `protobuf:"bytes,4,opt,name=dob,proto3" json:"dob,omitempty" es:"dob"`
 	// @gotags: es:"gender"
-	// false for male, true for female
-	Gender bool `protobuf:"varint,5,opt,name=gender,proto3" json:"gender,omitempty" es:"gender"`
+	// 0 for male, 1 for female
+	Gender int32 `protobuf:"varint,5,opt,name=gender,proto3" json:"gender,omitempty" es:"gender"`
 	// @gotags: es:"address"
 	Address string `protobuf:"bytes,6,opt,name=address,proto3" json:"address,omitempty" es:"address"`
 	// @gotags: es:"phone_number"
@@ -104,11 +104,11 @@ func (m *User) GetDob() string {
 	return ""
 }
 
-func (m *User) GetGender() bool {
+func (m *User) GetGender() int32 {
 	if m != nil {
 		return m.Gender
 	}
-	return false
+	return 0
 }
 
 func (m *User) GetAddress() string {
@@ -146,6 +146,45 @@ func (m *User) GetAccountList() []string {
 	return nil
 }
 
+type UserList struct {
+	UserList             []*User  `protobuf:"bytes,1,rep,name=user_list,proto3" json:"user_list,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *UserList) Reset()         { *m = UserList{} }
+func (m *UserList) String() string { return proto.CompactTextString(m) }
+func (*UserList) ProtoMessage()    {}
+func (*UserList) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{1}
+}
+
+func (m *UserList) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserList.Unmarshal(m, b)
+}
+func (m *UserList) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserList.Marshal(b, m, deterministic)
+}
+func (m *UserList) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserList.Merge(m, src)
+}
+func (m *UserList) XXX_Size() int {
+	return xxx_messageInfo_UserList.Size(m)
+}
+func (m *UserList) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserList.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserList proto.InternalMessageInfo
+
+func (m *UserList) GetUserList() []*User {
+	if m != nil {
+		return m.UserList
+	}
+	return nil
+}
+
 type KYC struct {
 	// @gotags: es:"user_id"
 	UserId string `protobuf:"bytes,1,opt,name=user_id,proto3" json:"user_id,omitempty" es:"user_id"`
@@ -160,7 +199,7 @@ func (m *KYC) Reset()         { *m = KYC{} }
 func (m *KYC) String() string { return proto.CompactTextString(m) }
 func (*KYC) ProtoMessage()    {}
 func (*KYC) Descriptor() ([]byte, []int) {
-	return fileDescriptor_116e343673f7ffaf, []int{1}
+	return fileDescriptor_116e343673f7ffaf, []int{2}
 }
 
 func (m *KYC) XXX_Unmarshal(b []byte) error {
@@ -195,11 +234,98 @@ func (m *KYC) GetLevel() int32 {
 	return 0
 }
 
+type UserFilter struct {
+	Kyc                         int32    `protobuf:"varint,1,opt,name=kyc,proto3" json:"kyc,omitempty"`
+	RegisteredDateRangeEarliest string   `protobuf:"bytes,2,opt,name=registered_date_range_earliest,proto3" json:"registered_date_range_earliest,omitempty"`
+	RegisteredDateRangeLatest   string   `protobuf:"bytes,3,opt,name=registered_date_range_latest,proto3" json:"registered_date_range_latest,omitempty"`
+	Gender                      int32    `protobuf:"varint,4,opt,name=gender,proto3" json:"gender,omitempty"`
+	Address                     string   `protobuf:"bytes,5,opt,name=address,proto3" json:"address,omitempty"`
+	AccountId                   string   `protobuf:"bytes,6,opt,name=account_id,proto3" json:"account_id,omitempty"`
+	XXX_NoUnkeyedLiteral        struct{} `json:"-"`
+	XXX_unrecognized            []byte   `json:"-"`
+	XXX_sizecache               int32    `json:"-"`
+}
+
+func (m *UserFilter) Reset()         { *m = UserFilter{} }
+func (m *UserFilter) String() string { return proto.CompactTextString(m) }
+func (*UserFilter) ProtoMessage()    {}
+func (*UserFilter) Descriptor() ([]byte, []int) {
+	return fileDescriptor_116e343673f7ffaf, []int{3}
+}
+
+func (m *UserFilter) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_UserFilter.Unmarshal(m, b)
+}
+func (m *UserFilter) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_UserFilter.Marshal(b, m, deterministic)
+}
+func (m *UserFilter) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UserFilter.Merge(m, src)
+}
+func (m *UserFilter) XXX_Size() int {
+	return xxx_messageInfo_UserFilter.Size(m)
+}
+func (m *UserFilter) XXX_DiscardUnknown() {
+	xxx_messageInfo_UserFilter.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_UserFilter proto.InternalMessageInfo
+
+func (m *UserFilter) GetKyc() int32 {
+	if m != nil {
+		return m.Kyc
+	}
+	return 0
+}
+
+func (m *UserFilter) GetRegisteredDateRangeEarliest() string {
+	if m != nil {
+		return m.RegisteredDateRangeEarliest
+	}
+	return ""
+}
+
+func (m *UserFilter) GetRegisteredDateRangeLatest() string {
+	if m != nil {
+		return m.RegisteredDateRangeLatest
+	}
+	return ""
+}
+
+func (m *UserFilter) GetGender() int32 {
+	if m != nil {
+		return m.Gender
+	}
+	return 0
+}
+
+func (m *UserFilter) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *UserFilter) GetAccountId() string {
+	if m != nil {
+		return m.AccountId
+	}
+	return ""
+}
+
 type RegisterUserRequest struct {
 	// @gotags: es:"id_card_number"
 	IdCardNumber string `protobuf:"bytes,1,opt,name=id_card_number,proto3" json:"id_card_number,omitempty" es:"id_card_number"`
 	// @gotags: es:"user_name"
-	UserName             string   `protobuf:"bytes,2,opt,name=user_name,proto3" json:"user_name,omitempty" es:"user_name"`
+	UserName string `protobuf:"bytes,2,opt,name=user_name,proto3" json:"user_name,omitempty" es:"user_name"`
+	// @gotags: es:"dob"
+	Dob string `protobuf:"bytes,3,opt,name=dob,proto3" json:"dob,omitempty" es:"dob"`
+	// @gotags: es:"gender"
+	Gender int32 `protobuf:"varint,4,opt,name=gender,proto3" json:"gender,omitempty" es:"gender"`
+	// @gotags: es:"address"
+	Address string `protobuf:"bytes,5,opt,name=address,proto3" json:"address,omitempty" es:"address"`
+	// @gotags: es:"phone_number"
+	PhoneNumber          string   `protobuf:"bytes,6,opt,name=phone_number,proto3" json:"phone_number,omitempty" es:"phone_number"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -209,7 +335,7 @@ func (m *RegisterUserRequest) Reset()         { *m = RegisterUserRequest{} }
 func (m *RegisterUserRequest) String() string { return proto.CompactTextString(m) }
 func (*RegisterUserRequest) ProtoMessage()    {}
 func (*RegisterUserRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_116e343673f7ffaf, []int{2}
+	return fileDescriptor_116e343673f7ffaf, []int{4}
 }
 
 func (m *RegisterUserRequest) XXX_Unmarshal(b []byte) error {
@@ -244,6 +370,34 @@ func (m *RegisterUserRequest) GetUserName() string {
 	return ""
 }
 
+func (m *RegisterUserRequest) GetDob() string {
+	if m != nil {
+		return m.Dob
+	}
+	return ""
+}
+
+func (m *RegisterUserRequest) GetGender() int32 {
+	if m != nil {
+		return m.Gender
+	}
+	return 0
+}
+
+func (m *RegisterUserRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *RegisterUserRequest) GetPhoneNumber() string {
+	if m != nil {
+		return m.PhoneNumber
+	}
+	return ""
+}
+
 type RegisterUserResponse struct {
 	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	UserId               string   `protobuf:"bytes,2,opt,name=userId,json=user_id,proto3" json:"userId,omitempty"`
@@ -256,7 +410,7 @@ func (m *RegisterUserResponse) Reset()         { *m = RegisterUserResponse{} }
 func (m *RegisterUserResponse) String() string { return proto.CompactTextString(m) }
 func (*RegisterUserResponse) ProtoMessage()    {}
 func (*RegisterUserResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_116e343673f7ffaf, []int{3}
+	return fileDescriptor_116e343673f7ffaf, []int{5}
 }
 
 func (m *RegisterUserResponse) XXX_Unmarshal(b []byte) error {
@@ -302,7 +456,7 @@ func (m *GetCurrentKYCRequest) Reset()         { *m = GetCurrentKYCRequest{} }
 func (m *GetCurrentKYCRequest) String() string { return proto.CompactTextString(m) }
 func (*GetCurrentKYCRequest) ProtoMessage()    {}
 func (*GetCurrentKYCRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_116e343673f7ffaf, []int{4}
+	return fileDescriptor_116e343673f7ffaf, []int{6}
 }
 
 func (m *GetCurrentKYCRequest) XXX_Unmarshal(b []byte) error {
@@ -342,7 +496,7 @@ func (m *GetCurrentKYCResponse) Reset()         { *m = GetCurrentKYCResponse{} }
 func (m *GetCurrentKYCResponse) String() string { return proto.CompactTextString(m) }
 func (*GetCurrentKYCResponse) ProtoMessage()    {}
 func (*GetCurrentKYCResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_116e343673f7ffaf, []int{5}
+	return fileDescriptor_116e343673f7ffaf, []int{7}
 }
 
 func (m *GetCurrentKYCResponse) XXX_Unmarshal(b []byte) error {
@@ -379,7 +533,9 @@ func (m *GetCurrentKYCResponse) GetKycLevel() int32 {
 
 func init() {
 	proto.RegisterType((*User)(nil), "protobuf.User")
+	proto.RegisterType((*UserList)(nil), "protobuf.UserList")
 	proto.RegisterType((*KYC)(nil), "protobuf.KYC")
+	proto.RegisterType((*UserFilter)(nil), "protobuf.UserFilter")
 	proto.RegisterType((*RegisterUserRequest)(nil), "protobuf.RegisterUserRequest")
 	proto.RegisterType((*RegisterUserResponse)(nil), "protobuf.RegisterUserResponse")
 	proto.RegisterType((*GetCurrentKYCRequest)(nil), "protobuf.GetCurrentKYCRequest")
@@ -389,33 +545,41 @@ func init() {
 func init() { proto.RegisterFile("user.proto", fileDescriptor_116e343673f7ffaf) }
 
 var fileDescriptor_116e343673f7ffaf = []byte{
-	// 402 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x92, 0xcf, 0x6a, 0xe3, 0x30,
-	0x10, 0xc6, 0xb1, 0x9d, 0x38, 0xc9, 0x6c, 0x36, 0xbb, 0x68, 0xb3, 0xbb, 0x22, 0xf4, 0x8f, 0xf1,
-	0xa1, 0xf8, 0x14, 0x4a, 0x4b, 0x9f, 0x20, 0x87, 0x12, 0x42, 0x69, 0x71, 0xe9, 0x21, 0xf4, 0x60,
-	0x6c, 0x6b, 0x9a, 0x9a, 0x26, 0x76, 0x2a, 0xc9, 0x81, 0xbe, 0x54, 0xe9, 0x23, 0x16, 0x29, 0x76,
-	0x13, 0x9b, 0x98, 0x9e, 0xec, 0xf9, 0x46, 0x33, 0xf3, 0x9b, 0x4f, 0x02, 0xc8, 0x05, 0xf2, 0xf1,
-	0x9a, 0x67, 0x32, 0x23, 0x5d, 0xfd, 0x89, 0xf2, 0x27, 0xf7, 0xc3, 0x84, 0xd6, 0x83, 0x40, 0x4e,
-	0x06, 0x60, 0x26, 0x8c, 0x1a, 0x8e, 0xe1, 0xf5, 0x7c, 0x33, 0x61, 0xe4, 0x0c, 0x06, 0x09, 0x0b,
-	0xe2, 0x90, 0xb3, 0x20, 0xcd, 0x57, 0x11, 0x72, 0x6a, 0xea, 0x5c, 0x4d, 0x25, 0x47, 0xd0, 0x53,
-	0x8d, 0x83, 0x34, 0x5c, 0x21, 0xb5, 0xf4, 0x91, 0x9d, 0x40, 0x7e, 0x83, 0xc5, 0xb2, 0x88, 0xb6,
-	0xb4, 0xae, 0x7e, 0xc9, 0x3f, 0xb0, 0x17, 0x98, 0x32, 0xe4, 0xb4, 0xed, 0x18, 0x5e, 0xd7, 0x2f,
-	0x22, 0x42, 0xa1, 0x13, 0x32, 0xc6, 0x51, 0x08, 0x6a, 0xeb, 0xd3, 0x65, 0x48, 0x5c, 0xe8, 0xaf,
-	0x9f, 0xb3, 0x14, 0x4b, 0x8e, 0x8e, 0x4e, 0x57, 0x34, 0x45, 0xf1, 0xf2, 0x16, 0x07, 0x4b, 0xdc,
-	0xe0, 0x92, 0x76, 0x1d, 0xc3, 0x6b, 0xfb, 0x3b, 0x81, 0x78, 0xf0, 0x8b, 0xe3, 0x22, 0x11, 0x12,
-	0x39, 0xb2, 0x80, 0x85, 0x12, 0x69, 0x4f, 0x37, 0xa9, 0xcb, 0x6a, 0x56, 0x18, 0xc7, 0x59, 0x9e,
-	0xca, 0x60, 0x99, 0x08, 0x49, 0xc1, 0xb1, 0xd4, 0xac, 0x7d, 0xcd, 0xbd, 0x02, 0x6b, 0x36, 0x9f,
-	0x28, 0x60, 0xbd, 0xe7, 0x97, 0x6b, 0x65, 0x48, 0x86, 0xd0, 0xde, 0x82, 0x98, 0x1a, 0x64, 0x1b,
-	0xb8, 0x8f, 0xf0, 0xc7, 0x2f, 0xa6, 0x29, 0xc3, 0x7d, 0x7c, 0xcd, 0x51, 0xc8, 0x03, 0x3e, 0x1b,
-	0xdf, 0xfb, 0x6c, 0xd6, 0x7c, 0x76, 0xa7, 0x30, 0xac, 0x36, 0x17, 0xeb, 0x2c, 0x15, 0xa8, 0x20,
-	0x45, 0x1e, 0xc7, 0xca, 0x55, 0x43, 0xdb, 0x5d, 0x86, 0xe4, 0x3f, 0xd8, 0xaa, 0x7c, 0xca, 0x8a,
-	0x66, 0x25, 0xbd, 0x7b, 0x0e, 0xc3, 0x6b, 0x94, 0x93, 0x9c, 0x73, 0x4c, 0xe5, 0x6c, 0x3e, 0x29,
-	0x41, 0x1b, 0xf7, 0x75, 0x6f, 0xe1, 0x6f, 0xad, 0x62, 0x37, 0xbd, 0xc1, 0xa2, 0xca, 0x7d, 0x99,
-	0xb5, 0xfb, 0xba, 0x78, 0x37, 0xe0, 0x87, 0x5a, 0xe3, 0x1e, 0xf9, 0x26, 0x89, 0x91, 0xdc, 0x40,
-	0x7f, 0x7f, 0x3b, 0x72, 0x3c, 0x2e, 0xdf, 0xef, 0xf8, 0x80, 0xa5, 0xa3, 0x93, 0xa6, 0x74, 0x81,
-	0x75, 0x07, 0x3f, 0x2b, 0xbc, 0x64, 0xaf, 0xe0, 0xd0, 0xea, 0xa3, 0xd3, 0xc6, 0xfc, 0xb6, 0x63,
-	0x64, 0xeb, 0xfc, 0xe5, 0x67, 0x00, 0x00, 0x00, 0xff, 0xff, 0xc2, 0x5e, 0x1c, 0x11, 0x64, 0x03,
-	0x00, 0x00,
+	// 541 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x53, 0xc1, 0x6e, 0xd3, 0x40,
+	0x10, 0x95, 0xed, 0x26, 0x4d, 0xa6, 0x25, 0xa0, 0x25, 0xc0, 0x2a, 0x2a, 0x21, 0xf2, 0x01, 0xe5,
+	0x80, 0x22, 0x54, 0x84, 0xc4, 0x89, 0x43, 0x23, 0x15, 0x55, 0x05, 0x81, 0x5c, 0x71, 0xe8, 0xc9,
+	0x72, 0xbc, 0x43, 0xba, 0xaa, 0x6b, 0x87, 0xdd, 0x75, 0xa5, 0xfc, 0x15, 0xff, 0xc0, 0xff, 0xf0,
+	0x05, 0x1c, 0xd0, 0x6c, 0x6c, 0x62, 0xbb, 0x31, 0xe5, 0x64, 0xcf, 0x9b, 0xd9, 0x99, 0x79, 0x33,
+	0x6f, 0x00, 0x72, 0x8d, 0x6a, 0xb6, 0x52, 0x99, 0xc9, 0x58, 0xcf, 0x7e, 0x16, 0xf9, 0x37, 0xff,
+	0x87, 0x0b, 0x7b, 0x5f, 0x35, 0x2a, 0x36, 0x00, 0x57, 0x0a, 0xee, 0x4c, 0x9c, 0x69, 0x3f, 0x70,
+	0xa5, 0x60, 0x2f, 0x61, 0x20, 0x45, 0x18, 0x47, 0x4a, 0x84, 0x69, 0x7e, 0xb3, 0x40, 0xc5, 0x5d,
+	0xeb, 0x6b, 0xa0, 0xec, 0x08, 0xfa, 0x94, 0x38, 0x4c, 0xa3, 0x1b, 0xe4, 0x9e, 0x0d, 0xd9, 0x02,
+	0xec, 0x11, 0x78, 0x22, 0x5b, 0xf0, 0x3d, 0x8b, 0xd3, 0x2f, 0x7b, 0x0a, 0xdd, 0x25, 0xa6, 0x02,
+	0x15, 0xef, 0x4c, 0x9c, 0x69, 0x27, 0x28, 0x2c, 0xc6, 0x61, 0x3f, 0x12, 0x42, 0xa1, 0xd6, 0xbc,
+	0x6b, 0xa3, 0x4b, 0x93, 0xf9, 0x70, 0xb8, 0xba, 0xca, 0x52, 0x2c, 0xfb, 0xd8, 0xb7, 0xee, 0x1a,
+	0x46, 0x5d, 0x5c, 0xaf, 0xe3, 0x30, 0xc1, 0x5b, 0x4c, 0x78, 0xcf, 0x26, 0xde, 0x02, 0x6c, 0x0a,
+	0x0f, 0x15, 0x2e, 0xa5, 0x36, 0xa8, 0x50, 0x84, 0x22, 0x32, 0xc8, 0xfb, 0x36, 0x49, 0x13, 0xa6,
+	0x5a, 0x51, 0x1c, 0x67, 0x79, 0x6a, 0xc2, 0x44, 0x6a, 0xc3, 0x61, 0xe2, 0x51, 0xad, 0x2a, 0xe6,
+	0xbf, 0x83, 0x1e, 0x4d, 0xec, 0xa3, 0xd4, 0x86, 0xbd, 0x2a, 0xd8, 0xdb, 0x60, 0x67, 0xe2, 0x4d,
+	0x0f, 0x8e, 0x07, 0xb3, 0x72, 0xb8, 0x33, 0x0a, 0x0b, 0xb6, 0x01, 0xfe, 0x5b, 0xf0, 0xce, 0x2f,
+	0xe7, 0x44, 0xd5, 0x62, 0x7f, 0xe7, 0x5d, 0x9a, 0x6c, 0x08, 0x9d, 0x0d, 0x05, 0xd7, 0x52, 0xd8,
+	0x18, 0xfe, 0x6f, 0x07, 0x80, 0x52, 0x9d, 0xca, 0xc4, 0xa0, 0xa2, 0x99, 0x5e, 0xaf, 0x63, 0xfb,
+	0xb4, 0x13, 0xd0, 0x2f, 0x3b, 0x85, 0x71, 0x83, 0x48, 0xa8, 0xa2, 0x74, 0x89, 0x21, 0x46, 0x2a,
+	0x91, 0xa8, 0x4d, 0xb1, 0xbb, 0x7b, 0xa2, 0xd8, 0x09, 0x1c, 0xed, 0x8e, 0x48, 0x22, 0x43, 0x59,
+	0x36, 0xeb, 0xfd, 0x67, 0x4c, 0x65, 0xbf, 0x7b, 0x6d, 0xfb, 0xed, 0xd4, 0xf7, 0x3b, 0x06, 0x28,
+	0xe7, 0x2b, 0x45, 0xb1, 0xfc, 0x0a, 0xe2, 0xff, 0x74, 0xe0, 0x71, 0x50, 0x94, 0xb4, 0x13, 0xc5,
+	0xef, 0x39, 0x55, 0xba, 0xab, 0x50, 0xe7, 0x7e, 0x85, 0xba, 0x2d, 0x0a, 0xf5, 0x76, 0x29, 0xf4,
+	0x7f, 0x19, 0x34, 0x15, 0xda, 0xbd, 0xab, 0x50, 0xff, 0x0c, 0x86, 0x75, 0x12, 0x7a, 0x95, 0xa5,
+	0x1a, 0x29, 0xab, 0xce, 0xe3, 0x98, 0xb2, 0x52, 0xfb, 0xbd, 0xa0, 0x34, 0xd9, 0x33, 0xe8, 0x52,
+	0x9b, 0x67, 0xa2, 0x68, 0xba, 0x54, 0x89, 0xff, 0x1a, 0x86, 0x1f, 0xd0, 0xcc, 0x73, 0xa5, 0x30,
+	0x35, 0xe7, 0x97, 0xf3, 0x72, 0x20, 0xad, 0xba, 0xf2, 0x3f, 0xc3, 0x93, 0xc6, 0x8b, 0x6d, 0xf5,
+	0x16, 0x29, 0xd6, 0x2e, 0xca, 0x6d, 0x5c, 0xd4, 0xf1, 0x2f, 0x07, 0x0e, 0x88, 0xc6, 0x05, 0xaa,
+	0x5b, 0x19, 0x23, 0xfb, 0x04, 0x87, 0x55, 0x76, 0xec, 0xf9, 0xf6, 0x08, 0x76, 0xac, 0x6e, 0x34,
+	0x6e, 0x73, 0x17, 0x6d, 0x7d, 0x81, 0x07, 0xb5, 0x7e, 0x59, 0xe5, 0xc1, 0x2e, 0xea, 0xa3, 0x17,
+	0xad, 0xfe, 0x22, 0xe3, 0x7b, 0x60, 0x17, 0x18, 0xa9, 0xf8, 0x8a, 0xea, 0x9c, 0xac, 0x8b, 0x53,
+	0x1a, 0xd6, 0x6f, 0x75, 0x83, 0x8e, 0x58, 0x1d, 0xa5, 0x43, 0x5f, 0x74, 0x2d, 0xf4, 0xe6, 0x4f,
+	0x00, 0x00, 0x00, 0xff, 0xff, 0x20, 0x35, 0x56, 0x13, 0x46, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -432,6 +596,7 @@ const _ = grpc.SupportPackageIsVersion4
 type UserServiceClient interface {
 	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
 	GetCurrentKYC(ctx context.Context, in *GetCurrentKYCRequest, opts ...grpc.CallOption) (*GetCurrentKYCResponse, error)
+	SearchUserByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error)
 }
 
 type userServiceClient struct {
@@ -460,10 +625,20 @@ func (c *userServiceClient) GetCurrentKYC(ctx context.Context, in *GetCurrentKYC
 	return out, nil
 }
 
+func (c *userServiceClient) SearchUserByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error) {
+	out := new(UserList)
+	err := c.cc.Invoke(ctx, "/protobuf.UserService/SearchUserByFilter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 type UserServiceServer interface {
 	RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
 	GetCurrentKYC(context.Context, *GetCurrentKYCRequest) (*GetCurrentKYCResponse, error)
+	SearchUserByFilter(context.Context, *UserFilter) (*UserList, error)
 }
 
 // UnimplementedUserServiceServer can be embedded to have forward compatible implementations.
@@ -475,6 +650,9 @@ func (*UnimplementedUserServiceServer) RegisterUser(ctx context.Context, req *Re
 }
 func (*UnimplementedUserServiceServer) GetCurrentKYC(ctx context.Context, req *GetCurrentKYCRequest) (*GetCurrentKYCResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentKYC not implemented")
+}
+func (*UnimplementedUserServiceServer) SearchUserByFilter(ctx context.Context, req *UserFilter) (*UserList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchUserByFilter not implemented")
 }
 
 func RegisterUserServiceServer(s *grpc.Server, srv UserServiceServer) {
@@ -517,6 +695,24 @@ func _UserService_GetCurrentKYC_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_SearchUserByFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserFilter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).SearchUserByFilter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.UserService/SearchUserByFilter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).SearchUserByFilter(ctx, req.(*UserFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _UserService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "protobuf.UserService",
 	HandlerType: (*UserServiceServer)(nil),
@@ -528,6 +724,10 @@ var _UserService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCurrentKYC",
 			Handler:    _UserService_GetCurrentKYC_Handler,
+		},
+		{
+			MethodName: "SearchUserByFilter",
+			Handler:    _UserService_SearchUserByFilter_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
