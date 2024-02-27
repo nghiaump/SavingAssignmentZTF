@@ -28,6 +28,9 @@ message SavingAccount {
 
   // @gotags: es:"rate"
   float rate = 9;
+
+  // @gotags: es:"kyc"
+  int32 kyc = 10;
 }
 
 message Filter {
