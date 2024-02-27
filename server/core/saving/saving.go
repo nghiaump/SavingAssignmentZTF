@@ -41,8 +41,7 @@ func StartSavingServer(handler *SavingServiceHandler, port string) {
 }
 
 func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.SavingAccount) (*pb.SavingAccount, error) {
-	indexReq := CreateIndexingRequest(req)
-
+	indexReq := CreateIndexingRequest(req, ESSavingIndex)
 	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
 	if err2 != nil {
 		log.Printf("Error indexing document: %v\n", err2)

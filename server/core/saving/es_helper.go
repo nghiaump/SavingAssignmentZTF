@@ -35,9 +35,10 @@ func ConvertFromISO8601(isoDate string) (string, error) {
 	return ddmmyyyyDate, nil
 }
 
-func CreateIndexingRequest(req *pb.SavingAccount) esapi.IndexRequest {
+func CreateIndexingRequest(req interface{}, indexName string) esapi.IndexRequest {
+	//req *pb.SavingAccount
 	out, _ := uuid.NewUUID()
-	req.Id = out.String()
+	req.(*pb.SavingAccount).Id = out.String()
 	val := reflect.ValueOf(req)
 	if val.Kind() == reflect.Ptr {
 		val = val.Elem()
@@ -66,7 +67,7 @@ func CreateIndexingRequest(req *pb.SavingAccount) esapi.IndexRequest {
 
 	log.Printf("Test json marshal %v", string(jsonStr))
 	indexReq := esapi.IndexRequest{
-		Index:   ESSavingIndex,
+		Index:   indexName,
 		Body:    strings.NewReader(string(jsonStr)),
 		Refresh: "true",
 	}

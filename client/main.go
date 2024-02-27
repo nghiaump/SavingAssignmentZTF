@@ -46,6 +46,7 @@ func main() {
 		fmt.Println("4. Checking Saving Account: using AccountID (complex)")
 		fmt.Println("5. Withdraw")
 		fmt.Println("6. Get all saving account by UserID")
+		fmt.Println("6. Search accounts by multi conditions")
 		fmt.Scan(&currentAction)
 		ctx := context.Background()
 

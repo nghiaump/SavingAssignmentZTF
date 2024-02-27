@@ -5,18 +5,17 @@ import (
 	"log"
 )
 
-const NilFlagKYCFilter = -1
-const NilFlagTermFilter = -1
-const NilFlagDueDateFilter = "-1"
-const NilFlagMinBalanceFilter = -1
+const NilFlagInt = -1
+const NilFlagString = "-1"
+const MaxBalance = 999999999999
 
 func GenerateQuery(filterObj *pb.Filter) map[string]interface{} {
 	var allFilters []map[string]interface{}
 
-	kycFilter := FilterByKYC(filterObj)
-	termFilter := FilterByTerm(filterObj)
-	dueDateRangeFilter := FilterByDueDateRange(filterObj)
-	minBalanceFilter := FilterByMinBalance(filterObj)
+	kycFilter := FilterByInt32Exact(filterObj.Kyc, "kyc")
+	termFilter := FilterByInt32Exact(filterObj.TermInDays, "term_in_days")
+	dueDateRangeFilter := FilterByDateRange(filterObj.DueDateEarliest, filterObj.DueDateLatest, "due_date")
+	minBalanceFilter := FilterByInt64Range(filterObj.MinBalance, MaxBalance, "balance")
 
 	if kycFilter != nil {
 		allFilters = append(allFilters, kycFilter)
@@ -45,66 +44,100 @@ func GenerateQuery(filterObj *pb.Filter) map[string]interface{} {
 	return query
 }
 
-func FilterByKYC(filterObj *pb.Filter) map[string]interface{} {
-	if filterObj.Kyc == NilFlagKYCFilter {
+func FilterByInt32Exact(value int32, fieldName string) map[string]interface{} {
+	if value == NilFlagInt {
 		return nil
 	}
 
-	kycQuery := map[string]interface{}{
+	query := map[string]interface{}{
 		"term": map[string]interface{}{
-			"kyc": filterObj.Kyc,
+			fieldName: value,
 		},
 	}
 
-	return kycQuery
+	return query
 }
 
-func FilterByTerm(filterObj *pb.Filter) map[string]interface{} {
-	if filterObj.TermInDays == NilFlagTermFilter {
+func FilterByInt32Range(valueMin int32, valueMax int32, fieldName string) map[string]interface{} {
+	if valueMin == NilFlagInt {
 		return nil
 	}
 
-	termQuery := map[string]interface{}{
-		"term": map[string]interface{}{
-			"term_in_days": filterObj.TermInDays,
-		},
-	}
-
-	return termQuery
-}
-
-func FilterByDueDateRange(filterObj *pb.Filter) map[string]interface{} {
-	if filterObj.DueDateEarliest == NilFlagDueDateFilter {
-		return nil
-	}
-
-	dueDateEarliest, _ := ConvertToISO8601(filterObj.DueDateEarliest)
-	dueDateLatest, _ := ConvertToISO8601(filterObj.DueDateLatest)
-
-	dueDateRangeQuery := map[string]interface{}{
+	query := map[string]interface{}{
 		"range": map[string]interface{}{
-			"due_date": map[string]interface{}{
-				"gte": dueDateEarliest,
-				"lte": dueDateLatest,
+			fieldName: map[string]interface{}{
+				"gte": valueMin,
+				"lte": valueMax,
 			},
 		},
 	}
 
-	return dueDateRangeQuery
+	return query
 }
 
-func FilterByMinBalance(filterObj *pb.Filter) map[string]interface{} {
-	if filterObj.MinBalance == NilFlagMinBalanceFilter {
+func FilterByInt64Exact(value int64, fieldName string) map[string]interface{} {
+	if value == NilFlagInt {
 		return nil
 	}
 
-	minBalanceQuery := map[string]interface{}{
+	query := map[string]interface{}{
+		"term": map[string]interface{}{
+			fieldName: value,
+		},
+	}
+
+	return query
+}
+
+func FilterByInt64Range(valueMin int64, valueMax int64, fieldName string) map[string]interface{} {
+	if valueMin == NilFlagInt {
+		return nil
+	}
+
+	query := map[string]interface{}{
 		"range": map[string]interface{}{
-			"balance": map[string]interface{}{
-				"gte": filterObj.MinBalance,
+			fieldName: map[string]interface{}{
+				"gte": valueMin,
+				"lte": valueMax,
 			},
 		},
 	}
 
-	return minBalanceQuery
+	return query
+}
+
+func FilterByDateExact(dateString string, fieldName string) map[string]interface{} {
+	if dateString == NilFlagString {
+		return nil
+	}
+
+	date, _ := ConvertToISO8601(dateString)
+
+	query := map[string]interface{}{
+		"term": map[string]interface{}{
+			fieldName: date,
+		},
+	}
+
+	return query
+}
+
+func FilterByDateRange(dateEarliestString string, dateLatestString string, fieldName string) map[string]interface{} {
+	if dateEarliestString == NilFlagString || dateLatestString == NilFlagString {
+		return nil
+	}
+
+	dateEarliest, _ := ConvertToISO8601(dateEarliestString)
+	dateLatest, _ := ConvertToISO8601(dateLatestString)
+
+	query := map[string]interface{}{
+		"range": map[string]interface{}{
+			fieldName: map[string]interface{}{
+				"gte": dateEarliest,
+				"lte": dateLatest,
+			},
+		},
+	}
+
+	return query
 }

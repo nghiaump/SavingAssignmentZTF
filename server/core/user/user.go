@@ -109,23 +109,18 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 }
 
 func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.User {
+	registeredDate, _ := ConvertToISO8601("01012024")
 	return &pb.User{
-		UserId:         id,
+		Id:             id,
 		IdCardNumber:   req.IdCardNumber,
 		UserName:       req.UserName,
-		KycLevel:       2,          //TODO
-		RegisteredDate: "01012024", //TODO
+		KycLevel:       2,              //TODO
+		RegisteredDate: registeredDate, //TODO
 	}
 }
 
 func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
 	log.Printf("Calling GetCurrentKYC for userID: %v", req.UserId)
-
-	//_, exists := handler.usersMap[req.UserId]
-	//if !exists {
-	//	log.Printf("unregistered userID")
-	//	return nil, status.New(codes.NotFound, "").Err()
-	//}
 
 	var kycLevel int32
 	if handler.kycMap == nil {
@@ -144,6 +139,16 @@ func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Ge
 		}
 	}
 	return &pb.GetCurrentKYCResponse{UserId: req.UserId, KycLevel: kycLevel}, status.New(codes.OK, "").Err()
+}
+
+func (handler *UserServiceHandler) SearchUserByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
+	// TODO
+	return nil, nil
+}
+
+func (handler *UserServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
+	// TODO
+	return nil, nil
 }
 
 func GenKYC(req *pb.GetCurrentKYCRequest) int32 {
