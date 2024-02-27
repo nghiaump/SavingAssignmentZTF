@@ -12,23 +12,41 @@ message User{
   // @gotags: es:"user_id"
   string user_id = 1 [json_name = "user_id"];
 
-  // @gotags: es:"cccd"
+  // @gotags: es:"id_card_number"
   string id_card_number = 2 [json_name = "id_card_number"];
 
-  // @gotags: es:"username"
+  // @gotags: es:"user_name"
   string user_name = 3 [json_name = "user_name"];
 
+  // @gotags: es:"dob"
+  string dob = 4;
+
+  // @gotags: es:"gender"
+  // false for male, true for female
+  bool gender = 5;
+
+  // @gotags: es:"address"
+  string address = 6;
+
+  // @gotags: es:"phone_number"
+  string phone_number = 7 [json_name = "phone_number"];
+
   // @gotags: es:"kyc_level"
-  int32 kyc_level = 4 [json_name = "kyc_level"];
+  int32 kyc_level = 8 [json_name = "kyc_level"];
 
   // @gotags: es:"registered_date"
-  string registered_date = 5 [json_name = "registered_date"];
+  string registered_date = 9 [json_name = "registered_date"];
 
-  repeated string account_list = 6 [json_name = "account_list"];
+  // @gotags: es:"account_list"
+  repeated string account_list = 10 [json_name = "account_list"];
+
 }
 
 message KYC{
+  // @gotags: es:"user_id"
   string user_id = 1 [json_name = "user_id"];
+
+  // @gotags: es:"level"
   int32 level = 2 [json_name = "level"];
 }
 
