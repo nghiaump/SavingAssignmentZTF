@@ -2,19 +2,13 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"github.com/elastic/go-elasticsearch/v7"
-	"github.com/elastic/go-elasticsearch/v7/esapi"
-	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"log"
 	"net"
-	"reflect"
-	"strings"
 )
 
 const ESDocumentTag = "es"
@@ -47,46 +41,7 @@ func StartSavingServer(handler *SavingServiceHandler, port string) {
 }
 
 func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.SavingAccount) (*pb.SavingAccount, error) {
-	out, err := uuid.NewUUID()
-	if err != nil {
-		return nil, status.Errorf(codes.Internal,
-			"Error while generating AccountID", err)
-	}
-	log.Printf("Calling OpenSavingAccount(), userID: %v, accountID: %v", req.UserId, out.String())
-
-	req.Id = out.String()
-	val := reflect.ValueOf(req)
-	if val.Kind() == reflect.Ptr {
-		val = val.Elem()
-	}
-
-	if val.Kind() != reflect.Struct {
-		fmt.Println("Error: val.Kind() != reflect.Struct")
-	}
-
-	doc := make(map[string]interface{})
-
-	for i := 0; i < val.NumField(); i++ {
-		field := val.Type().Field(i)
-		fieldName := field.Tag.Get(ESDocumentTag)
-
-		if fieldName != "" {
-			doc[fieldName] = val.Field(i).Interface()
-		}
-	}
-
-	// Chuyển đổi map thành chuỗi JSON
-	jsonStr, err := json.Marshal(doc)
-	if err != nil {
-		// TODO
-	}
-
-	log.Printf("Test json marshal %v", string(jsonStr))
-	indexReq := esapi.IndexRequest{
-		Index:   ESSavingIndex,
-		Body:    strings.NewReader(string(jsonStr)),
-		Refresh: "true",
-	}
+	indexReq := CreateIndexingRequest(req)
 
 	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
 	if err2 != nil {
@@ -94,7 +49,6 @@ func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req
 	}
 	defer indexRes.Body.Close()
 	log.Printf("Indexed new Saving Account to ElasticSearch %v\n", indexRes)
-
 	return req, status.New(codes.OK, "").Err()
 }
 
@@ -148,9 +102,16 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 
 func (handler *SavingServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
 	log.Printf("Get all accounts by UserID %v", req.UserId)
-	//_ := []pb.SavingAccount{}
 	accList := GetAllAccountsByUserIDHelper(req.UserId, handler.esClient)
-	// Print the ID and document source for each hit.
+
+	return &pb.SavingAccountList{
+		AccList: accList,
+	}, nil
+}
+
+func (handler *SavingServiceHandler) SearchAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
+	log.Printf("SearchAccountsByFilters %v", req)
+	accList := SearchAccountsByFiltersHelper(req, handler.esClient)
 
 	return &pb.SavingAccountList{
 		AccList: accList,

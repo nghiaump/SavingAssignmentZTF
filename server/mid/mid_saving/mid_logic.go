@@ -90,15 +90,20 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 	interestRate := FindFixedInterestRate(req.TermType, req.Term, kycRes.KycLevel)
 	expectedInterest := int64(float64(req.Balance) * float64(CalculateOnTimeInterest(req.TermType, req.Term, interestRate)))
 
+	// Convert to ISO 8601 for indexing in elasticsearch
+	dueDate, _ = ConvertToISO8601(dueDate)
+	createdDate, _ := ConvertToISO8601(req.CreatedDate)
+
 	savingAcc := &pb.SavingAccount{
 		Id:          "",
 		UserId:      req.UserId,
 		Balance:     req.Balance,
 		TermType:    req.TermType,
 		Term:        req.Term,
-		CreatedDate: req.CreatedDate,
+		CreatedDate: createdDate,
 		DueDate:     dueDate,
 		Rate:        interestRate,
+		Kyc:         kycRes.KycLevel,
 	}
 
 	switch savingAcc.TermType {
@@ -219,6 +224,18 @@ func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.Ac
 func (handler *MidServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
 	log.Printf("Calling GetAllAcc for userID: %v", req.UserId)
 	savingAccList, _ := handler.savingServiceClient.GetAllAccountsByUserID(ctx, req)
+
+	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
+	for _, acc := range savingAccList.AccList {
+		log.Println(acc.Id)
+	}
+	return savingAccList, nil
+}
+
+func (handler *MidServiceHandler) SearchAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
+	log.Printf("Calling SearchAccountsByFilters with request %v", req)
+	savingAccList, _ := handler.savingServiceClient.SearchAccountsByFilter(ctx, req)
+
 	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
 	for _, acc := range savingAccList.AccList {
 		log.Println(acc.Id)

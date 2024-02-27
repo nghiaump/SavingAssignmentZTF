@@ -6,7 +6,7 @@ go 1.21
 
 require google.golang.org/grpc v1.60.1
 
-require github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227024016-3aad9a93f1e3
+require github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227060621-d547c732e80e
 
 require (
 	github.com/golang/mock v1.6.0 // indirect

@@ -87,3 +87,23 @@ func CalculatePassedDays(createdDateStr string, withdrawnDateStr string) int {
 	}
 	return int(date2.Sub(date1).Hours() / 24)
 }
+
+func ConvertToISO8601(date string) (string, error) {
+	parsedDate, err := time.Parse("02012006", date)
+	if err != nil {
+		return "", err
+	}
+
+	isoDate := parsedDate.Format("2006-01-02T15:04:05Z")
+	return isoDate, nil
+}
+
+func ConvertFromISO8601(isoDate string) (string, error) {
+	parsedDate, err := time.Parse(time.RFC3339, isoDate)
+	if err != nil {
+		return "", err
+	}
+
+	ddmmyyyyDate := parsedDate.Format("02012006")
+	return ddmmyyyyDate, nil
+}

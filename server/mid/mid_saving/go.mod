@@ -6,7 +6,7 @@ go 1.21
 
 require (
 	github.com/golang/mock v1.6.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227024016-3aad9a93f1e3
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227060621-d547c732e80e
 	google.golang.org/grpc v1.61.0
 )
 

@@ -31,10 +31,11 @@ func main() {
 
 	const ActionRegisterUser = 1
 	const ActionCheckKYC = 2
-	const ActionCreateSavingAccout = 3
+	const ActionCreateSavingAccount = 3
 	const ActionInquireSavingAccount = 4
 	const ActionWithdrawal = 5
 	const ActionGetAllAccountsByUserID = 6
+	const ActionGetAccountsByFilters = 7
 
 	currentAction := ActionRegisterUser
 	for {
@@ -82,7 +83,7 @@ func main() {
 				}
 				log.Printf("User ID: %v, KYC level: %v", kycRes.UserId, kycRes.KycLevel)
 			}
-		case ActionCreateSavingAccout:
+		case ActionCreateSavingAccount:
 			{
 				var userID string
 				var balance int64
@@ -203,6 +204,29 @@ func main() {
 					log.Printf(acc.Id)
 				}
 
+			}
+
+		case ActionGetAccountsByFilters:
+			{
+				var filter pb.Filter
+				fmt.Println("Input KYC")
+				fmt.Scan(&filter.Kyc)
+				fmt.Println("Input TermInDays")
+				fmt.Scan(&filter.TermInDays)
+				fmt.Println("Input DueDateRange - earliest date")
+				fmt.Scan(&filter.DueDateEarliest)
+				fmt.Println("Input DueDateRange - latest date")
+				fmt.Scan(&filter.DueDateLatest)
+				fmt.Println("Input minimum balance")
+				fmt.Scan(&filter.MinBalance)
+
+				log.Println("Calling SearchAccountsByFilters ")
+				savingAccList, _ := c.SearchAccountsByFilter(ctx, &filter)
+
+				log.Printf("Hits: %v", len(savingAccList.AccList))
+				for _, acc := range savingAccList.AccList {
+					log.Printf(acc.Id)
+				}
 			}
 
 		}

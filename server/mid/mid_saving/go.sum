@@ -22,6 +22,14 @@ github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226174841-6082d51b1
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240226174841-6082d51b1a1d/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227024016-3aad9a93f1e3 h1:pOmVZCPwBZPWqAMjYeCcTjbVM4kwUN8dkpssSOoLrCM=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227024016-3aad9a93f1e3/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227032721-905f58c3c05b h1:r/Sk/QxAM6Vho2P1DRLUYmgxuf3u9HVEkMA90A7aM5I=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227032721-905f58c3c05b/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227040846-eda1e4b7fa13 h1:dTLXpdpqs6puRHEG9FUt+iTPQJLJAOCyBjAX5RtIRtA=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227040846-eda1e4b7fa13/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227042707-5454064f7705 h1:sPYRaNK+q0j1tQ7jGoQ/JogKynBhxGlle24jIYYi7ww=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227042707-5454064f7705/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227060621-d547c732e80e h1:JS34LXRMZRJw/w1ld9mJZ644Qj+5ny6cZX9pcJhOCKY=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227060621-d547c732e80e/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
