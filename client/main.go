@@ -192,14 +192,16 @@ func main() {
 				fmt.Print("userID: ")
 				fmt.Scan(&userID)
 
-				log.Printf("Calling Get All Acc for userID %v", userID)
-				fmt.Printf("Calling Get All Acc for userID %v", userID)
-				listAcc, _ := c.GetAllAccountsByUserID(ctx, &pb.AccountInquiryRequest{
+				log.Printf("Calling Get All Acc for userID %v\n", userID)
+				savingAccList, _ := c.GetAllAccountsByUserID(ctx, &pb.AccountInquiryRequest{
 					UserId:    userID,
 					AccountId: "",
 				})
 
-				fmt.Println(listAcc)
+				log.Printf("Hits: %v", len(savingAccList.AccList))
+				for _, acc := range savingAccList.AccList {
+					log.Printf(acc.Id)
+				}
 
 			}
 

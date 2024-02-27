@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) []map[string]interface{} {
+func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) []*pb.SavingAccount {
 	var r map[string]interface{}
 	var buf bytes.Buffer
 	// match -> gan giong
@@ -64,15 +64,13 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
 		int(r["took"].(float64)),
 	)
-	//// Print the ID and document source for each hit.
-	//for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
-	//	log.Printf(" * ID=%s, %s", hit.(map[string]interface{})["_id"], hit.(map[string]interface{})["_source"])
-	//}
+
+	accList := []*pb.SavingAccount{}
+
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
-		log.Printf(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
+		//log.Printf(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
 		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
 
-		log.Println("Try to parse to SavingAccount")
 		// Convert the bytes data to JSON
 		jsonData, err := json.Marshal(doc)
 		if err != nil {
@@ -85,9 +83,10 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 			log.Println("Error unmarshalling document in response:", err)
 		} else {
 			log.Printf("after unmarshaled: %v", accStruct)
+			accList = append(accList, &accStruct)
 		}
 	}
 
 	log.Println(strings.Repeat("=", 37))
-	return nil
+	return accList
 }

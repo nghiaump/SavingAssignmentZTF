@@ -74,6 +74,7 @@ message WithdrawalResponse {
 }
 
 message AccountInquiryRequest {
+
   string user_id = 1 [json_name = "user_id"];
   string account_id = 2 [json_name = "account_id"];
 }

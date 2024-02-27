@@ -149,9 +149,10 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 func (handler *SavingServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
 	log.Printf("Get all accounts by UserID %v", req.UserId)
 	//_ := []pb.SavingAccount{}
-	res := GetAllAccountsByUserIDHelper(req.UserId, handler.esClient)
+	accList := GetAllAccountsByUserIDHelper(req.UserId, handler.esClient)
 	// Print the ID and document source for each hit.
 
-	log.Println(res)
-	return nil, nil
+	return &pb.SavingAccountList{
+		AccList: accList,
+	}, nil
 }

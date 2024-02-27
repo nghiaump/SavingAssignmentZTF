@@ -101,6 +101,15 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 		Rate:        interestRate,
 	}
 
+	switch savingAcc.TermType {
+	case "DAYS":
+		savingAcc.TermInDays = savingAcc.Term
+	case "MONTHS":
+		savingAcc.TermInDays = savingAcc.Term * 30
+	case "YEARS":
+		savingAcc.TermInDays = savingAcc.Term * 360
+	}
+
 	log.Println("Calling Saving service for OpenSavingAccount()")
 	accRes, errOpenSaving := handler.savingServiceClient.OpenSavingsAccount(ctx, savingAcc)
 
@@ -209,10 +218,10 @@ func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.Ac
 
 func (handler *MidServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
 	log.Printf("Calling GetAllAcc for userID: %v", req.UserId)
-	res, _ := handler.savingServiceClient.GetAllAccountsByUserID(ctx, req)
-	log.Printf("Result received from core_saving: %v\n", res)
-	//for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
-	//	log.Printf(" * ID=%s, %s", hit.(map[string]interface{})["_id"], hit.(map[string]interface{})["_source"])
-	//}
-	return nil, nil
+	savingAccList, _ := handler.savingServiceClient.GetAllAccountsByUserID(ctx, req)
+	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
+	for _, acc := range savingAccList.AccList {
+		log.Println(acc.Id)
+	}
+	return savingAccList, nil
 }
