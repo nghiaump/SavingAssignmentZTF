@@ -25,8 +25,8 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type User struct {
-	// @gotags: es:"user_id"
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" es:"user_id"`
+	// @gotags: es:"id"
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" es:"id"`
 	// @gotags: es:"id_card_number"
 	IdCardNumber string `protobuf:"bytes,2,opt,name=id_card_number,proto3" json:"id_card_number,omitempty" es:"id_card_number"`
 	// @gotags: es:"user_name"
