@@ -33,8 +33,8 @@ type SavingAccount struct {
 	Balance  int64  `protobuf:"varint,3,opt,name=balance,proto3" json:"balance,omitempty" es:"balance"`
 	TermType string `protobuf:"bytes,4,opt,name=term_type,proto3" json:"term_type,omitempty"`
 	Term     int32  `protobuf:"varint,5,opt,name=term,proto3" json:"term,omitempty"`
-	// gotags: es:"term_in_days"
-	TermInDays int32 `protobuf:"varint,6,opt,name=term_in_days,proto3" json:"term_in_days,omitempty"`
+	// @gotags: es:"term_in_days"
+	TermInDays int32 `protobuf:"varint,6,opt,name=term_in_days,proto3" json:"term_in_days,omitempty" es:"term_in_days"`
 	// @gotags: es:"created_date"
 	CreatedDate string `protobuf:"bytes,7,opt,name=created_date,proto3" json:"created_date,omitempty" es:"created_date"`
 	// @gotags: es:"due_date"
