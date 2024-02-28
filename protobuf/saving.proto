@@ -51,7 +51,7 @@ service SavingsService {
   rpc OpenSavingsAccount(SavingAccount) returns (SavingAccount);
   rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
   rpc UpdateBalance(WithdrawalRequest) returns (SavingAccount);
-  rpc GetAllAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
+  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
   rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
 }
 

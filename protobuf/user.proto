@@ -99,9 +99,11 @@ message RegisterUserResponse {
 
 message GetCurrentKYCRequest {
   string user_id = 1 [json_name = "user_id"];
+  string id_card_number = 2 [json_name = "id_card_number"];
 }
 
 message GetCurrentKYCResponse {
   string user_id = 1 [json_name = "user_id"];
-  int32 kyc_level = 2 [json_name = "kyc_level"];
+  string id_card_number = 2 [json_name = "id_card_number"];
+  int32 kyc_level = 3 [json_name = "kyc_level"];
 }
