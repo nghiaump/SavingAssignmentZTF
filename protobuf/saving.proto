@@ -57,10 +57,11 @@ service SavingsService {
 
 message OpenSavingsAccountRequest {
   string user_id = 1 [json_name = "user_id"];
-  int64 balance = 2;
-  string term_type = 3 [json_name = "term_type"];
-  int32 term = 4;
-  string created_date = 5 [json_name = "created_date"];
+  string id_card_number = 2 [json_name = "id_card_number"];
+  int64 balance = 3;
+  string term_type = 4 [json_name = "term_type"];
+  int32 term = 5;
+  string created_date = 6 [json_name = "created_date"];
 }
 
 message OpenSavingsAccountResponse {
