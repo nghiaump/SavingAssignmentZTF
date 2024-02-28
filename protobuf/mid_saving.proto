@@ -12,8 +12,14 @@ service MidSavingService {
   rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse);
   rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse);
   rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
-  rpc GetAllAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
+
+  rpc SearchAccountsByIDCardNumber(IDCardNumber) returns (SavingAccountList);
+  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
   rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
+
+  rpc SearchUserByIdCardNumber(IDCardNumber) returns (User);
+  rpc SearchUserByAccountID(AccountID) returns (User);
+  rpc SearchUsersByFilter(UserFilter) returns (UserList);
 }
 
 
