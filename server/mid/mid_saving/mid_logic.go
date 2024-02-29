@@ -179,7 +179,7 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 		updatedAcc, errUpdate := handler.savingServiceClient.UpdateBalance(ctx, &pb.WithdrawalRequest{
 			UserId:    req.UserId,
 			AccountId: req.AccountId,
-			Amount:    req.Amount,
+			Amount:    accRes.Balance - req.Amount,
 			Date:      req.Date,
 		})
 
@@ -213,17 +213,23 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 
 func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccount, error) {
 	log.Println("Calling Saving service for AccountInquiry()")
-	res, err := handler.savingServiceClient.AccountInquiry(ctx, req)
-	if err != nil {
-		log.Printf("Cannot inquire the SavingAccount: %v", err)
-		return nil, status.Error(codes.Internal, "Cannot inquire the account")
+	resAcc, _ := handler.savingServiceClient.SearchAccountByID(ctx, &pb.AccID{
+		Id: req.AccountId,
+	})
+
+	if resAcc == nil {
+		return nil, status.Error(codes.NotFound, "")
+	} else if resAcc.UserId != req.UserId {
+		return nil, status.Error(codes.PermissionDenied, "")
+	} else {
+		return resAcc, nil
 	}
-	log.Printf("Inquired account successfully\nAccountID: %v, Detail: %v", req.AccountId, res)
-	return res, status.New(codes.OK, "").Err()
 }
 
+// SEARCH ACCOUNT=====
+
 func (handler *MidServiceHandler) SearchAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
-	log.Printf("Calling GetAllAcc for userID: %v", req.UserId)
+	log.Printf("Calling Seach Accounts for userID: %v", req.UserId)
 	savingAccList, _ := handler.savingServiceClient.SearchAccountsByUserID(ctx, req)
 
 	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
@@ -258,14 +264,42 @@ func (handler *MidServiceHandler) SearchAccountsByIDCardNumber(ctx context.Conte
 	return accList, nil
 }
 
+func (handler *MidServiceHandler) SearchAccountByID(ctx context.Context, req *pb.AccID) (*pb.SavingAccount, error) {
+	log.Printf("Search Account by accountID: %v", req.Id)
+	resAcc, err := handler.savingServiceClient.SearchAccountByID(ctx, req)
+	return resAcc, err
+}
+
+// SEARCH USER ========
+
+func (handler *MidServiceHandler) SearchUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
+	log.Printf("Search User by userID: %v", req.Id)
+	resUser, err := handler.userServiceClient.SearchUserByID(ctx, req)
+	return resUser, err
+}
+
 func (handler *MidServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
 	user, _ := handler.userServiceClient.SearchUserByIdCardNumber(ctx, req)
 	return user, nil
 }
 
 func (handler *MidServiceHandler) SearchUserByAccountID(ctx context.Context, req *pb.AccountID) (*pb.User, error) {
-	user, _ := handler.userServiceClient.SearchUserByAccountID(ctx, req)
-	return user, nil
+	acc, err := handler.savingServiceClient.SearchAccountByID(ctx, &pb.AccID{
+		Id: req.AccountID,
+	})
+	if acc == nil || err != nil {
+		return nil, err
+	} else {
+		user, err := handler.userServiceClient.SearchUserByID(ctx, &pb.UserID{
+			Id: acc.UserId,
+		})
+
+		if user == nil || err != nil {
+			return nil, err
+		} else {
+			return user, nil
+		}
+	}
 }
 
 func (handler *MidServiceHandler) SearchUsersByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {

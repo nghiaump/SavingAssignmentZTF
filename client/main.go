@@ -184,9 +184,9 @@ func main() {
 				fmt.Scan(&userID)
 				fmt.Print("accountID: ")
 				fmt.Scan(&accountID)
-				fmt.Print("withdraw amount: ")
+				fmt.Print("withdrawal amount: ")
 				fmt.Scan(&amount)
-				fmt.Print("withdraw date(simulated): ")
+				fmt.Print("withdrawal date(simulated): ")
 				fmt.Scan(&withDrawDate)
 
 				withDrawRes, withDrawErr := c.Withdrawal(ctx, &pb.WithdrawalRequest{
@@ -200,7 +200,7 @@ func main() {
 					log.Printf("Withdrawn failed with err %v", withDrawErr.Error())
 				} else {
 					log.Println("Withdrawn successfully")
-					log.Printf("Amount: %v, remain %v", withDrawRes.WithdrawnAmount, withDrawRes.Acc)
+					log.Printf("Amount: %v\nremain %v", withDrawRes.WithdrawnAmount, withDrawRes.Acc)
 				}
 			}
 
@@ -210,7 +210,7 @@ func main() {
 				fmt.Print("userID: ")
 				fmt.Scan(&userID)
 
-				log.Printf("Calling Get All Acc for userID %v\n", userID)
+				log.Printf("Calling Search All Acc for userID %v\n", userID)
 				savingAccList, _ := c.SearchAccountsByUserID(ctx, &pb.AccountInquiryRequest{
 					UserId:    userID,
 					AccountId: "",

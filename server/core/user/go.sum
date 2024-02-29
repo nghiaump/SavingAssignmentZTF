@@ -50,6 +50,12 @@ github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228155436-b07dd76b1
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228155436-b07dd76b14ad/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228171855-1e827d1c7bc5 h1:iCmE446QpsqYeCVQZMqWy7ZCq/1m+b5+y+kBvQyFfhE=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228171855-1e827d1c7bc5/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240229092128-08df7b79faf3 h1:dGPKbNQy1NrT3VzarQdosHdGjMyrb/IiJlF8H79uAP8=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240229092128-08df7b79faf3/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240229094520-6f448553120e h1:rSP1ipKk1cNUJzMY6gQeVkHaHY9NaCmChRkgoXiybtk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240229094520-6f448553120e/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240229100743-12190922c495 h1:ZKzGWpfMidlgGQrJzD4e9cgqBNNIm2d3Jzzu6943TEM=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240229100743-12190922c495/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/olivere/elastic v6.2.37+incompatible h1:UfSGJem5czY+x/LqxgeCBgjDn6St+z8OnsCuxwD3L0U=
 github.com/olivere/elastic v6.2.37+incompatible/go.mod h1:J+q1zQJTgAz9woqsbVRqGeB5G1iqDKVBWLNSYW8yfJ8=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

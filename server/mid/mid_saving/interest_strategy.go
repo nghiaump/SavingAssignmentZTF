@@ -24,8 +24,8 @@ func (acc *SavingAccountPT) ParseFrom(pbAcc *pb.SavingAccount) {
 	acc.Balance = pbAcc.GetBalance()
 	acc.TermType = pbAcc.GetTermType()
 	acc.Term = pbAcc.GetTerm()
-	acc.CreatedDate = pbAcc.GetCreatedDate()
-	acc.DueDate = pbAcc.GetDueDate()
+	acc.CreatedDate, _ = ConvertFromISO8601(pbAcc.CreatedDate)
+	acc.DueDate, _ = ConvertFromISO8601(pbAcc.DueDate)
 	acc.InterestRate = pbAcc.GetRate()
 }
 

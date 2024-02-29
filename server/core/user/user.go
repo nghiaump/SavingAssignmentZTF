@@ -137,11 +137,21 @@ func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.Use
 
 func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
 	log.Printf("Calling GetCurrentKYC for userID: %v", req.UserId)
-	user, err := handler.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
+	user, _ := handler.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
 		IdCardNumber: req.IdCardNumber,
 	})
 	if user == nil {
-		return nil, err
+		user, err := handler.SearchUserByID(ctx, &pb.UserID{Id: req.UserId})
+		if user == nil {
+			return nil, err
+		} else {
+			return &pb.GetCurrentKYCResponse{
+				UserId:       req.UserId,
+				IdCardNumber: req.IdCardNumber,
+				KycLevel:     user.KycLevel,
+			}, nil
+		}
+
 	} else {
 		return &pb.GetCurrentKYCResponse{
 			UserId:       req.UserId,
@@ -150,6 +160,16 @@ func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Ge
 		}, nil
 	}
 
+}
+
+func (handler *UserServiceHandler) SearchUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
+	log.Printf("Search User by userID: %v", req.Id)
+	resUser := SearchOneUserByUniqueTextField("id", req.Id, handler.esClient)
+	if resUser == nil {
+		return nil, status.Error(codes.NotFound, "")
+	} else {
+		return resUser, nil
+	}
 }
 
 func (handler *UserServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {

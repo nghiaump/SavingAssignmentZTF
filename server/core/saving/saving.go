@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"github.com/elastic/go-elasticsearch/v7"
+	"github.com/elastic/go-elasticsearch/v7/esapi"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -79,28 +82,58 @@ func (handler *SavingServiceHandler) AccountInquiry(ctx context.Context, req *pb
 
 func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.WithdrawalRequest) (*pb.SavingAccount, error) {
 	log.Printf("Updating balance for accountID %v", req.AccountId)
-	acc, exists := handler.accountMap[req.AccountId]
-	if exists {
-		// Check logic done by mid_saving
-		// Only update balance
-		updatedAcc := &pb.SavingAccount{
-			Id:          acc.Id,
-			UserId:      acc.UserId,
-			Balance:     acc.Balance - req.Amount,
-			TermType:    acc.TermType,
-			Term:        acc.Term,
-			CreatedDate: acc.CreatedDate,
-			DueDate:     acc.DueDate,
-			Rate:        acc.Rate,
-		}
-		handler.accountMap[req.AccountId] = updatedAcc
-		return updatedAcc, status.New(codes.OK, "").Err()
+	docID := SearchDocIDByUniqueTextField("id", req.AccountId, handler.esClient)
+
+	acc, _ := handler.SearchAccountByID(ctx, &pb.AccID{
+		Id: req.AccountId, // validated before
+	})
+
+	if acc == nil {
+		return nil, status.Error(codes.NotFound, "")
 	}
-	return nil, status.Errorf(codes.NotFound, "Account %v does not exist.", req.AccountId)
+
+	updateData := map[string]interface{}{
+		"doc": map[string]interface{}{
+			"balance": acc.Balance - req.Amount, // Giá trị mới của trường balance
+		},
+	}
+
+	// Chuyển đổi dữ liệu cập nhật sang JSON
+	updateBody, err := json.Marshal(updateData)
+	if err != nil {
+		log.Fatalf("Error marshaling update data: %s", err)
+	}
+
+	// Tạo yêu cầu cập nhật tài liệu
+	updateReq := esapi.UpdateRequest{
+		Index:      ESSavingIndex,
+		DocumentID: docID,
+		Body:       bytes.NewReader(updateBody),
+	}
+
+	// Thực hiện yêu cầu cập nhật tài liệu
+	res, err := updateReq.Do(context.Background(), handler.esClient)
+	if err != nil {
+		log.Fatalf("Error updating document: %s", err)
+	}
+	defer res.Body.Close()
+	log.Printf("Updated Saving Account to ElasticSearch\n")
+	return acc, status.New(codes.OK, "").Err()
+
+}
+
+func (handler *SavingServiceHandler) SearchAccountByID(ctx context.Context, req *pb.AccID) (*pb.SavingAccount, error) {
+	log.Printf("Search Account by account ID: %v", req.Id)
+	resAcc := SearchOneAccountByUniqueTextField("id", req.Id, handler.esClient)
+	if resAcc == nil {
+		return nil, status.Errorf(codes.NotFound, "")
+	} else {
+		return resAcc, nil
+	}
 }
 
 func (handler *SavingServiceHandler) SearchAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
-	log.Printf("Get all accounts by UserID %v", req.UserId)
+	log.Printf("Search accounts by UserID %v", req.UserId)
 	accList := GetAllAccountsByUserIDHelper(req.UserId, handler.esClient)
 
 	return &pb.SavingAccountList{

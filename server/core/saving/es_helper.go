@@ -108,14 +108,181 @@ func CreateIndexingRequest(req interface{}, indexName string) esapi.IndexRequest
 
 	return indexReq
 }
+
+func CreateUpdateRequest(req interface{}, indexName string) esapi.UpdateRequest {
+	val := reflect.ValueOf(req)
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	if val.Kind() != reflect.Struct {
+		fmt.Println("Error: val.Kind() != reflect.Struct")
+	}
+
+	doc := make(map[string]interface{})
+
+	for i := 0; i < val.NumField(); i++ {
+		field := val.Type().Field(i)
+		fieldName := field.Tag.Get(ESDocumentTag)
+
+		if fieldName != "" {
+			doc[fieldName] = val.Field(i).Interface()
+		}
+	}
+
+	jsonStr, err := json.Marshal(doc)
+	if err != nil {
+		// TODO
+	}
+
+	log.Printf("Test json marshal %v", string(jsonStr))
+	updateReq := esapi.UpdateRequest{
+		Index:   indexName,
+		Body:    strings.NewReader(string(jsonStr)),
+		Refresh: "true",
+	}
+
+	return updateReq
+}
+
+func SearchOneAccountByUniqueTextField(fieldName string, value string, client *elasticsearch.Client) *pb.SavingAccount {
+	var r map[string]interface{}
+	var buf bytes.Buffer
+	query := map[string]interface{}{
+		"query": FilterByStringExact(fieldName, value),
+	}
+
+	if err := json.NewEncoder(&buf).Encode(query); err != nil {
+		log.Fatalf("Error encoding query: %s", err)
+	}
+
+	// Perform the search request.
+	res, err := client.Search(
+		client.Search.WithContext(context.Background()),
+		client.Search.WithIndex(ESSavingIndex),
+		client.Search.WithBody(&buf),
+		client.Search.WithTrackTotalHits(true),
+		client.Search.WithPretty(),
+	)
+	if err != nil {
+		log.Fatalf("Error getting response: %s", err)
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		var e map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
+			log.Fatalf("Error parsing the response body: %s", err)
+		} else {
+			// Print the response status and error information.
+			log.Fatalf("[%s] %s: %s",
+				res.Status(),
+				e["error"].(map[string]interface{})["type"],
+				e["error"].(map[string]interface{})["reason"],
+			)
+		}
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
+		log.Fatalf("Error parsing the response body: %s", err)
+	}
+	// Print the response status, number of results, and request duration.
+	log.Printf(
+		"[%s] %d hits; took: %dms",
+		res.Status(),
+		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+		int(r["took"].(float64)),
+	)
+
+	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
+		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
+
+		// Convert the bytes data to JSON
+		jsonData, err := json.Marshal(doc)
+		if err != nil {
+			fmt.Println("Error marshaling JSON:", err)
+		}
+
+		// Convert JSON to struct
+		accObj := pb.SavingAccount{}
+		if err := json.Unmarshal(jsonData, &accObj); err != nil {
+			log.Println("Error unmarshalling document in response:", err)
+		} else {
+			log.Printf("Unmarshaled successfully: %v", accObj)
+			return &accObj
+		}
+	}
+
+	return nil
+}
+
+func SearchDocIDByUniqueTextField(fieldName string, value string, client *elasticsearch.Client) string {
+	var r map[string]interface{}
+	var buf bytes.Buffer
+	query := map[string]interface{}{
+		"query": FilterByStringExact(fieldName, value),
+	}
+
+	if err := json.NewEncoder(&buf).Encode(query); err != nil {
+		log.Fatalf("Error encoding query: %s", err)
+	}
+
+	// Perform the search request.
+	res, err := client.Search(
+		client.Search.WithContext(context.Background()),
+		client.Search.WithIndex(ESSavingIndex),
+		client.Search.WithBody(&buf),
+		client.Search.WithTrackTotalHits(true),
+		client.Search.WithPretty(),
+	)
+	if err != nil {
+		log.Fatalf("Error getting response: %s", err)
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		var e map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
+			log.Fatalf("Error parsing the response body: %s", err)
+		} else {
+			// Print the response status and error information.
+			log.Fatalf("[%s] %s: %s",
+				res.Status(),
+				e["error"].(map[string]interface{})["type"],
+				e["error"].(map[string]interface{})["reason"],
+			)
+		}
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
+		log.Fatalf("Error parsing the response body: %s", err)
+	}
+	// Print the response status, number of results, and request duration.
+	log.Printf(
+		"[%s] %d hits; took: %dms",
+		res.Status(),
+		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+		int(r["took"].(float64)),
+	)
+
+	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
+		docID := hit.(map[string]interface{})["_id"].(string)
+		return docID
+	}
+
+	return ""
+}
+
 func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) []*pb.SavingAccount {
 	var r map[string]interface{}
 	var buf bytes.Buffer
 	// match -> gan giong
 	// term -> chinh xac giong
 	query := map[string]interface{}{
-		"query": FilterByStringExact(userID, "user_id"),
+		"query": FilterByStringExact("user_id", userID),
 	}
+
+	log.Printf("query: %v", query)
 
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
 		log.Fatalf("Error encoding query: %s", err)
