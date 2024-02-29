@@ -3,6 +3,15 @@ syntax = "proto3";
 
 package protobuf;
 
+service SavingsService {
+  rpc OpenSavingsAccount(SavingAccount) returns (SavingAccount);
+  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
+  rpc UpdateBalance(WithdrawalRequest) returns (SavingAccount);
+  rpc SearchAccountByID(AccID) returns (SavingAccount);
+  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
+  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
+}
+
 message SavingAccount {
   // @gotags: es:"id"
   string id = 1;
@@ -49,14 +58,6 @@ message Filter {
 
 message SavingAccountList{
   repeated SavingAccount acc_list = 1 [json_name = "acc_list"];
-}
-
-service SavingsService {
-  rpc OpenSavingsAccount(SavingAccount) returns (SavingAccount);
-  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
-  rpc UpdateBalance(WithdrawalRequest) returns (SavingAccount);
-  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
-  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
 }
 
 message OpenSavingsAccountRequest {
