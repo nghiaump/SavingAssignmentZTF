@@ -75,6 +75,86 @@ func (mr *MockUserServiceClientMockRecorder) RegisterUser(ctx, in interface{}, o
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockUserServiceClient)(nil).RegisterUser), varargs...)
 }
 
+// SearchUserByAccountID mocks base method.
+func (m *MockUserServiceClient) SearchUserByAccountID(ctx context.Context, in *AccountID, opts ...grpc.CallOption) (*User, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SearchUserByAccountID", varargs...)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByAccountID indicates an expected call of SearchUserByAccountID.
+func (mr *MockUserServiceClientMockRecorder) SearchUserByAccountID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByAccountID", reflect.TypeOf((*MockUserServiceClient)(nil).SearchUserByAccountID), varargs...)
+}
+
+// SearchUserByFilter mocks base method.
+func (m *MockUserServiceClient) SearchUserByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SearchUserByFilter", varargs...)
+	ret0, _ := ret[0].(*UserList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByFilter indicates an expected call of SearchUserByFilter.
+func (mr *MockUserServiceClientMockRecorder) SearchUserByFilter(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByFilter", reflect.TypeOf((*MockUserServiceClient)(nil).SearchUserByFilter), varargs...)
+}
+
+// SearchUserByID mocks base method.
+func (m *MockUserServiceClient) SearchUserByID(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*User, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SearchUserByID", varargs...)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByID indicates an expected call of SearchUserByID.
+func (mr *MockUserServiceClientMockRecorder) SearchUserByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByID", reflect.TypeOf((*MockUserServiceClient)(nil).SearchUserByID), varargs...)
+}
+
+// SearchUserByIdCardNumber mocks base method.
+func (m *MockUserServiceClient) SearchUserByIdCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*User, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "SearchUserByIdCardNumber", varargs...)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByIdCardNumber indicates an expected call of SearchUserByIdCardNumber.
+func (mr *MockUserServiceClientMockRecorder) SearchUserByIdCardNumber(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByIdCardNumber", reflect.TypeOf((*MockUserServiceClient)(nil).SearchUserByIdCardNumber), varargs...)
+}
+
 // MockUserServiceServer is a mock of UserServiceServer interface.
 type MockUserServiceServer struct {
 	ctrl     *gomock.Controller
@@ -126,4 +206,64 @@ func (m *MockUserServiceServer) RegisterUser(arg0 context.Context, arg1 *Registe
 func (mr *MockUserServiceServerMockRecorder) RegisterUser(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockUserServiceServer)(nil).RegisterUser), arg0, arg1)
+}
+
+// SearchUserByAccountID mocks base method.
+func (m *MockUserServiceServer) SearchUserByAccountID(arg0 context.Context, arg1 *AccountID) (*User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchUserByAccountID", arg0, arg1)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByAccountID indicates an expected call of SearchUserByAccountID.
+func (mr *MockUserServiceServerMockRecorder) SearchUserByAccountID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByAccountID", reflect.TypeOf((*MockUserServiceServer)(nil).SearchUserByAccountID), arg0, arg1)
+}
+
+// SearchUserByFilter mocks base method.
+func (m *MockUserServiceServer) SearchUserByFilter(arg0 context.Context, arg1 *UserFilter) (*UserList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchUserByFilter", arg0, arg1)
+	ret0, _ := ret[0].(*UserList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByFilter indicates an expected call of SearchUserByFilter.
+func (mr *MockUserServiceServerMockRecorder) SearchUserByFilter(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByFilter", reflect.TypeOf((*MockUserServiceServer)(nil).SearchUserByFilter), arg0, arg1)
+}
+
+// SearchUserByID mocks base method.
+func (m *MockUserServiceServer) SearchUserByID(arg0 context.Context, arg1 *UserID) (*User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchUserByID", arg0, arg1)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByID indicates an expected call of SearchUserByID.
+func (mr *MockUserServiceServerMockRecorder) SearchUserByID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByID", reflect.TypeOf((*MockUserServiceServer)(nil).SearchUserByID), arg0, arg1)
+}
+
+// SearchUserByIdCardNumber mocks base method.
+func (m *MockUserServiceServer) SearchUserByIdCardNumber(arg0 context.Context, arg1 *IDCardNumber) (*User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SearchUserByIdCardNumber", arg0, arg1)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// SearchUserByIdCardNumber indicates an expected call of SearchUserByIdCardNumber.
+func (mr *MockUserServiceServerMockRecorder) SearchUserByIdCardNumber(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByIdCardNumber", reflect.TypeOf((*MockUserServiceServer)(nil).SearchUserByIdCardNumber), arg0, arg1)
 }
