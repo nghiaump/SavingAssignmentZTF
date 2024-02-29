@@ -48,7 +48,7 @@ func (handler *MidServiceHandler) RegisterUser(ctx context.Context, req *pb.Regi
 
 	if err != nil {
 		log.Printf("Could not register new user: %v", err)
-		return nil, status.Error(codes.Internal, "User register Failed")
+		return res, err
 	}
 
 	log.Printf("User ID: %v registered successfully", res.UserId)
@@ -61,7 +61,7 @@ func (handler *MidServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Get
 
 	if err != nil {
 		log.Printf("Could not Get KYC level: %v", err)
-		return nil, status.Error(codes.Internal, "Get KYC level failed")
+		return nil, err
 	}
 
 	log.Printf("User ID: %v, KYC level: %v", res.UserId, res.KycLevel)
@@ -70,16 +70,17 @@ func (handler *MidServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Get
 
 func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.OpenSavingsAccountRequest) (*pb.OpenSavingsAccountResponse, error) {
 	log.Println("Calling User service to get KYC level")
-	kycRes, err := handler.GetCurrentKYC(ctx, &pb.GetCurrentKYCRequest{
-		UserId: req.UserId,
+	user, err := handler.userServiceClient.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
+		IdCardNumber: req.IdCardNumber,
 	})
-	if err != nil {
-		log.Printf("Cannot verify the KYC level from User Core: %v", err)
-		return nil, status.Error(codes.NotFound, "KYC level verify failed")
+
+	if user == nil || err != nil {
+		log.Printf("User not found: %v", err)
+		return nil, status.Error(codes.NotFound, "User not found")
 	}
 
-	if kycRes.KycLevel <= 1 {
-		log.Printf("No permission for KYC level %v", kycRes.KycLevel)
+	if user.KycLevel <= 1 {
+		log.Printf("No permission for KYC level %v", user.KycLevel)
 		return &pb.OpenSavingsAccountResponse{
 			Success: false,
 			UserId:  req.UserId,
@@ -87,7 +88,7 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 	}
 
 	dueDate := CalculateDueDate(req.TermType, int(req.Term), req.CreatedDate)
-	interestRate := FindFixedInterestRate(req.TermType, req.Term, kycRes.KycLevel)
+	interestRate := FindFixedInterestRate(req.TermType, req.Term, user.KycLevel)
 	expectedInterest := int64(float64(req.Balance) * float64(CalculateOnTimeInterest(req.TermType, req.Term, interestRate)))
 
 	// Convert to ISO 8601 for indexing in elasticsearch
@@ -103,7 +104,7 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 		CreatedDate: createdDate,
 		DueDate:     dueDate,
 		Rate:        interestRate,
-		Kyc:         kycRes.KycLevel,
+		Kyc:         user.KycLevel,
 	}
 
 	switch savingAcc.TermType {
@@ -221,9 +222,9 @@ func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.Ac
 	return res, status.New(codes.OK, "").Err()
 }
 
-func (handler *MidServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
+func (handler *MidServiceHandler) SearchAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
 	log.Printf("Calling GetAllAcc for userID: %v", req.UserId)
-	savingAccList, _ := handler.savingServiceClient.GetAllAccountsByUserID(ctx, req)
+	savingAccList, _ := handler.savingServiceClient.SearchAccountsByUserID(ctx, req)
 
 	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
 	for _, acc := range savingAccList.AccList {
@@ -241,4 +242,33 @@ func (handler *MidServiceHandler) SearchAccountsByFilter(ctx context.Context, re
 		log.Println(acc.Id)
 	}
 	return savingAccList, nil
+}
+
+func (handler *MidServiceHandler) SearchAccountsByIDCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.SavingAccountList, error) {
+	log.Printf("Calling SearchAccountByIDCardNumber %v", req.IdCardNumber)
+	user, _ := handler.SearchUserByIdCardNumber(ctx, req)
+	if user == nil {
+		return nil, nil
+	}
+	accList, _ := handler.SearchAccountsByUserID(ctx, &pb.AccountInquiryRequest{
+		UserId:    user.Id,
+		AccountId: "",
+	})
+
+	return accList, nil
+}
+
+func (handler *MidServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
+	user, _ := handler.userServiceClient.SearchUserByIdCardNumber(ctx, req)
+	return user, nil
+}
+
+func (handler *MidServiceHandler) SearchUserByAccountID(ctx context.Context, req *pb.AccountID) (*pb.User, error) {
+	user, _ := handler.userServiceClient.SearchUserByAccountID(ctx, req)
+	return user, nil
+}
+
+func (handler *MidServiceHandler) SearchUsersByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
+	users, _ := handler.userServiceClient.SearchUserByFilter(ctx, req)
+	return users, nil
 }

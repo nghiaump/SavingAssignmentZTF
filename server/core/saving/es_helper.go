@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"log"
+	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -33,6 +34,39 @@ func ConvertFromISO8601(isoDate string) (string, error) {
 
 	ddmmyyyyDate := parsedDate.Format("02012006")
 	return ddmmyyyyDate, nil
+}
+
+func CreateESClient() (*elasticsearch.Client, bool) {
+	addressESContainer := os.Getenv(ContainerElasticSearchEnv)
+	if addressESContainer == "" {
+		log.Println("Biến môi trường CONTAINER_ES_HOST không được cung cấp.")
+		return nil, true
+	}
+
+	esClient, err := elasticsearch.NewClient(elasticsearch.Config{
+		Addresses: []string{"http://" + addressESContainer + ElasticSearchPort},
+	})
+
+	if err != nil {
+		log.Println("Error creating Elasticsearch client:", err)
+		return nil, true
+	} else {
+		log.Println("Connect thanh cong toi ElasticSearch")
+	}
+	return esClient, false
+}
+
+func InitIndex(indexName string, esClient *elasticsearch.Client) {
+	exist, _ := esClient.Indices.Exists([]string{indexName})
+	if !(exist != nil && exist.StatusCode == 200) {
+		log.Println("Init index saving")
+		_, err3 := esClient.Indices.Create(indexName)
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+	} else {
+		log.Println(`Index "saving" existing`)
+	}
 }
 
 func CreateIndexingRequest(req interface{}, indexName string) esapi.IndexRequest {
@@ -80,11 +114,7 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 	// match -> gan giong
 	// term -> chinh xac giong
 	query := map[string]interface{}{
-		"query": map[string]interface{}{
-			"match": map[string]interface{}{
-				"user_id.keyword": userID,
-			},
-		},
+		"query": FilterByStringExact(userID, "user_id"),
 	}
 
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {

@@ -34,6 +34,16 @@ github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227090304-7fbf986a1
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227090304-7fbf986a1682/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227093305-a43b49f50a44 h1:VfA0G/FCtfoM/lfOgFmlidC5PA+u3AwhOfxqGJS1SIo=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227093305-a43b49f50a44/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227104510-97b8ad81571b h1:Nn7Xcta5q7JPC936LFZsq0suORQ2qWE/M9XC0OU59Yc=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227104510-97b8ad81571b/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228094945-79e1bd5508b3 h1:L1gNIIswslz68dMQPhLPwPAbsGsV0t7u6nSk9rXaUN8=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228094945-79e1bd5508b3/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228113447-0312e46246e6 h1:mgmIK7dQ3P1dmpq+luvv0oi6wK8tuXflSHZdpq6tawg=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228113447-0312e46246e6/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228155436-b07dd76b14ad h1:CvhmB22OV18xuUrF+VnOpyIiA8xe2+ykpuTskoahmSA=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228155436-b07dd76b14ad/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228171855-1e827d1c7bc5 h1:iCmE446QpsqYeCVQZMqWy7ZCq/1m+b5+y+kBvQyFfhE=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228171855-1e827d1c7bc5/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=

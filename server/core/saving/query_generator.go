@@ -12,10 +12,10 @@ const MaxBalance = 999999999999
 func GenerateQuery(filterObj *pb.Filter) map[string]interface{} {
 	var allFilters []map[string]interface{}
 
-	kycFilter := FilterByInt32Exact(filterObj.Kyc, "kyc")
-	termFilter := FilterByInt32Exact(filterObj.TermInDays, "term_in_days")
-	dueDateRangeFilter := FilterByDateRange(filterObj.DueDateEarliest, filterObj.DueDateLatest, "due_date")
-	minBalanceFilter := FilterByInt64Range(filterObj.MinBalance, MaxBalance, "balance")
+	kycFilter := FilterByInt32Exact("kyc", filterObj.Kyc)
+	termFilter := FilterByInt32Exact("term_in_days", filterObj.TermInDays)
+	dueDateRangeFilter := FilterByDateRange("due_date", filterObj.DueDateEarliest, filterObj.DueDateLatest)
+	minBalanceFilter := FilterByInt64Range("balance", filterObj.MinBalance, MaxBalance)
 
 	if kycFilter != nil {
 		allFilters = append(allFilters, kycFilter)
@@ -44,7 +44,7 @@ func GenerateQuery(filterObj *pb.Filter) map[string]interface{} {
 	return query
 }
 
-func FilterByInt32Exact(value int32, fieldName string) map[string]interface{} {
+func FilterByInt32Exact(fieldName string, value int32) map[string]interface{} {
 	if value == NilFlagInt {
 		return nil
 	}
@@ -58,7 +58,7 @@ func FilterByInt32Exact(value int32, fieldName string) map[string]interface{} {
 	return query
 }
 
-func FilterByInt32Range(valueMin int32, valueMax int32, fieldName string) map[string]interface{} {
+func FilterByInt32Range(fieldName string, valueMin int32, valueMax int32) map[string]interface{} {
 	if valueMin == NilFlagInt {
 		return nil
 	}
@@ -75,7 +75,7 @@ func FilterByInt32Range(valueMin int32, valueMax int32, fieldName string) map[st
 	return query
 }
 
-func FilterByInt64Exact(value int64, fieldName string) map[string]interface{} {
+func FilterByInt64Exact(fieldName string, value int64) map[string]interface{} {
 	if value == NilFlagInt {
 		return nil
 	}
@@ -89,7 +89,7 @@ func FilterByInt64Exact(value int64, fieldName string) map[string]interface{} {
 	return query
 }
 
-func FilterByInt64Range(valueMin int64, valueMax int64, fieldName string) map[string]interface{} {
+func FilterByInt64Range(fieldName string, valueMin int64, valueMax int64) map[string]interface{} {
 	if valueMin == NilFlagInt {
 		return nil
 	}
@@ -106,7 +106,7 @@ func FilterByInt64Range(valueMin int64, valueMax int64, fieldName string) map[st
 	return query
 }
 
-func FilterByDateExact(dateString string, fieldName string) map[string]interface{} {
+func FilterByDateExact(fieldName string, dateString string) map[string]interface{} {
 	if dateString == NilFlagString {
 		return nil
 	}
@@ -122,7 +122,7 @@ func FilterByDateExact(dateString string, fieldName string) map[string]interface
 	return query
 }
 
-func FilterByDateRange(dateEarliestString string, dateLatestString string, fieldName string) map[string]interface{} {
+func FilterByDateRange(fieldName string, dateEarliestString string, dateLatestString string) map[string]interface{} {
 	if dateEarliestString == NilFlagString || dateLatestString == NilFlagString {
 		return nil
 	}
@@ -136,6 +136,34 @@ func FilterByDateRange(dateEarliestString string, dateLatestString string, field
 				"gte": dateEarliest,
 				"lte": dateLatest,
 			},
+		},
+	}
+
+	return query
+}
+
+func FilterByStringContained(fieldName string, searchText string) map[string]interface{} {
+	if searchText == NilFlagString {
+		return nil
+	}
+
+	query := map[string]interface{}{
+		"match": map[string]interface{}{
+			fieldName: searchText,
+		},
+	}
+
+	return query
+}
+
+func FilterByStringExact(fieldName string, searchText string) map[string]interface{} {
+	if searchText == NilFlagString {
+		return nil
+	}
+
+	query := map[string]interface{}{
+		"term": map[string]interface{}{
+			fieldName + ".keyword": searchText,
 		},
 	}
 

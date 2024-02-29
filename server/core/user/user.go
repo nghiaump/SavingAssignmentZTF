@@ -22,7 +22,6 @@ const ESDocumentTag = "es"
 const ESUserIndex = "user"
 
 type UserServiceHandler struct {
-	kycMap   map[string]*pb.KYC
 	usersMap map[string]*pb.User
 	esClient *elasticsearch.Client
 }
@@ -49,23 +48,44 @@ func StartUserServer(handler *UserServiceHandler, port string) {
 }
 
 func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.RegisterUserRequest) (*pb.RegisterUserResponse, error) {
-	out, err := uuid.NewUUID()
-	log.Printf("Calling RegisterUser(): %v", out.String())
-	if err != nil {
-		return nil, status.Errorf(codes.Internal,
-			"Error while generating UserID %v", err)
+	existed := handler.CheckExistingUser(ctx, req.IdCardNumber)
+
+	if existed {
+		return &pb.RegisterUserResponse{Success: false, UserId: ""}, status.Error(codes.AlreadyExists, "")
 	}
 
+	out, _ := uuid.NewUUID()
+	log.Printf("Calling RegisterUser(): %v", out.String())
 	newUser := FillUserFromRegisterRequest(req, out.String())
 
-	if handler.kycMap == nil {
-		handler.kycMap = make(map[string]*pb.KYC)
+	doc := CreateDocument(newUser)
+	indexReq := CreateIndexRequest(ESUserIndex, doc)
+
+	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
+	if err2 != nil {
+		log.Printf("Error indexing document: %v\n", err2)
 	}
-	handler.kycMap[out.String()] = &pb.KYC{
-		UserId: out.String(),
-		Level:  2,
+	defer indexRes.Body.Close()
+	log.Printf("Indexed new User to ElasticSearch %v\n", indexRes)
+	return &pb.RegisterUserResponse{Success: true, UserId: out.String()}, status.New(codes.OK, "").Err()
+}
+
+func CreateIndexRequest(indexName string, doc map[string]interface{}) esapi.IndexRequest {
+	jsonStr, err := json.Marshal(doc)
+	if err != nil {
+		// TODO
 	}
 
+	log.Printf("Test json marshal %v", string(jsonStr))
+	indexReq := esapi.IndexRequest{
+		Index:   indexName,
+		Body:    strings.NewReader(string(jsonStr)),
+		Refresh: "true",
+	}
+	return indexReq
+}
+
+func CreateDocument(newUser *pb.User) map[string]interface{} {
 	val := reflect.ValueOf(newUser)
 	if val.Kind() == reflect.Ptr {
 		val = val.Elem()
@@ -85,76 +105,85 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 			doc[fieldName] = val.Field(i).Interface()
 		}
 	}
+	return doc
+}
 
-	// Chuyển đổi map thành chuỗi JSON
-	jsonStr, err := json.Marshal(doc)
-	if err != nil {
-		// TODO
-	}
+func (handler *UserServiceHandler) CheckExistingUser(ctx context.Context, IDCardNumber string) bool {
+	resUser, _ := handler.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
+		IdCardNumber: IDCardNumber,
+	})
 
-	log.Printf("Test json marshal %v", string(jsonStr))
-	indexReq := esapi.IndexRequest{
-		Index:   ESUserIndex,
-		Body:    strings.NewReader(string(jsonStr)),
-		Refresh: "true",
+	log.Printf("check existing user %v", resUser)
+	if resUser != nil {
+		return true
 	}
-
-	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
-	if err2 != nil {
-		log.Printf("Error indexing document: %v\n", err2)
-	}
-	defer indexRes.Body.Close()
-	log.Printf("Indexed new User to ElasticSearch %v\n", indexRes)
-	return &pb.RegisterUserResponse{Success: true, UserId: out.String()}, status.New(codes.OK, "").Err()
+	return false
 }
 
 func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.User {
 	registeredDate, _ := ConvertToISO8601("01012024")
+	dob, _ := ConvertToISO8601(req.Dob)
 	return &pb.User{
 		Id:             id,
 		IdCardNumber:   req.IdCardNumber,
 		UserName:       req.UserName,
-		KycLevel:       2,              //TODO
-		RegisteredDate: registeredDate, //TODO
+		KycLevel:       GenKYCDefault(),
+		RegisteredDate: registeredDate,
+		Dob:            dob,
+		Address:        req.Address,
+		PhoneNumber:    req.PhoneNumber,
 	}
 }
 
 func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
 	log.Printf("Calling GetCurrentKYC for userID: %v", req.UserId)
-
-	var kycLevel int32
-	if handler.kycMap == nil {
-		handler.kycMap = make(map[string]*pb.KYC)
-		kycLevel = GenKYC(req)
-		handler.kycMap[req.UserId] = &pb.KYC{UserId: req.UserId, Level: kycLevel}
+	user, err := handler.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
+		IdCardNumber: req.IdCardNumber,
+	})
+	if user == nil {
+		return nil, err
 	} else {
-		// Map existed
-		value, exists := handler.kycMap[req.UserId]
-		if !exists {
-			kycLevel = GenKYC(req)
-			handler.kycMap[req.UserId] = &pb.KYC{UserId: req.UserId, Level: kycLevel}
-		} else {
-			// KYC existed
-			kycLevel = value.Level
-		}
+		return &pb.GetCurrentKYCResponse{
+			UserId:       req.UserId,
+			IdCardNumber: req.IdCardNumber,
+			KycLevel:     user.KycLevel,
+		}, nil
 	}
-	return &pb.GetCurrentKYCResponse{UserId: req.UserId, KycLevel: kycLevel}, status.New(codes.OK, "").Err()
-}
 
-func (handler *UserServiceHandler) SearchUserByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
-	// TODO
-	return nil, nil
 }
 
 func (handler *UserServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
-	// TODO
-	return nil, nil
+	log.Printf("Search User by ID Card Number %v", req.IdCardNumber)
+	resUser := SearchOneUserByUniqueTextField("id_card_number", req.IdCardNumber, handler.esClient)
+	if resUser == nil {
+		return nil, status.Error(codes.NotFound, "")
+	}
+	return resUser, nil
 }
 
-func GenKYC(req *pb.GetCurrentKYCRequest) int32 {
-
-	return int32(rand.Intn(3) + 1)
+func (handler *UserServiceHandler) SearchUserByAccountID(ctx context.Context, req *pb.AccountID) (*pb.User, error) {
+	log.Printf("Search User by AccountID %v", req.AccountID)
+	resUser := SearchOneUserByUniqueTextField("account_id", req.AccountID, handler.esClient)
+	if resUser == nil {
+		return nil, status.Error(codes.NotFound, "")
+	}
+	return resUser, nil
 }
+
+func (handler *UserServiceHandler) SearchUserByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
+	log.Printf("SearchUsersByFilters %v", req)
+	users := SearchUsersByFiltersHelper(req, handler.esClient)
+	if len(users) < 1 {
+		return &pb.UserList{
+			UserList: users,
+		}, status.Error(codes.NotFound, "")
+	}
+	return &pb.UserList{
+		UserList: users,
+	}, nil
+
+}
+
 func GenKYCDefault() int32 {
 
 	return int32(rand.Intn(3) + 1)

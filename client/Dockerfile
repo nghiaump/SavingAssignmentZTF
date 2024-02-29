@@ -9,5 +9,3 @@ COPY *.go ./
 RUN CGO_ENABLED=0 GOOS=linux go build -o ./saving-client
 
 EXPOSE 50050
-
-CMD ["./saving-client"]

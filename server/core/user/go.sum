@@ -40,6 +40,16 @@ github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227090304-7fbf986a1
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227090304-7fbf986a1682/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227093305-a43b49f50a44 h1:VfA0G/FCtfoM/lfOgFmlidC5PA+u3AwhOfxqGJS1SIo=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227093305-a43b49f50a44/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227104510-97b8ad81571b h1:Nn7Xcta5q7JPC936LFZsq0suORQ2qWE/M9XC0OU59Yc=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240227104510-97b8ad81571b/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228094945-79e1bd5508b3 h1:L1gNIIswslz68dMQPhLPwPAbsGsV0t7u6nSk9rXaUN8=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228094945-79e1bd5508b3/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228113447-0312e46246e6 h1:mgmIK7dQ3P1dmpq+luvv0oi6wK8tuXflSHZdpq6tawg=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228113447-0312e46246e6/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228155436-b07dd76b14ad h1:CvhmB22OV18xuUrF+VnOpyIiA8xe2+ykpuTskoahmSA=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228155436-b07dd76b14ad/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228171855-1e827d1c7bc5 h1:iCmE446QpsqYeCVQZMqWy7ZCq/1m+b5+y+kBvQyFfhE=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240228171855-1e827d1c7bc5/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/olivere/elastic v6.2.37+incompatible h1:UfSGJem5czY+x/LqxgeCBgjDn6St+z8OnsCuxwD3L0U=
 github.com/olivere/elastic v6.2.37+incompatible/go.mod h1:J+q1zQJTgAz9woqsbVRqGeB5G1iqDKVBWLNSYW8yfJ8=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=

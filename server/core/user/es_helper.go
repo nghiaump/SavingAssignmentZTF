@@ -1,12 +1,16 @@
 package main
 
 import (
+	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
 	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"log"
+	"os"
 	"reflect"
 	"strings"
 	"time"
@@ -30,6 +34,39 @@ func ConvertFromISO8601(isoDate string) (string, error) {
 
 	ddmmyyyyDate := parsedDate.Format("02012006")
 	return ddmmyyyyDate, nil
+}
+
+func CreateESClient() (*elasticsearch.Client, bool) {
+	addressESContainer := os.Getenv(ContainerElasticSearchEnv)
+	if addressESContainer == "" {
+		log.Println("Biến môi trường CONTAINER_ES_HOST không được cung cấp.")
+		return nil, true
+	}
+
+	esClient, err := elasticsearch.NewClient(elasticsearch.Config{
+		Addresses: []string{"http://" + addressESContainer + ElasticSearchPort},
+	})
+
+	if err != nil {
+		log.Println("Error creating Elasticsearch client:", err)
+		return nil, true
+	} else {
+		log.Println("Connect thanh cong toi ElasticSearch")
+	}
+	return esClient, false
+}
+
+func InitIndex(indexName string, esClient *elasticsearch.Client) {
+	exist, _ := esClient.Indices.Exists([]string{indexName})
+	if !(exist != nil && exist.StatusCode == 200) {
+		log.Println("Init index user in elasticsearch")
+		_, err3 := esClient.Indices.Create(indexName)
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+	} else {
+		log.Println(`Index "user" existing`)
+	}
 }
 
 func CreateIndexingRequest(req interface{}, indexName string) esapi.IndexRequest {
@@ -70,4 +107,147 @@ func CreateIndexingRequest(req interface{}, indexName string) esapi.IndexRequest
 	}
 
 	return indexReq
+}
+
+func SearchOneUserByUniqueTextField(fieldName string, value string, client *elasticsearch.Client) *pb.User {
+	var r map[string]interface{}
+	var buf bytes.Buffer
+	query := map[string]interface{}{
+		"query": FilterByStringExact(fieldName, value),
+	}
+
+	if err := json.NewEncoder(&buf).Encode(query); err != nil {
+		log.Fatalf("Error encoding query: %s", err)
+	}
+
+	// Perform the search request.
+	res, err := client.Search(
+		client.Search.WithContext(context.Background()),
+		client.Search.WithIndex(ESUserIndex),
+		client.Search.WithBody(&buf),
+		client.Search.WithTrackTotalHits(true),
+		client.Search.WithPretty(),
+	)
+	if err != nil {
+		log.Fatalf("Error getting response: %s", err)
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		var e map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
+			log.Fatalf("Error parsing the response body: %s", err)
+		} else {
+			// Print the response status and error information.
+			log.Fatalf("[%s] %s: %s",
+				res.Status(),
+				e["error"].(map[string]interface{})["type"],
+				e["error"].(map[string]interface{})["reason"],
+			)
+		}
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
+		log.Fatalf("Error parsing the response body: %s", err)
+	}
+	// Print the response status, number of results, and request duration.
+	log.Printf(
+		"[%s] %d hits; took: %dms",
+		res.Status(),
+		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+		int(r["took"].(float64)),
+	)
+
+	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
+		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
+
+		// Convert the bytes data to JSON
+		jsonData, err := json.Marshal(doc)
+		if err != nil {
+			fmt.Println("Error marshaling JSON:", err)
+		}
+
+		// Convert JSON to struct
+		userObj := pb.User{}
+		if err := json.Unmarshal(jsonData, &userObj); err != nil {
+			log.Println("Error unmarshalling document in response:", err)
+		} else {
+			log.Printf("Unmarshaled successfully: %v", userObj)
+			return &userObj
+		}
+	}
+
+	return nil
+}
+
+func SearchUsersByFiltersHelper(filterObj *pb.UserFilter, client *elasticsearch.Client) []*pb.User {
+	query := GenerateQuery(filterObj)
+	var r map[string]interface{}
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(query); err != nil {
+		log.Fatalf("Error encoding query: %s", err)
+	}
+
+	// Perform the search request.
+	res, err := client.Search(
+		client.Search.WithContext(context.Background()),
+		client.Search.WithIndex(ESUserIndex),
+		client.Search.WithBody(&buf),
+		client.Search.WithTrackTotalHits(true),
+		client.Search.WithPretty(),
+	)
+	if err != nil {
+		log.Fatalf("Error getting response: %s", err)
+	}
+	defer res.Body.Close()
+
+	if res.IsError() {
+		var e map[string]interface{}
+		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
+			log.Fatalf("Error parsing the response body: %s", err)
+		} else {
+			// Print the response status and error information.
+			log.Fatalf("[%s] %s: %s",
+				res.Status(),
+				e["error"].(map[string]interface{})["type"],
+				e["error"].(map[string]interface{})["reason"],
+			)
+		}
+	}
+
+	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
+		log.Fatalf("Error parsing the response body: %s", err)
+	}
+	// Print the response status, number of results, and request duration.
+	log.Printf(
+		"[%s] %d hits; took: %dms",
+		res.Status(),
+		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+		int(r["took"].(float64)),
+	)
+
+	userList := []*pb.User{}
+
+	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
+		//log.Printf(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
+		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
+
+		// Convert the bytes data to JSON
+		jsonData, err := json.Marshal(doc)
+		if err != nil {
+			fmt.Println("Error marshaling JSON:", err)
+		}
+
+		// Convert JSON to struct
+		userObj := pb.User{}
+		if err := json.Unmarshal(jsonData, &userObj); err != nil {
+			log.Println("Error unmarshalling document in response:", err)
+		} else {
+			log.Printf("after unmarshaled: %v", userObj)
+			userList = append(userList, &userObj)
+		}
+	}
+
+	log.Println(strings.Repeat("=", 37))
+	return userList
 }

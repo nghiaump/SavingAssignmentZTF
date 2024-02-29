@@ -99,7 +99,7 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 	return nil, status.Errorf(codes.NotFound, "Account %v does not exist.", req.AccountId)
 }
 
-func (handler *SavingServiceHandler) GetAllAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
+func (handler *SavingServiceHandler) SearchAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
 	log.Printf("Get all accounts by UserID %v", req.UserId)
 	accList := GetAllAccountsByUserIDHelper(req.UserId, handler.esClient)
 
