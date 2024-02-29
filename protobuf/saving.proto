@@ -33,6 +33,10 @@ message SavingAccount {
   int32 kyc = 10;
 }
 
+message AccID{
+  string id = 1;
+}
+
 message Filter {
   int32 kyc = 1;
   int32 term_in_days = 2 [json_name = "term_in_days"];
@@ -89,7 +93,6 @@ message WithdrawalResponse {
 }
 
 message AccountInquiryRequest {
-
   string user_id = 1 [json_name = "user_id"];
   string account_id = 2 [json_name = "account_id"];
 }

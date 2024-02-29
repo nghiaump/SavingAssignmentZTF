@@ -44,6 +44,10 @@ message User{
   repeated string account_list = 10 [json_name = "account_list"];
 }
 
+message UserID{
+  string id = 1;
+}
+
 message IDCardNumber{
   string id_card_number = 1;
 }
