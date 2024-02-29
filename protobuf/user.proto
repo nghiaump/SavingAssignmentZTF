@@ -8,7 +8,6 @@ service UserService {
   rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
   rpc SearchUserByID(UserID) returns (User);
   rpc SearchUserByIdCardNumber(IDCardNumber) returns (User);
-  rpc SearchUserByAccountID(AccountID) returns (User);
   rpc SearchUserByFilter(UserFilter) returns (UserList);
 }
 
