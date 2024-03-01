@@ -58,6 +58,10 @@ message Filter {
 
 message SavingAccountList{
   repeated SavingAccount acc_list = 1 [json_name = "acc_list"];
+  int32 page_size = 2;
+  int32 page_index = 3;
+  int64 agg_total_hits = 4;
+  int64 agg_total_balance = 5;
 }
 
 message OpenSavingsAccountRequest {
