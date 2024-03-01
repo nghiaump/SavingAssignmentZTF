@@ -141,7 +141,7 @@ func LoopForPaginate(filter pb.Filter, c pb.MidSavingServiceClient, ctx context.
 func PrintResult(savingAccList *pb.SavingAccountList) {
 	fmt.Printf("Hits: %v\n", savingAccList.AggTotalHits)
 	fmt.Printf("Total balance: %v\n", savingAccList.AggTotalBalance)
-	fmt.Printf("Page %v\n:", savingAccList.PageIndex)
+	fmt.Printf("Page %v:\n", savingAccList.PageIndex)
 	if len(savingAccList.AccList) > 0 {
 		printSavingAccountsTable(savingAccList.AccList)
 	}

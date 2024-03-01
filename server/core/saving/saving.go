@@ -82,8 +82,6 @@ func (handler *SavingServiceHandler) AccountInquiry(ctx context.Context, req *pb
 
 func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.WithdrawalRequest) (*pb.SavingAccount, error) {
 	log.Printf("Updating balance for accountID %v", req.AccountId)
-	docID := SearchDocIDByUniqueTextField("id", req.AccountId, handler.esClient)
-
 	acc, _ := handler.SearchAccountByID(ctx, &pb.AccID{
 		Id: req.AccountId, // validated before
 	})
@@ -92,26 +90,24 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 		return nil, status.Error(codes.NotFound, "")
 	}
 
+	docID := SearchDocIDByUniqueTextField("id", req.AccountId, handler.esClient)
 	updateData := map[string]interface{}{
 		"doc": map[string]interface{}{
 			"balance": acc.Balance - req.Amount, // Giá trị mới của trường balance
 		},
 	}
 
-	// Chuyển đổi dữ liệu cập nhật sang JSON
 	updateBody, err := json.Marshal(updateData)
 	if err != nil {
 		log.Fatalf("Error marshaling update data: %s", err)
 	}
 
-	// Tạo yêu cầu cập nhật tài liệu
 	updateReq := esapi.UpdateRequest{
 		Index:      ESSavingIndex,
 		DocumentID: docID,
 		Body:       bytes.NewReader(updateBody),
 	}
 
-	// Thực hiện yêu cầu cập nhật tài liệu
 	res, err := updateReq.Do(context.Background(), handler.esClient)
 	if err != nil {
 		log.Fatalf("Error updating document: %s", err)

@@ -176,12 +176,7 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 	}
 
 	if accRes.Balance >= req.Amount {
-		updatedAcc, errUpdate := handler.savingServiceClient.UpdateBalance(ctx, &pb.WithdrawalRequest{
-			UserId:    req.UserId,
-			AccountId: req.AccountId,
-			Amount:    accRes.Balance - req.Amount,
-			Date:      req.Date,
-		})
+		updatedAcc, errUpdate := handler.savingServiceClient.UpdateBalance(ctx, req)
 
 		if errUpdate != nil {
 			log.Printf("error occurs when update balance in Saving service: %v", errUpdate)

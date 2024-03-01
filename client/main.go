@@ -34,8 +34,8 @@ func main() {
 	const ActionCreateSavingAccount = 3
 	const ActionInquireSavingAccount = 4
 	const ActionWithdrawal = 5
-	const ActionSearchAllAccountsByUserID = 6
-	const ActionSearchAccountsByFilters = 7
+	const ActionSearchAccountsByFilters = 6
+	const ActionSearchAllAccountsByUserID = 7
 	const ActionSearchUserByIDCardNumber = 8
 	const ActionSearchUserByAccountID = 9
 	const ActionSearchUsersByFilters = 10
@@ -43,13 +43,13 @@ func main() {
 	currentAction := ActionRegisterUser
 	for {
 		fmt.Println("Input action:")
-		fmt.Printf("%v. Register User: using IDCardNumber, name\n", ActionRegisterUser)
-		fmt.Printf("%v. Check KYC level: using UserID, IDCardNumber\n", ActionCheckKYC)
-		fmt.Printf("%v. Open Saving Account: using UserID, ...\n", ActionCreateSavingAccount)
-		fmt.Printf("%v. Checking Saving Account: using AccountID, UserID\n", ActionInquireSavingAccount)
+		fmt.Printf("%v. Register User\n", ActionRegisterUser)
+		fmt.Printf("%v. Check KYC level\n", ActionCheckKYC)
+		fmt.Printf("%v. Open SavingAccount\n", ActionCreateSavingAccount)
+		fmt.Printf("%v. Account Inquiry\n", ActionInquireSavingAccount)
 		fmt.Printf("%v. Withdrawal\n", ActionWithdrawal)
+		fmt.Printf("%v. Search accounts by Filters ***NEW***\n\n", ActionSearchAccountsByFilters)
 		fmt.Printf("%v. Search all saving accounts by UserID\n", ActionSearchAllAccountsByUserID)
-		fmt.Printf("%v. Search accounts by Filters ***NEW***\n", ActionSearchAccountsByFilters)
 		fmt.Printf("%v. Search User by ID card number\n", ActionSearchUserByIDCardNumber)
 		fmt.Printf("%v. Search User by Account ID\n", ActionSearchUserByAccountID)
 		fmt.Printf("%v. Search Users by Filters\n", ActionSearchUsersByFilters)
@@ -104,7 +104,7 @@ func main() {
 					log.Printf("Cannot inquire the account id %v", accInquiryReq.AccountId)
 					log.Printf("Error detail: %v", errInquire.Error())
 				} else {
-					log.Printf("accountID: %v \nDetail: %v", accInquiryReq.AccountId, accRes)
+					printSavingAccountsTable([]*pb.SavingAccount{accRes})
 				}
 
 			}
@@ -156,8 +156,9 @@ func main() {
 				user, _ := c.SearchUserByAccountID(ctx, &pb.AccountID{
 					AccountID: accID,
 				})
-
-				fmt.Printf("Search result: %v\n", user)
+				if user != nil {
+					printUsersTable([]*pb.User{user})
+				}
 			}
 
 		case ActionSearchUserByIDCardNumber:
@@ -169,7 +170,9 @@ func main() {
 					IdCardNumber: IDCardNumber,
 				})
 
-				fmt.Printf("Search result: %v\n", user)
+				if user != nil {
+					printUsersTable([]*pb.User{user})
+				}
 			}
 
 		}
