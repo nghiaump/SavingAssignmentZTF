@@ -143,9 +143,13 @@ func (handler *SavingServiceHandler) SearchAccountsByUserID(ctx context.Context,
 
 func (handler *SavingServiceHandler) SearchAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
 	log.Printf("SearchAccountsByFilters %v", req)
-	accList := SearchAccountsByFiltersHelper(req, handler.esClient)
+	accList, totalHits, totalBalance := SearchAccountsByFiltersWithPaginate(req, handler.esClient)
 
 	return &pb.SavingAccountList{
-		AccList: accList,
+		AccList:         accList,
+		PageSize:        req.PageSize,
+		PageIndex:       req.PageIndex,
+		AggTotalHits:    totalHits,
+		AggTotalBalance: totalBalance,
 	}, nil
 }

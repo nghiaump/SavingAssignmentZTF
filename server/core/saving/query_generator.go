@@ -44,6 +44,53 @@ func GenerateQuery(filterObj *pb.Filter) map[string]interface{} {
 	return query
 }
 
+func GenerateQueryWithAgg(filterObj *pb.Filter) map[string]interface{} {
+	var allFilters []map[string]interface{}
+
+	kycFilter := FilterByInt32Exact("kyc", filterObj.Kyc)
+	termFilter := FilterByInt32Exact("term_in_days", filterObj.TermInDays)
+	dueDateRangeFilter := FilterByDateRange("due_date", filterObj.DueDateEarliest, filterObj.DueDateLatest)
+	minBalanceFilter := FilterByInt64Range("balance", filterObj.MinBalance, MaxBalance)
+
+	if kycFilter != nil {
+		allFilters = append(allFilters, kycFilter)
+	}
+
+	if termFilter != nil {
+		allFilters = append(allFilters, termFilter)
+	}
+
+	if dueDateRangeFilter != nil {
+		allFilters = append(allFilters, dueDateRangeFilter)
+	}
+
+	if minBalanceFilter != nil {
+		allFilters = append(allFilters, minBalanceFilter)
+	}
+
+	query := map[string]interface{}{
+		"from": (filterObj.PageIndex - 1) * filterObj.PageSize,
+		"size": filterObj.PageSize,
+
+		"query": map[string]interface{}{
+			"bool": map[string]interface{}{
+				"must": allFilters,
+			},
+		},
+
+		"aggs": map[string]interface{}{
+			"total_balance": map[string]interface{}{
+				"sum": map[string]interface{}{
+					"field": "balance",
+				},
+			},
+		},
+	}
+
+	log.Printf("final query: %v\n", query)
+	return query
+}
+
 func FilterByInt32Exact(fieldName string, value int32) map[string]interface{} {
 	if value == NilFlagInt {
 		return nil

@@ -34,28 +34,25 @@ func main() {
 	const ActionCreateSavingAccount = 3
 	const ActionInquireSavingAccount = 4
 	const ActionWithdrawal = 5
-
 	const ActionSearchAllAccountsByUserID = 6
 	const ActionSearchAccountsByFilters = 7
-	const ActionSearchAccountsByIDCardNumber = 8
-
-	const ActionSearchUserByIDCardNumber = 10
-	const ActionSearchUserByAccountID = 11
-	const ActionSearchUsersByFilters = 12
+	const ActionSearchUserByIDCardNumber = 8
+	const ActionSearchUserByAccountID = 9
+	const ActionSearchUsersByFilters = 10
 
 	currentAction := ActionRegisterUser
 	for {
 		fmt.Println("Input action:")
-		fmt.Println("1. Register User: using IDCardNumber, name")
-		fmt.Println("2. Check KYC level: using UserID, IDCardNumber")
-		fmt.Println("3. Open Saving Account: using UserID,...")
-		fmt.Println("4. Checking Saving Account: using AccountID, UserID")
-		fmt.Println("5. Withdraw")
-		fmt.Println("6. Search all saving account by UserID")
-		fmt.Printf("%v. Search accounts by Filters\n", ActionSearchAccountsByFilters)
+		fmt.Printf("%v. Register User: using IDCardNumber, name\n", ActionRegisterUser)
+		fmt.Printf("%v. Check KYC level: using UserID, IDCardNumber\n", ActionCheckKYC)
+		fmt.Printf("%v. Open Saving Account: using UserID, ...\n", ActionCreateSavingAccount)
+		fmt.Printf("%v. Checking Saving Account: using AccountID, UserID\n", ActionInquireSavingAccount)
+		fmt.Printf("%v. Withdrawal\n", ActionWithdrawal)
+		fmt.Printf("%v. Search all saving accounts by UserID\n", ActionSearchAllAccountsByUserID)
+		fmt.Printf("%v. Search accounts by Filters ***NEW***\n", ActionSearchAccountsByFilters)
 		fmt.Printf("%v. Search User by ID card number\n", ActionSearchUserByIDCardNumber)
 		fmt.Printf("%v. Search User by Account ID\n", ActionSearchUserByAccountID)
-		fmt.Printf("%v. Search User by UserFilters\n", ActionSearchUsersByFilters)
+		fmt.Printf("%v. Search Users by Filters\n", ActionSearchUsersByFilters)
 
 		fmt.Scan(&currentAction)
 		ctx := context.Background()
@@ -64,17 +61,8 @@ func main() {
 		case ActionRegisterUser:
 			// Register User
 			{
-				var userReg pb.RegisterUserRequest
-				fmt.Print("IDCardnumber: ")
-				fmt.Scan(&userReg.IdCardNumber)
-				fmt.Print("Name: ")
-				fmt.Scan(&userReg.UserName)
-				fmt.Print("DOB: ")
-				fmt.Scan(&userReg.Dob)
-				fmt.Print("Address: ")
-				fmt.Scan(&userReg.Address)
-				fmt.Print("Phone number: ")
-				fmt.Scan(&userReg.PhoneNumber)
+				userReg := CreateRegisterUserRequest()
+
 				res, errRegUser := c.RegisterUser(ctx, &userReg)
 				if errRegUser != nil {
 					log.Printf("Could not register new user: %v", errRegUser.Error())
@@ -85,11 +73,8 @@ func main() {
 		case ActionCheckKYC:
 			// Check KYC level
 			{
-				var kycReq pb.GetCurrentKYCRequest
-				fmt.Print("UserID: ")
-				fmt.Scan(&kycReq.UserId)
-				fmt.Print("ID Card Number: ")
-				fmt.Scan(&kycReq.IdCardNumber)
+				kycReq := CreateKYCRequest()
+
 				kycRes, errKYC := c.GetCurrentKYC(ctx, &kycReq)
 				if errKYC != nil {
 					log.Printf("Could not get user KYC level: %v", errKYC.Error())
@@ -100,52 +85,8 @@ func main() {
 			}
 		case ActionCreateSavingAccount:
 			{
+				accReq := CreateOpenSavingAccountRequest()
 
-				var termType string
-				var term int32
-				var termCombo int32
-				var accReq pb.OpenSavingsAccountRequest
-				fmt.Print("UserID: ")
-				fmt.Scan(&accReq.UserId)
-				fmt.Print("IDCardNumber: ")
-				fmt.Scan(&accReq.IdCardNumber)
-				fmt.Print("Balance: ")
-				fmt.Scan(&accReq.Balance)
-				fmt.Println("Term: ")
-				fmt.Println("1: 21 DAYS")
-				fmt.Println("2: 3 MONTHS")
-				fmt.Println("3: 6 MONTHS")
-				fmt.Println("4: 12 MONTHS")
-
-				fmt.Scan(&termCombo)
-				switch termCombo {
-				case 1:
-					{
-						termType = "DAYS"
-						term = 21
-					}
-				case 2:
-					{
-						termType = "MONTHS"
-						term = 3
-					}
-				case 3:
-					{
-						termType = "MONTHS"
-						term = 6
-					}
-				case 4:
-					{
-						termType = "MONTHS"
-						term = 12
-					}
-					continue
-				}
-
-				accReq.TermType = termType
-				accReq.Term = term
-				fmt.Print("Created Date: ")
-				fmt.Scan(&accReq.CreatedDate)
 				accRes, errOpen := c.OpenSavingsAccount(ctx, &accReq)
 				if errOpen != nil {
 					log.Printf("Could not open account: %v", errOpen.Error())
@@ -156,46 +97,22 @@ func main() {
 			}
 		case ActionInquireSavingAccount:
 			{
-				var userID string
-				var accountID string
-				fmt.Print("userID: ")
-				fmt.Scan(&userID)
-				fmt.Print("accountID: ")
-				fmt.Scan(&accountID)
-				accRes, errInquire := c.AccountInquiry(ctx, &pb.AccountInquiryRequest{
-					UserId:    userID,
-					AccountId: accountID,
-				})
+				accInquiryReq := CreateAccountInquiryRequest()
+
+				accRes, errInquire := c.AccountInquiry(ctx, &accInquiryReq)
 				if errInquire != nil {
-					log.Printf("Cannot inquire the account id %v", accountID)
+					log.Printf("Cannot inquire the account id %v", accInquiryReq.AccountId)
 					log.Printf("Error detail: %v", errInquire.Error())
 				} else {
-					log.Printf("accountID: %v \nDetail: %v", accountID, accRes)
+					log.Printf("accountID: %v \nDetail: %v", accInquiryReq.AccountId, accRes)
 				}
 
 			}
 		case ActionWithdrawal:
 			{
-				var userID string
-				var accountID string
-				var amount int64
-				var withDrawDate string
-				fmt.Print("userID: ")
-				fmt.Scan(&userID)
-				fmt.Print("accountID: ")
-				fmt.Scan(&accountID)
-				fmt.Print("withdrawal amount: ")
-				fmt.Scan(&amount)
-				fmt.Print("withdrawal date(simulated): ")
-				fmt.Scan(&withDrawDate)
+				withDrawalReq := CreateWithdrawalRequest()
 
-				withDrawRes, withDrawErr := c.Withdrawal(ctx, &pb.WithdrawalRequest{
-					UserId:    userID,
-					AccountId: accountID,
-					Amount:    amount,
-					Date:      withDrawDate,
-				})
-
+				withDrawRes, withDrawErr := c.Withdrawal(ctx, &withDrawalReq)
 				if withDrawErr != nil {
 					log.Printf("Withdrawn failed with err %v", withDrawErr.Error())
 				} else {
@@ -217,33 +134,18 @@ func main() {
 				})
 
 				log.Printf("Hits: %v", len(savingAccList.AccList))
-				for _, acc := range savingAccList.AccList {
-					log.Printf(acc.Id)
+				if len(savingAccList.AccList) > 0 {
+					printSavingAccountsTable(savingAccList.AccList)
 				}
-
 			}
 
 		case ActionSearchAccountsByFilters:
 			{
-				var filter pb.Filter
-				fmt.Println("Input KYC")
-				fmt.Scan(&filter.Kyc)
-				fmt.Println("Input TermInDays")
-				fmt.Scan(&filter.TermInDays)
-				fmt.Println("Input DueDateRange - earliest date")
-				fmt.Scan(&filter.DueDateEarliest)
-				fmt.Println("Input DueDateRange - latest date")
-				fmt.Scan(&filter.DueDateLatest)
-				fmt.Println("Input minimum balance")
-				fmt.Scan(&filter.MinBalance)
-
+				filter := CreateAccountFilter()
 				log.Println("Calling SearchAccountsByFilters ")
 				savingAccList, _ := c.SearchAccountsByFilter(ctx, &filter)
-
-				log.Printf("Hits: %v", len(savingAccList.AccList))
-				for _, acc := range savingAccList.AccList {
-					log.Printf(acc.Id)
-				}
+				PrintResult(savingAccList)
+				LoopForPaginate(filter, c, ctx)
 			}
 
 		case ActionSearchUserByAccountID:
