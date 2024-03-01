@@ -16,6 +16,7 @@ import (
 
 const ESDocumentTag = "es"
 const ESSavingIndex = "saving"
+const KafkaTopicSavingAccount = "NewSavingAccountCreated"
 
 type SavingServiceHandler struct {
 	accountMap map[string]*pb.SavingAccount
@@ -45,12 +46,20 @@ func StartSavingServer(handler *SavingServiceHandler, port string) {
 
 func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.SavingAccount) (*pb.SavingAccount, error) {
 	indexReq := CreateIndexingRequest(req, ESSavingIndex)
-	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
-	if err2 != nil {
-		log.Printf("Error indexing document: %v\n", err2)
+	indexRes, err := indexReq.Do(context.Background(), handler.esClient)
+	if err != nil {
+		log.Printf("Error indexing document: %v\n", err)
 	}
 	defer indexRes.Body.Close()
 	log.Printf("Indexed new Saving Account to ElasticSearch %v\n", indexRes)
+
+	errKafka := ProduceNewSavingAccountMessage(req)
+	if errKafka != nil {
+		log.Println("Error producing Kafka message")
+	} else {
+		log.Println("Produced new message to Kafka")
+	}
+
 	return req, status.New(codes.OK, "").Err()
 }
 
