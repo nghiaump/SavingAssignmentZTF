@@ -123,7 +123,7 @@ func CreateAccountFilter() pb.Filter {
 func LoopForPaginate(filter pb.Filter, c pb.MidSavingServiceClient, ctx context.Context) {
 	var nextPage int
 	for {
-		fmt.Println("See another page result?: ")
+		fmt.Println("See another page result?: (-1 for exit)")
 		fmt.Scan(&nextPage)
 		if nextPage == -1 {
 			break
@@ -165,9 +165,9 @@ func printSavingAccountsTable(accList []*pb.SavingAccount) {
 }
 
 func printUsersTable(users []*pb.User) {
-	headerFormat := "| %-40s | %-40s | %-40s | %-12s | %-12s | %-5s | %-25s |"
-	rowFormat := "| %-40s | %-40s | %-40s | %-12s | %-12s | %-5d | %-25s |"
-	divider := "+------------------------------------------+------------------------------------------+------------------------------------------+--------------+--------------+-------+---------------------------+"
+	headerFormat := "| %-40s | %-20s | %-20s | %-20s | %-40s | %-12s | %-25s |"
+	rowFormat := "| %-40s | %-20s | %-20s | %-20s | %-40s | %-12d | %-25s |"
+	divider := "+------------------------------------------+----------------------+----------------------+----------------------+------------------------------------------+--------------+---------------------------+"
 
 	fmt.Println(divider)
 	fmt.Printf(headerFormat, "ID", "ID Card Number", "User Name", "DOB", "Address", "KYC Level", "Registered Date")

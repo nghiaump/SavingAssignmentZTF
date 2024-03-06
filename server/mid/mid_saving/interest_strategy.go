@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
+	"log"
 )
 
 // SavingAccountPT includes Calculator, which uses StrategyPattern
@@ -10,8 +10,7 @@ type SavingAccountPT struct {
 	Id           string
 	UserID       string
 	Balance      int64
-	TermType     string
-	Term         int32
+	TermInDays   int32
 	CreatedDate  string
 	DueDate      string
 	InterestRate float32
@@ -22,8 +21,7 @@ func (acc *SavingAccountPT) ParseFrom(pbAcc *pb.SavingAccount) {
 	acc.Id = pbAcc.GetId()
 	acc.UserID = pbAcc.GetUserId()
 	acc.Balance = pbAcc.GetBalance()
-	acc.TermType = pbAcc.GetTermType()
-	acc.Term = pbAcc.GetTerm()
+	acc.TermInDays = pbAcc.TermInDays
 	acc.CreatedDate, _ = ConvertFromISO8601(pbAcc.CreatedDate)
 	acc.DueDate, _ = ConvertFromISO8601(pbAcc.DueDate)
 	acc.InterestRate = pbAcc.GetRate()
@@ -31,26 +29,16 @@ func (acc *SavingAccountPT) ParseFrom(pbAcc *pb.SavingAccount) {
 
 func (acc *SavingAccountPT) GetCalculator(withDrawDate string) {
 	if LaterThan(withDrawDate, acc.DueDate) {
+		log.Println("OnTimeInterest")
 		acc.Calculator = &OnTimeInterestCalculator{}
 	} else {
+		log.Println("EarlyInterest")
 		acc.Calculator = &EarlyInterestCalculator{}
 	}
 }
 
 func (acc *SavingAccountPT) CalculateRate(withdrawnDate string) float64 {
 	return acc.Calculator.CalculateRate(acc, withdrawnDate)
-}
-
-func (acc *SavingAccountPT) TermInDays() int32 {
-	switch acc.TermType {
-	case "DAYS":
-		return acc.Term
-	case "MONTHS":
-		return acc.Term * 30
-	case "YEARS":
-		return acc.Term * 360
-	}
-	return acc.Term // not reached
 }
 
 // IInterestCalculator is used for Strategy Pattern
@@ -69,7 +57,6 @@ func (earlyInterest *EarlyInterestCalculator) CalculateRate(acc *SavingAccountPT
 }
 
 func (onTimeInterest *OnTimeInterestCalculator) CalculateRate(acc *SavingAccountPT, withdrawnDate string) float64 {
-	daysTerm := acc.TermInDays()
-	fmt.Println(daysTerm)
-	return float64(daysTerm) / float64(360) * float64(acc.InterestRate)
+	log.Printf("rate: %v\n", float64(acc.TermInDays)/float64(360)*float64(acc.InterestRate))
+	return float64(acc.TermInDays) / float64(360) * float64(acc.InterestRate)
 }

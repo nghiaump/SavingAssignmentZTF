@@ -45,13 +45,16 @@ func main() {
 		fmt.Println("Input action:")
 		fmt.Printf("%v. Register User\n", ActionRegisterUser)
 		fmt.Printf("%v. Check KYC level\n", ActionCheckKYC)
-		fmt.Printf("%v. Open SavingAccount\n", ActionCreateSavingAccount)
+		fmt.Printf("%v. Create new SavingAccount\n", ActionCreateSavingAccount)
 		fmt.Printf("%v. Account Inquiry\n", ActionInquireSavingAccount)
 		fmt.Printf("%v. Withdrawal\n", ActionWithdrawal)
 		fmt.Printf("%v. Search accounts by Filters ***NEW***\n\n", ActionSearchAccountsByFilters)
+
 		fmt.Printf("%v. Search all saving accounts by UserID\n", ActionSearchAllAccountsByUserID)
 		fmt.Printf("%v. Search User by ID card number\n", ActionSearchUserByIDCardNumber)
-		fmt.Printf("%v. Search User by Account ID\n", ActionSearchUserByAccountID)
+		fmt.Printf("%v. Search User by Account ID\n\n", ActionSearchUserByAccountID)
+
+		fmt.Println("Upcoming features")
 		fmt.Printf("%v. Search Users by Filters\n", ActionSearchUsersByFilters)
 
 		fmt.Scan(&currentAction)
@@ -142,10 +145,17 @@ func main() {
 		case ActionSearchAccountsByFilters:
 			{
 				filter := CreateAccountFilter()
-				log.Println("Calling SearchAccountsByFilters ")
-				savingAccList, _ := c.SearchAccountsByFilter(ctx, &filter)
-				PrintResult(savingAccList)
-				LoopForPaginate(filter, c, ctx)
+				fmt.Println("Calling SearchAccountsByFilters ")
+				savingAccList, err := c.SearchAccountsByFilter(ctx, &filter)
+				if savingAccList != nil {
+					PrintResult(savingAccList)
+					LoopForPaginate(filter, c, ctx)
+				}
+
+				if err != nil {
+					fmt.Println(err)
+				}
+
 			}
 
 		case ActionSearchUserByAccountID:

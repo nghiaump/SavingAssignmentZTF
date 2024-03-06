@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
+	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"log"
 	"time"
 )
 
 const DateLayout = "02012006"
+const NilFlagInt = -1
+const NilFlagString = "-1"
 
 func CalculateDueDate(termType string, term int, createdDate string) string {
 	startDate, err := time.Parse(DateLayout, createdDate)
@@ -89,7 +92,7 @@ func CalculatePassedDays(createdDateStr string, withdrawnDateStr string) int {
 }
 
 func ConvertToISO8601(date string) (string, error) {
-	parsedDate, err := time.Parse("02012006", date)
+	parsedDate, err := time.Parse(DateLayout, date)
 	if err != nil {
 		return "", err
 	}
@@ -104,6 +107,36 @@ func ConvertFromISO8601(isoDate string) (string, error) {
 		return "", err
 	}
 
-	ddmmyyyyDate := parsedDate.Format("02012006")
+	ddmmyyyyDate := parsedDate.Format(DateLayout)
 	return ddmmyyyyDate, nil
+}
+
+func ValidateFilterRequest(req *pb.Filter) bool {
+	if req.Kyc != NilFlagInt && req.Kyc != 2 && req.Kyc != 3 {
+		return false
+	}
+	if req.TermInDays != NilFlagInt && req.TermInDays < 0 {
+		return false
+	}
+	if req.DueDateEarliest != NilFlagString {
+		if _, err := time.Parse(DateLayout, req.DueDateEarliest); err != nil {
+			return false
+		}
+	}
+
+	if req.DueDateLatest != NilFlagString {
+		if _, err := time.Parse(DateLayout, req.DueDateLatest); err != nil {
+			return false
+		}
+	}
+
+	if req.PageSize < 1 {
+		return false
+	}
+	if req.PageIndex < 1 {
+		return false
+	}
+
+	// Passed all constrains
+	return true
 }

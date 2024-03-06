@@ -187,6 +187,8 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 		accPT := &SavingAccountPT{}
 		accPT.ParseFrom(accRes)
 		accPT.GetCalculator(req.Date) // Using Strategy Pattern: Early or OnTime
+
+		log.Printf("Debug accPT: %v\n", accPT)
 		totalWithdrawnAmount := int64(float64(req.Amount) * (accPT.CalculateRate(req.Date) + 1))
 
 		log.Println("Withdrawn successfully")
@@ -236,6 +238,14 @@ func (handler *MidServiceHandler) SearchAccountsByUserID(ctx context.Context, re
 
 func (handler *MidServiceHandler) SearchAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
 	log.Printf("Calling SearchAccountsByFilters with request %v", req)
+
+	// Validate the filter request
+	valid := ValidateFilterRequest(req)
+	if !valid {
+		log.Println("Invalid filters")
+		return nil, status.Error(codes.InvalidArgument, "")
+	}
+
 	savingAccList, _ := handler.savingServiceClient.SearchAccountsByFilter(ctx, req)
 
 	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
@@ -251,6 +261,7 @@ func (handler *MidServiceHandler) SearchAccountsByIDCardNumber(ctx context.Conte
 	if user == nil {
 		return nil, nil
 	}
+
 	accList, _ := handler.SearchAccountsByUserID(ctx, &pb.AccountInquiryRequest{
 		UserId:    user.Id,
 		AccountId: "",
