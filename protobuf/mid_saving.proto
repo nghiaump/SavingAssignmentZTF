@@ -5,9 +5,15 @@ package protobuf;
 
 import "user.proto";
 import "saving.proto";
+import "google/api/annotations.proto";
 
 service MidSavingService {
-  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse){
+    option (google.api.http) = {
+      post: "/v1/users/register"
+      body: "*"
+    };
+  };
   rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
   rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse);
   rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse);
@@ -23,5 +29,6 @@ service MidSavingService {
   rpc SearchUserByAccountID(AccountID) returns (User);
   rpc SearchUsersByFilter(UserFilter) returns (UserList);
 }
+
 
 

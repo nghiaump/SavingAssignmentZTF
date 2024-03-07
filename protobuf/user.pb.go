@@ -26,26 +26,26 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type User struct {
 	// @gotags: es:"id"
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" es:"id"`
+	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	// @gotags: es:"id_card_number"
-	IdCardNumber string `protobuf:"bytes,2,opt,name=id_card_number,proto3" json:"id_card_number,omitempty" es:"id_card_number"`
+	IdCardNumber string `protobuf:"bytes,2,opt,name=id_card_number,proto3" json:"id_card_number,omitempty"`
 	// @gotags: es:"user_name"
-	UserName string `protobuf:"bytes,3,opt,name=user_name,proto3" json:"user_name,omitempty" es:"user_name"`
+	UserName string `protobuf:"bytes,3,opt,name=user_name,proto3" json:"user_name,omitempty"`
 	// @gotags: es:"dob"
-	Dob string `protobuf:"bytes,4,opt,name=dob,proto3" json:"dob,omitempty" es:"dob"`
+	Dob string `protobuf:"bytes,4,opt,name=dob,proto3" json:"dob,omitempty"`
 	// @gotags: es:"gender"
 	// 0 for male, 1 for female
-	Gender int32 `protobuf:"varint,5,opt,name=gender,proto3" json:"gender,omitempty" es:"gender"`
+	Gender int32 `protobuf:"varint,5,opt,name=gender,proto3" json:"gender,omitempty"`
 	// @gotags: es:"address"
-	Address string `protobuf:"bytes,6,opt,name=address,proto3" json:"address,omitempty" es:"address"`
+	Address string `protobuf:"bytes,6,opt,name=address,proto3" json:"address,omitempty"`
 	// @gotags: es:"phone_number"
-	PhoneNumber string `protobuf:"bytes,7,opt,name=phone_number,proto3" json:"phone_number,omitempty" es:"phone_number"`
+	PhoneNumber string `protobuf:"bytes,7,opt,name=phone_number,proto3" json:"phone_number,omitempty"`
 	// @gotags: es:"kyc_level"
-	KycLevel int32 `protobuf:"varint,8,opt,name=kyc_level,proto3" json:"kyc_level,omitempty" es:"kyc_level"`
+	KycLevel int32 `protobuf:"varint,8,opt,name=kyc_level,proto3" json:"kyc_level,omitempty"`
 	// @gotags: es:"registered_date"
-	RegisteredDate string `protobuf:"bytes,9,opt,name=registered_date,proto3" json:"registered_date,omitempty" es:"registered_date"`
+	RegisteredDate string `protobuf:"bytes,9,opt,name=registered_date,proto3" json:"registered_date,omitempty"`
 	// @gotags: es:"account_list"
-	AccountList          []string `protobuf:"bytes,10,rep,name=account_list,proto3" json:"account_list,omitempty" es:"account_list"`
+	AccountList          []string `protobuf:"bytes,10,rep,name=account_list,proto3" json:"account_list,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -265,9 +265,9 @@ func (m *UserList) GetUserList() []*User {
 
 type KYC struct {
 	// @gotags: es:"user_id"
-	UserId string `protobuf:"bytes,1,opt,name=user_id,proto3" json:"user_id,omitempty" es:"user_id"`
+	UserId string `protobuf:"bytes,1,opt,name=user_id,proto3" json:"user_id,omitempty"`
 	// @gotags: es:"level"
-	Level                int32    `protobuf:"varint,2,opt,name=level,proto3" json:"level,omitempty" es:"level"`
+	Level                int32    `protobuf:"varint,2,opt,name=level,proto3" json:"level,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -424,17 +424,17 @@ func (m *AccountID) GetAccountID() string {
 
 type RegisterUserRequest struct {
 	// @gotags: es:"id_card_number"
-	IdCardNumber string `protobuf:"bytes,1,opt,name=id_card_number,proto3" json:"id_card_number,omitempty" es:"id_card_number"`
+	IdCardNumber string `protobuf:"bytes,1,opt,name=id_card_number,proto3" json:"id_card_number,omitempty"`
 	// @gotags: es:"user_name"
-	UserName string `protobuf:"bytes,2,opt,name=user_name,proto3" json:"user_name,omitempty" es:"user_name"`
+	UserName string `protobuf:"bytes,2,opt,name=user_name,proto3" json:"user_name,omitempty"`
 	// @gotags: es:"dob"
-	Dob string `protobuf:"bytes,3,opt,name=dob,proto3" json:"dob,omitempty" es:"dob"`
+	Dob string `protobuf:"bytes,3,opt,name=dob,proto3" json:"dob,omitempty"`
 	// @gotags: es:"gender"
-	Gender int32 `protobuf:"varint,4,opt,name=gender,proto3" json:"gender,omitempty" es:"gender"`
+	Gender int32 `protobuf:"varint,4,opt,name=gender,proto3" json:"gender,omitempty"`
 	// @gotags: es:"address"
-	Address string `protobuf:"bytes,5,opt,name=address,proto3" json:"address,omitempty" es:"address"`
+	Address string `protobuf:"bytes,5,opt,name=address,proto3" json:"address,omitempty"`
 	// @gotags: es:"phone_number"
-	PhoneNumber          string   `protobuf:"bytes,6,opt,name=phone_number,proto3" json:"phone_number,omitempty" es:"phone_number"`
+	PhoneNumber          string   `protobuf:"bytes,6,opt,name=phone_number,proto3" json:"phone_number,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
