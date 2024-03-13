@@ -10,19 +10,60 @@ import "google/api/annotations.proto";
 service MidSavingService {
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse){
     option (google.api.http) = {
-      post: "/v1/users/register"
+      post: "/api/users/register"
       body: "*"
     };
   };
-  rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
-  rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse);
-  rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse);
-  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
+  rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse){
+    option (google.api.http) = {
+      post: "/api/users/kyc"
+      body: "*"
+    };
+  };
+  rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse){
+    option (google.api.http) = {
+      post: "/api/accounts/withdrawal"
+      body: "*"
+    };
+  };
+  rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse){
+    option (google.api.http) = {
+      post: "/api/accounts/withdrawal"
+      body: "*"
+    };
+  };
+  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount){
+    option (google.api.http) = {
+      post: "/api/accounts/inquiry"
+      body: "*"
+    };
+  };
 
-  rpc SearchAccountByID(AccID) returns (SavingAccount);
-  rpc SearchAccountsByIDCardNumber(IDCardNumber) returns (SavingAccountList);
-  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
-  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
+  rpc SearchAccountByID(AccID) returns (SavingAccount){
+    option (google.api.http) = {
+      post: "/api/accounts/search-by-id"
+      body: "*"
+    };
+  };
+  rpc SearchAccountsByIDCardNumber(IDCardNumber) returns (SavingAccountList){
+    option (google.api.http) = {
+      post: "/api/accounts/search-by-id-card"
+      body: "*"
+    };
+  };
+  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList){
+    option (google.api.http) = {
+      post: "/api/accounts/search-by-user-id"
+      body: "*"
+    };
+  };
+
+  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList){
+    option (google.api.http) = {
+      post: "/api/accounts/search"
+      body: "*"
+    };
+  };
 
   rpc SearchUserByID(UserID) returns (User);
   rpc SearchUserByIdCardNumber(IDCardNumber) returns (User);
