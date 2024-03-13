@@ -1,0 +1,41 @@
+//package main
+//
+//import (
+//	"encoding/json"
+//	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
+//	"github.com/pingcap/tidb/config"
+//	"github.com/pingcap/tidb/store/tikv"
+//	"log"
+//)
+//
+//func CreateTiKVClient() (*tikv.RawKVClient, bool) {
+//	tikvClient, err := tikv.NewRawKVClient([]string{"http://tikv:2379"}, config.Security{})
+//
+//	if err != nil {
+//		log.Println("Error creating TiKV client:", err)
+//		return nil, true
+//	} else {
+//		log.Println("Connected to TiKV container")
+//	}
+//	return tikvClient, false
+//}
+//
+//func WriteToTiKV(client *tikv.RawKVClient, obj *pb.SavingAccount) error {
+//	err := client.Put([]byte(obj.Id), []byte(obj.String()))
+//	if err != nil {
+//		log.Printf("Error: %v\n", err)
+//	}
+//	return err
+//}
+//
+//func ReadFromTiKV(client *tikv.RawKVClient, id string) (*pb.SavingAccount, error) {
+//	data, err := client.Get([]byte(id))
+//	if err != nil {
+//		acc := &pb.SavingAccount{}
+//		err2 := json.Unmarshal(data, acc)
+//		if err2 != nil {
+//			return acc, nil
+//		}
+//	}
+//	return nil, err
+//}

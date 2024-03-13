@@ -13,6 +13,17 @@ services:
     stdin_open: true
     tty: true
 
+  api-gateway:
+    build:
+      context: ./server/api-gateway
+      dockerfile: Dockerfile
+    image: api-gateway:1.0
+    networks:
+      - my_network
+    ports:
+      - "8081:8081"
+
+
   mid-saving:
     build:
       context: ./server/mid/mid_saving
@@ -101,6 +112,29 @@ services:
     networks:
       - my_network
 
+#  mysql:
+#    image: mysql:latest
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: admin
+#      MYSQL_DATABASE: savingaccount
+#    ports:
+#      - "3306:3306"
+#  tikv:
+#    image: pingcap/tikv:latest
+#    container_name: tikv
+#    depends_on:
+#      - pd
+#    ports:
+#      - "2379:2379"
+#    networks:
+#      - my_network
+#
+#  pd:
+#    image: pingcap/pd:latest
+#    container_name: pd
+#    networks:
+#      - my_network
 
 volumes:
   esdata:

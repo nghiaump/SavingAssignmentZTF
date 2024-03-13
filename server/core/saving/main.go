@@ -6,7 +6,8 @@ const ContainerElasticSearchEnv = "CONTAINER_ES_HOST"
 
 func main() {
 	esClient, _ := CreateESClient()
+	mySQLDB := GetMySQLDB()
 	InitIndex(ESSavingIndex, esClient)
-	savingServiceHandler := NewSavingServiceHandler(esClient)
+	savingServiceHandler := NewSavingServiceHandler(esClient, mySQLDB) //, tikvClient)
 	StartSavingServer(savingServiceHandler, SavingPort)
 }

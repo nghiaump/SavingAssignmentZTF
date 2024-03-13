@@ -51,7 +51,7 @@ func CreateESClient() (*elasticsearch.Client, bool) {
 		log.Println("Error creating Elasticsearch client:", err)
 		return nil, true
 	} else {
-		log.Println("Connect thanh cong toi ElasticSearch")
+		log.Println("Connected to ElasticSearch")
 	}
 	return esClient, false
 }
