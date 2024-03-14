@@ -22,7 +22,7 @@ service MidSavingService {
   };
   rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse){
     option (google.api.http) = {
-      post: "/api/accounts/withdrawal"
+      post: "/api/accounts/register"
       body: "*"
     };
   };

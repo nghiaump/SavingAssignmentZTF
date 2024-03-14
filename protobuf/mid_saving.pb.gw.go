@@ -751,7 +751,7 @@ var (
 
 	pattern_MidSavingService_GetCurrentKYC_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "users", "kyc"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_MidSavingService_OpenSavingsAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "accounts", "withdrawal"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_MidSavingService_OpenSavingsAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "accounts", "register"}, "", runtime.AssumeColonVerbOpt(true)))
 
 	pattern_MidSavingService_Withdrawal_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "accounts", "withdrawal"}, "", runtime.AssumeColonVerbOpt(true)))
 
