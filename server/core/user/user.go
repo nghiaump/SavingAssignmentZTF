@@ -67,7 +67,8 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 	}
 	defer indexRes.Body.Close()
 	log.Printf("Indexed new User to ElasticSearch %v\n", indexRes)
-	return &pb.RegisterUserResponse{Success: true, UserId: out.String()}, status.New(codes.OK, "").Err()
+	//
+	return &pb.RegisterUserResponse{Success: true, UserId: req.UserName}, status.New(codes.OK, "").Err()
 }
 
 func CreateIndexRequest(indexName string, doc map[string]interface{}) esapi.IndexRequest {
@@ -124,7 +125,8 @@ func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.Use
 	registeredDate, _ := ConvertToISO8601("01012024")
 	dob, _ := ConvertToISO8601(req.Dob)
 	return &pb.User{
-		Id:             id,
+		//Id:             id,
+		Id:             req.UserName,
 		IdCardNumber:   req.IdCardNumber,
 		UserName:       req.UserName,
 		KycLevel:       GenKYCDefault(),

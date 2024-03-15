@@ -3,10 +3,10 @@ package main
 import (
 	"bytes"
 	"context"
-	"database/sql"
 	"encoding/json"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
@@ -25,15 +25,13 @@ const KafkaTopicSavingAccount = "NewSavingAccountCreated"
 type SavingServiceHandler struct {
 	accountMap map[string]*pb.SavingAccount
 	esClient   *elasticsearch.Client
-	sqlDB      *sql.DB
-
 	//tikvClient *tikv.RawKVClient
 }
 
-func NewSavingServiceHandler(esClient *elasticsearch.Client, db *sql.DB) *SavingServiceHandler {
+func NewSavingServiceHandler(esClient *elasticsearch.Client) *SavingServiceHandler {
 	handler := SavingServiceHandler{}
 	handler.esClient = esClient
-	handler.sqlDB = db
+	//handler.sqlDB = db
 	//handler.tikvClient = tikvClient
 	return &handler
 }
@@ -165,8 +163,9 @@ func (handler *SavingServiceHandler) SearchAccountsByUserID(ctx context.Context,
 }
 
 func (handler *SavingServiceHandler) SearchAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
+	log.Println(strings.Repeat("=", 37))
 	log.Printf("SearchAccountsByFilters %v", req)
-	accList, totalHits, totalBalance := SearchAccountsByFiltersWithPaginate(req, handler.esClient)
+	accList, totalHits, totalBalance := SearchAccountsByFiltersWithPaging(req, handler.esClient)
 
 	return &pb.SavingAccountList{
 		AccList:         accList,

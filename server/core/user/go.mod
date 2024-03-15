@@ -12,7 +12,7 @@ require (
 
 require (
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240313031735-81d0fa6c07d6
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240314083914-ddd1320568f1
 	github.com/olivere/elastic v6.2.37+incompatible
 )
 

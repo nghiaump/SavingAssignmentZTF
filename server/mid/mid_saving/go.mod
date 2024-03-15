@@ -2,11 +2,11 @@ module SavingCore
 
 go 1.21
 
-//replace SavingProto => /Users/lap14122/Documents/GoLearning/BankSystem/protobuf
+//replace github.com/nghiaump/SavingAssignmentZTF/protobuf => /Users/lap14122/Documents/GoLearning/BankSystem/protobuf
 
 require (
 	github.com/golang/mock v1.6.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240313031735-81d0fa6c07d6
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240314083914-ddd1320568f1
 	google.golang.org/grpc v1.61.0
 )
 

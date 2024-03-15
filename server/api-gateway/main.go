@@ -5,6 +5,7 @@ import (
 	"flag"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
+	"github.com/rs/cors"
 	"google.golang.org/grpc"
 	"log"
 	"net/http"
@@ -26,9 +27,9 @@ func run() error {
 		return err
 	}
 	log.Println("api-gateway start 8081")
-
+	handler := cors.Default().Handler(mux)
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	return http.ListenAndServe(":8081", mux)
+	return http.ListenAndServe(":8081", handler)
 }
 
 func main() {

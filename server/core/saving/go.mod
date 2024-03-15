@@ -14,7 +14,7 @@ require (
 	github.com/IBM/sarama v1.43.0
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
 	github.com/go-sql-driver/mysql v1.7.1
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240313031735-81d0fa6c07d6
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240314083914-ddd1320568f1
 )
 
 require (

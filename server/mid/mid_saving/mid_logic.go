@@ -76,7 +76,9 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 
 	if user == nil || err != nil {
 		log.Printf("User not found: %v", err)
-		return nil, status.Error(codes.NotFound, "User not found")
+		return &pb.OpenSavingsAccountResponse{
+			Success: false,
+		}, status.New(codes.NotFound, "User not found").Err()
 	}
 
 	if user.KycLevel <= 1 {
@@ -121,7 +123,7 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 
 	if errOpenSaving != nil {
 		log.Println("Cannot create new SavingAccount")
-		return nil, status.Error(codes.Internal, "Failed to create new SavingAccount")
+		return &pb.OpenSavingsAccountResponse{Success: false}, status.Error(codes.Internal, "Failed to create new SavingAccount")
 	}
 
 	log.Printf("Created new SavingAccount successfully\nUserID: %v, Account Detail: %v", req.UserId, accRes)

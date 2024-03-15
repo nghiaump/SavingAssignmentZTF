@@ -74,6 +74,8 @@ github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240301031554-21252d671
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240301031554-21252d671411/go.mod h1:bCWOWGPa3avrlpIrzmlueVLTEQoDMcowROd6Pdl2IFk=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240313031735-81d0fa6c07d6 h1:NmioIB8KMu1abKaMUkd3t2YhQLeVGFQMjLZukBajkSs=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240313031735-81d0fa6c07d6/go.mod h1:d0rSuND9LDEHU1tdqzlhUGty3cjnJFjv4nbyUn4oVWg=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240314083914-ddd1320568f1 h1:29wg8QhC02rzOSWiUpZChBpflGhF6siagez2Xi7TWPQ=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240314083914-ddd1320568f1/go.mod h1:d0rSuND9LDEHU1tdqzlhUGty3cjnJFjv4nbyUn4oVWg=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/rogpeppe/fastuuid v1.2.0/go.mod h1:jVj6XXZzXRy/MSR5jhDC/2q6DgLz+nrA6LYCDYWNEvQ=
 github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=

@@ -343,7 +343,6 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 		if err := json.Unmarshal(jsonData, &accStruct); err != nil {
 			log.Println("Error unmarshalling document in response:", err)
 		} else {
-			log.Printf("after unmarshaled: %v", accStruct)
 			accList = append(accList, &accStruct)
 		}
 	}
@@ -415,7 +414,6 @@ func SearchAccountsByFiltersHelper(filterObj *pb.Filter, client *elasticsearch.C
 		if err := json.Unmarshal(jsonData, &accStruct); err != nil {
 			log.Println("Error unmarshalling document in response:", err)
 		} else {
-			log.Printf("after unmarshaled: %v", accStruct)
 			accList = append(accList, &accStruct)
 		}
 	}
@@ -424,7 +422,7 @@ func SearchAccountsByFiltersHelper(filterObj *pb.Filter, client *elasticsearch.C
 	return accList
 }
 
-func SearchAccountsByFiltersWithPaginate(filterObj *pb.Filter, client *elasticsearch.Client) ([]*pb.SavingAccount, int64, int64) {
+func SearchAccountsByFiltersWithPaging(filterObj *pb.Filter, client *elasticsearch.Client) ([]*pb.SavingAccount, int64, int64) {
 	query := GenerateQueryWithAgg(filterObj)
 	var r map[string]interface{}
 	var buf bytes.Buffer
@@ -487,7 +485,6 @@ func SearchAccountsByFiltersWithPaginate(filterObj *pb.Filter, client *elasticse
 		if err := json.Unmarshal(jsonData, &accStruct); err != nil {
 			log.Println("Error unmarshalling document in response:", err)
 		} else {
-			log.Printf("after unmarshaled: %v", accStruct)
 			accList = append(accList, &accStruct)
 		}
 	}
@@ -498,6 +495,5 @@ func SearchAccountsByFiltersWithPaginate(filterObj *pb.Filter, client *elasticse
 	log.Printf("Full aggregations: %v\n", aggregations)
 	log.Printf("Total balance of matched accounts %v:", totalBalance)
 
-	log.Println(strings.Repeat("=", 37))
 	return accList, totalHits, totalBalance
 }
