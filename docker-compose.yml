@@ -78,7 +78,10 @@ services:
     ports:
       - "9200:9200"
     volumes:
-      - esdata:/var/lib/docker/volumes/elasticsearch_esdata/_data
+      # for ubuntu:
+      - /home/nghia/Documents/ZTF/ESData:/usr/share/elasticsearch/data
+      # old data (on MacBook):
+      #- esdata:/var/lib/docker/volumes/elasticsearch_esdata/_data
     networks:
       - my_network
 
