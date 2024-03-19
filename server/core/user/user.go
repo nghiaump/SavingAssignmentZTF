@@ -166,7 +166,7 @@ func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Ge
 
 func (handler *UserServiceHandler) SearchUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
 	log.Printf("Search User by userID: %v", req.Id)
-	resUser := SearchOneUserByUniqueTextField("id", req.Id, handler.esClient)
+	resUser := SearchOneUserByUniqueTextField("user_name", req.Id, handler.esClient)
 	if resUser == nil {
 		return nil, status.Error(codes.NotFound, "")
 	} else {

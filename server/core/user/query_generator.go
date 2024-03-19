@@ -163,9 +163,12 @@ func FilterByStringExact(fieldName string, searchText string) map[string]interfa
 
 	query := map[string]interface{}{
 		"term": map[string]interface{}{
-			fieldName + ".keyword": searchText,
+			//fieldName + ".keyword": searchText,
+			fieldName: searchText,
 		},
 	}
+
+	log.Printf("FilterByStringExact: %v\n", query)
 
 	return query
 }
