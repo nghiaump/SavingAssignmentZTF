@@ -2,37 +2,52 @@ package main
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
+	"log"
 )
 
-func (handler *UserServiceHandler) InitMySQLClient() {
-	db, err := sql.Open("mysql", "user:password@tcp(mysql-container:3306)/database_name")
+func CreateMySQLClient() *sql.DB {
+	// Kết nối vào MySQL
+	db, err := sql.Open("mysql", "root:@tcp(mysql:3306)/")
 	if err != nil {
 		panic(err.Error())
 	}
 	defer db.Close()
+	log.Println("Connected to sql container")
 
-	_, err = db.Exec(`
-        CREATE TABLE IF NOT EXISTS user (
-            id VARCHAR(255) PRIMARY KEY,
-            id_card_number VARCHAR(255),
-            user_name VARCHAR(255),
-            dob VARCHAR(255),
-            gender INT,
-            address VARCHAR(255),
-            phone_number VARCHAR(255),
-            kyc_level INT,
-            registered_date VARCHAR(255)
-        );
-    `)
+	// Tạo database "dbo.user" nếu chưa tồn tại
+	_, err = db.Exec("CREATE DATABASE IF NOT EXISTS userdb")
+	if err != nil {
+		panic(err.Error())
+	}
+	log.Println("Database UserDB is ready!")
+
+	// Chọn database "dbo.user" để thực hiện các thao tác tiếp theo
+	_, err = db.Exec("USE userdb")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	fmt.Println("Table 'user' has been created (if it didn't exist already).")
-	handler.db = db
+	// Tạo bảng "user" nếu chưa tồn tại
+	_, err = db.Exec(`
+		CREATE TABLE IF NOT EXISTS user (
+			id VARCHAR(255) PRIMARY KEY,
+			id_card_number VARCHAR(255),
+			user_name VARCHAR(255),
+			dob VARCHAR(255),
+			gender INT,
+			address VARCHAR(255),
+			phone_number VARCHAR(255),
+			kyc_level INT,
+			registered_date VARCHAR(255)
+		);
+	`)
+	if err != nil {
+		return nil
+	}
+	log.Println("Table 'user' has been created (if it didn't exist already).")
+	return db
 }
 
 func (handler *UserServiceHandler) CreateUser(user *pb.User) error {

@@ -7,6 +7,7 @@ const ContainerElasticSearchEnv = "CONTAINER_ES_HOST"
 func main() {
 	esClient, _ := CreateESClient()
 	InitIndex(ESUserIndex, esClient)
-	userServiceHandler := NewUserServiceHandler(esClient)
+	db := CreateMySQLClient()
+	userServiceHandler := NewUserServiceHandler(esClient, db)
 	StartUserServer(userServiceHandler, UserPort)
 }

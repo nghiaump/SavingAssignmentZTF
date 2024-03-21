@@ -79,9 +79,9 @@ services:
       - "9200:9200"
     volumes:
       # for ubuntu:
-      - /home/nghia/Documents/ZTF/ESData:/usr/share/elasticsearch/data
+      #- /home/nghia/Documents/ZTF/ESData:/usr/share/elasticsearch/data
       # old data (on MacBook):
-      #- esdata:/var/lib/docker/volumes/elasticsearch_esdata/_data
+      - esdata:/var/lib/docker/volumes/elasticsearch_esdata/_data
     networks:
       - my_network
 
@@ -115,29 +115,18 @@ services:
     networks:
       - my_network
 
-#  mysql:
-#    image: mysql:latest
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: admin
-#      MYSQL_DATABASE: savingaccount
-#    ports:
-#      - "3306:3306"
-#  tikv:
-#    image: pingcap/tikv:latest
-#    container_name: tikv
-#    depends_on:
-#      - pd
-#    ports:
-#      - "2379:2379"
-#    networks:
-#      - my_network
-#
-#  pd:
-#    image: pingcap/pd:latest
-#    container_name: pd
-#    networks:
-#      - my_network
+  mysql:
+    image: mysql
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - my_network
 
 volumes:
   esdata:

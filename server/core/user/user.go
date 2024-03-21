@@ -28,9 +28,10 @@ type UserServiceHandler struct {
 	db       *sql.DB
 }
 
-func NewUserServiceHandler(client *elasticsearch.Client) *UserServiceHandler {
+func NewUserServiceHandler(client *elasticsearch.Client, db *sql.DB) *UserServiceHandler {
 	handler := UserServiceHandler{}
 	handler.esClient = client
+	handler.db = db
 	return &handler
 }
 
