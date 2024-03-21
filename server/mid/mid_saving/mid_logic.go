@@ -275,6 +275,12 @@ func (handler *MidServiceHandler) SearchAccountByID(ctx context.Context, req *pb
 
 // SEARCH USER ========
 
+func (handler *MidServiceHandler) SearchUserByNumberAccountRange(ctx context.Context, req *pb.NumberAccountRange) (*pb.ListUserWithAccounts, error) {
+	log.Printf("SearchUserByNumberAccountRange()")
+	resList, err := handler.savingServiceClient.SearchUserByNumberAccountRange(ctx, req)
+	return resList, err
+}
+
 func (handler *MidServiceHandler) SearchUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
 	log.Printf("Search User by userID: %v", req.Id)
 	resUser, err := handler.userServiceClient.SearchUserByID(ctx, req)

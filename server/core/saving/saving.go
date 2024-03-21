@@ -197,3 +197,23 @@ func (handler *SavingServiceHandler) SearchAccountsByFilter(ctx context.Context,
 		AggTotalBalance: totalBalance,
 	}, nil
 }
+
+func (handler *SavingServiceHandler) SearchUserByNumberAccountRange(ctx context.Context, req *pb.NumberAccountRange) (*pb.ListUserWithAccounts, error) {
+	result, err := handler.GetUserHavingAccountNumber(int(req.MinNumber), int(req.MaxNumber))
+	if err != nil {
+		return nil, nil
+	}
+
+	var userGroup []*pb.UserWithAccounts
+	for userID, accountIDs := range result {
+		obj := &pb.UserWithAccounts{
+			UserId:     userID,
+			AccountIds: accountIDs,
+		}
+		userGroup = append(userGroup, obj)
+	}
+
+	return &pb.ListUserWithAccounts{
+		UserGroup: userGroup,
+	}, nil
+}

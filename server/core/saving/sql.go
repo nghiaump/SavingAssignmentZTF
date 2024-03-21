@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
+	"strings"
 	"time"
 )
 
@@ -87,14 +88,12 @@ func (handler *SavingServiceHandler) SQLDeleteAccountUserByAccountId(accountID s
 	return err
 }
 
-func (handler *SavingServiceHandler) GetUserHavingAccountNumber(minNum int, maxNum int) ([]string, error) {
-	//_, err := handler.db.Exec(fmt.Sprintf("USE account_db"))
-	//if err != nil {
-	//	return nil, err
-	//}
+func (handler *SavingServiceHandler) GetUserHavingAccountNumber(minNum int, maxNum int) (map[string][]string, error) {
+	log.Printf("min-num-acc: %v, max-num-acc: %v", minNum, maxNum)
+	userAccounts := make(map[string][]string)
 
 	query := fmt.Sprintf(`
-        SELECT user_id
+        SELECT user_id, GROUP_CONCAT(account_id) AS account_ids
         FROM account_user
         GROUP BY user_id
         HAVING COUNT(account_id) BETWEEN %d AND %d
@@ -106,19 +105,20 @@ func (handler *SavingServiceHandler) GetUserHavingAccountNumber(minNum int, maxN
 	}
 	defer rows.Close()
 
-	var userIDs []string
 	for rows.Next() {
-		var userID string
-		if err := rows.Scan(&userID); err != nil {
+		var userID, accountIDs string
+		if err := rows.Scan(&userID, &accountIDs); err != nil {
 			return nil, err
 		}
-		userIDs = append(userIDs, userID)
+
+		accountIDArr := strings.Split(accountIDs, ",")
+		userAccounts[userID] = accountIDArr
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 
-	return userIDs, nil
+	return userAccounts, nil
 }
 
 func ConvertDateFormat(dateISO string) (string, error) {
