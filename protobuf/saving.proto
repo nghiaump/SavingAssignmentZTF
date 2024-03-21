@@ -10,6 +10,7 @@ service SavingsService {
   rpc SearchAccountByID(AccID) returns (SavingAccount);
   rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
   rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
+  rpc SearchUserByNumberAccountRange(NumberAccountRange) returns (UserWithAccounts);
 }
 
 message SavingAccount {
@@ -101,4 +102,15 @@ message AccountInquiryRequest {
   string user_id = 1 [json_name = "user_id"];
   string account_id = 2 [json_name = "account_id"];
 }
+
+message NumberAccountRange{
+  int32 min_number = 1 [json_name = "min_number"];
+  int32 max_number = 2 [json_name = "max_number"];
+}
+
+message UserWithAccounts{
+  string user_id = 1 [json_name = "user_id"];
+  repeated string account_ids = 2 [json_name = "account_ids"];
+}
+
 

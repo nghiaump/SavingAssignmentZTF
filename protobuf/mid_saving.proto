@@ -65,6 +65,13 @@ service MidSavingService {
     };
   };
 
+  rpc SearchUserByNumberAccountRange(NumberAccountRange) returns (UserWithAccounts){
+    option (google.api.http) = {
+      post: "/api/users/search-by-number-account-range"
+      body: "*"
+    };
+  };
+
   rpc SearchUserByID(UserID) returns (User);
   rpc SearchUserByIdCardNumber(IDCardNumber) returns (User);
   rpc SearchUserByAccountID(AccountID) returns (User);
