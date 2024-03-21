@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"database/sql"
 	"encoding/json"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
@@ -25,14 +26,13 @@ const KafkaTopicSavingAccount = "NewSavingAccountCreated"
 type SavingServiceHandler struct {
 	accountMap map[string]*pb.SavingAccount
 	esClient   *elasticsearch.Client
-	//tikvClient *tikv.RawKVClient
+	db         *sql.DB
 }
 
-func NewSavingServiceHandler(esClient *elasticsearch.Client) *SavingServiceHandler {
+func NewSavingServiceHandler(esClient *elasticsearch.Client, db *sql.DB) *SavingServiceHandler {
 	handler := SavingServiceHandler{}
 	handler.esClient = esClient
-	//handler.sqlDB = db
-	//handler.tikvClient = tikvClient
+	handler.db = db
 	return &handler
 }
 
@@ -52,21 +52,27 @@ func StartSavingServer(handler *SavingServiceHandler, port string) {
 }
 
 func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.SavingAccount) (*pb.SavingAccount, error) {
+	// ElasticSearch
 	indexReq := CreateIndexingRequest(req, ESSavingIndex)
 	indexRes, err := indexReq.Do(context.Background(), handler.esClient)
 	if err != nil {
-		log.Printf("Error indexing document: %v\n", err)
+		log.Printf("OpenSavingAccount() - Error indexing document: %v\n", err)
 	}
 	defer indexRes.Body.Close()
-	log.Printf("Indexed new Saving Account to ElasticSearch %v\n", indexRes)
+	log.Printf("OpenSavingAccount() - Indexed new Saving Account to ElasticSearch %v\n", indexRes)
 
-	//// Save to tikv
-	//errTiKV := WriteToTiKV(handler.tikvClient, req)
-	//if errTiKV != nil {
-	//	log.Printf("Error saving object SavingAccount to TiKV database\n")
-	//} else {
-	//	log.Printf("Write object to TiKV db successfully")
-	//}
+	// MySQL
+	newAccUser := &AccountUser{
+		accountID: req.Id,
+		userID:    req.UserId,
+	}
+	log.Printf("OpenSavingAccount() - Write account-user to MySQL database:\n%v", newAccUser)
+	errSQL := handler.SQLCreateAccountUser(newAccUser)
+	if errSQL != nil {
+		log.Printf("OpenSavingAccount() - Error writing to MySQL database: %v\n", errSQL)
+	} else {
+		log.Printf("OpenSavingAccount() - Write new account-user to MySQL database successfully\n")
+	}
 
 	// Produce message to Kafka
 	errKafka := ProduceNewSavingAccountMessage(req)

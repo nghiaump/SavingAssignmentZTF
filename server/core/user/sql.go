@@ -26,7 +26,7 @@ func CreateMySQLClient() *sql.DB {
 	}
 	log.Println("Database UserDB is ready!")
 
-	// Chọn database "dbo.user" để thực hiện các thao tác tiếp theo
+	// Chọn database "userdb" để thực hiện các thao tác tiếp theo
 	_, err = db.Exec("USE userdb")
 	if err != nil {
 		panic(err.Error())
