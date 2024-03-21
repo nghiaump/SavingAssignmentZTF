@@ -12,18 +12,15 @@ require (
 
 require (
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
+	github.com/go-sql-driver/mysql v1.8.0
 	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240314083914-ddd1320568f1
-	github.com/olivere/elastic v6.2.37+incompatible
 )
 
 require (
-	github.com/fortytw2/leaktest v1.3.0 // indirect
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
-	github.com/josharian/intern v1.0.0 // indirect
-	github.com/mailru/easyjson v0.7.7 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/text v0.14.0 // indirect

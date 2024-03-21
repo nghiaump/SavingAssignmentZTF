@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/elastic/go-elasticsearch/v7"
@@ -24,6 +25,7 @@ const ESUserIndex = "user"
 type UserServiceHandler struct {
 	usersMap map[string]*pb.User
 	esClient *elasticsearch.Client
+	db       *sql.DB
 }
 
 func NewUserServiceHandler(client *elasticsearch.Client) *UserServiceHandler {
