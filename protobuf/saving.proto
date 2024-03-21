@@ -10,7 +10,7 @@ service SavingsService {
   rpc SearchAccountByID(AccID) returns (SavingAccount);
   rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
   rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
-  rpc SearchUserByNumberAccountRange(NumberAccountRange) returns (UserWithAccounts);
+  rpc SearchUserByNumberAccountRange(NumberAccountRange) returns (ListUserWithAccounts);
 }
 
 message SavingAccount {
@@ -111,6 +111,10 @@ message NumberAccountRange{
 message UserWithAccounts{
   string user_id = 1 [json_name = "user_id"];
   repeated string account_ids = 2 [json_name = "account_ids"];
+}
+
+message ListUserWithAccounts{
+  repeated UserWithAccounts user_group = 1 [json_name = "user_group"];
 }
 
 
