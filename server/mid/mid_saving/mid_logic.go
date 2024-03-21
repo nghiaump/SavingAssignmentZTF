@@ -141,13 +141,13 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 }
 
 func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.WithdrawalRequest) (*pb.WithdrawalResponse, error) {
-	log.Println("Calling User service for validating AccountInquiry()")
+	log.Printf("===========WITHDRAWAL=========\n")
+	log.Println("Calling Saving service for AccountInquiry()")
 	accReq := &pb.AccountInquiryRequest{
 		UserId:    req.UserId,
 		AccountId: req.AccountId,
 	}
 
-	log.Println("Calling Saving service for AccountInquiry()")
 	accRes, accErr := handler.AccountInquiry(ctx, accReq)
 	if accErr != nil {
 		log.Printf("Cannot inquire the account for withdrawal, error %v", accErr)
@@ -155,20 +155,14 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 	}
 
 	var withdrawalLimit int64
-	kycRes, err := handler.GetCurrentKYC(ctx, &pb.GetCurrentKYCRequest{
-		UserId: req.UserId,
-	})
-	if err != nil {
-		log.Printf("Cannot verify the KYC level from User Core: %v", err)
-		return nil, status.Error(codes.NotFound, "KYC level verify failed")
-	}
-	if kycRes.KycLevel >= 3 {
+	kyc := accRes.Kyc
+	if kyc >= 3 {
 		withdrawalLimit = WithdrawalLimitKYC3
 	} else {
 		withdrawalLimit = WithdrawalLimitKYC2
 	}
 
-	// Validated amount
+	// Validated amount by limit
 	if req.Amount > withdrawalLimit {
 		return &pb.WithdrawalResponse{
 			Success:         false,
@@ -177,6 +171,7 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 		}, status.Errorf(codes.Canceled, "withdrawal amount exceeded limit: %v", withdrawalLimit)
 	}
 
+	// Validate amount by balance
 	if accRes.Balance >= req.Amount {
 		updatedAcc, errUpdate := handler.savingServiceClient.UpdateBalance(ctx, req)
 
@@ -193,7 +188,7 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 		log.Printf("Debug accPT: %v\n", accPT)
 		totalWithdrawnAmount := int64(float64(req.Amount) * (accPT.CalculateRate(req.Date) + 1))
 
-		log.Println("Withdrawn successfully")
+		log.Println("Withdrawal successfully")
 		return &pb.WithdrawalResponse{
 			Success:         true,
 			Acc:             updatedAcc,

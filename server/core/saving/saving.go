@@ -116,12 +116,29 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 	}
 
 	docID := SearchDocIDByUniqueTextField("id", req.AccountId, handler.esClient)
+	newBalance := acc.Balance - req.Amount
+
+	// Rut het tai khoan
+	if newBalance == 0 {
+		deleteReq := esapi.DeleteRequest{
+			Index:      ESSavingIndex,
+			DocumentID: docID,
+		}
+
+		_, err := deleteReq.Do(context.Background(), handler.esClient)
+		if err != nil {
+			log.Fatalf("Error deleting account: %s", err)
+		}
+		log.Printf("Deleted Saving Account from ElasticSearch %v\n", docID)
+		return acc, status.New(codes.OK, "").Err()
+	}
 	updateData := map[string]interface{}{
 		"doc": map[string]interface{}{
-			"balance": acc.Balance - req.Amount, // Giá trị mới của trường balance
+			"balance": newBalance, // Giá trị mới của trường balance
 		},
 	}
 
+	// Nguoc lai, cap nhat so du
 	updateBody, err := json.Marshal(updateData)
 	if err != nil {
 		log.Fatalf("Error marshaling update data: %s", err)
@@ -140,7 +157,6 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 	defer res.Body.Close()
 	log.Printf("Updated Saving Account to ElasticSearch\n")
 	return acc, status.New(codes.OK, "").Err()
-
 }
 
 func (handler *SavingServiceHandler) SearchAccountByID(ctx context.Context, req *pb.AccID) (*pb.SavingAccount, error) {
