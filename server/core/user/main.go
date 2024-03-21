@@ -8,6 +8,7 @@ func main() {
 	esClient, _ := CreateESClient()
 	InitIndex(ESUserIndex, esClient)
 	db := CreateMySQLClient()
+	defer db.Close()
 	userServiceHandler := NewUserServiceHandler(esClient, db)
 	StartUserServer(userServiceHandler, UserPort)
 }

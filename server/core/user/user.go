@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
-	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -57,20 +56,28 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 		return &pb.RegisterUserResponse{Success: false, UserId: ""}, status.Error(codes.AlreadyExists, "")
 	}
 
-	out, _ := uuid.NewUUID()
-	log.Printf("Calling RegisterUser(): %v", out.String())
-	newUser := FillUserFromRegisterRequest(req, out.String())
+	log.Printf("RegisterUser(): %v", req)
+	newUser := FillUserFromRegisterRequest(req)
 
+	// ElasticSearch
 	doc := CreateDocument(newUser)
 	indexReq := CreateIndexRequest(ESUserIndex, doc)
-
+	log.Printf("RegisterUser() - Indexed new User to ElasticSearch\n")
 	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
 	if err2 != nil {
-		log.Printf("Error indexing document: %v\n", err2)
+		log.Printf("RegisterUser() - Error indexing document: %v\n", err2)
 	}
 	defer indexRes.Body.Close()
-	log.Printf("Indexed new User to ElasticSearch %v\n", indexRes)
-	//
+
+	// SQL
+	log.Printf("RegisterUser() - Write User to MySQL database")
+	errSQL := handler.SQLCreateUser(newUser)
+	if errSQL != nil {
+		log.Printf("RegisterUser() - Error writing to MySQL database: %v\n", errSQL)
+	} else {
+		log.Printf("RegisterUser() - Write new user to MySQL database successfully\n")
+	}
+
 	return &pb.RegisterUserResponse{Success: true, UserId: req.UserName}, status.New(codes.OK, "").Err()
 }
 
@@ -124,7 +131,7 @@ func (handler *UserServiceHandler) CheckExistingUser(ctx context.Context, IDCard
 	return false
 }
 
-func FillUserFromRegisterRequest(req *pb.RegisterUserRequest, id string) *pb.User {
+func FillUserFromRegisterRequest(req *pb.RegisterUserRequest) *pb.User {
 	registeredDate, _ := ConvertToISO8601("01012024")
 	dob, _ := ConvertToISO8601(req.Dob)
 	return &pb.User{

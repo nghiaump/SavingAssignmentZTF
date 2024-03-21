@@ -5,15 +5,18 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"log"
+	"time"
 )
 
 func CreateMySQLClient() *sql.DB {
 	// Kết nối vào MySQL
 	db, err := sql.Open("mysql", "root:@tcp(mysql:3306)/")
-	if err != nil {
-		panic(err.Error())
+	for err != nil {
+		time.Sleep(5 * time.Second)
+		log.Println("Try to reconnect to mysql database")
+		db, err = sql.Open("mysql", "root:@tcp(mysql:3306)/")
 	}
-	defer db.Close()
+	//defer db.Close() // khong dong ket noi
 	log.Println("Connected to sql container")
 
 	// Tạo database "dbo.user" nếu chưa tồn tại
@@ -35,12 +38,12 @@ func CreateMySQLClient() *sql.DB {
 			id VARCHAR(255) PRIMARY KEY,
 			id_card_number VARCHAR(255),
 			user_name VARCHAR(255),
-			dob VARCHAR(255),
+			dob DATETIME,
 			gender INT,
 			address VARCHAR(255),
 			phone_number VARCHAR(255),
 			kyc_level INT,
-			registered_date VARCHAR(255)
+			registered_date DATETIME
 		);
 	`)
 	if err != nil {
@@ -50,15 +53,18 @@ func CreateMySQLClient() *sql.DB {
 	return db
 }
 
-func (handler *UserServiceHandler) CreateUser(user *pb.User) error {
+func (handler *UserServiceHandler) SQLCreateUser(user *pb.User) error {
+	dob, _ := ConvertDateFormat(user.Dob)
+	registeredDate, _ := ConvertDateFormat(user.RegisteredDate)
+	// Convert dates before writing to MySQL database
 	_, err := handler.db.Exec(`
 		INSERT INTO user (id, id_card_number, user_name, dob, gender, address, phone_number, kyc_level, registered_date)
 		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-	`, user.Id, user.IdCardNumber, user.UserName, user.Dob, user.Gender, user.Address, user.PhoneNumber, user.KycLevel, user.RegisteredDate)
+	`, user.Id, user.IdCardNumber, user.UserName, dob, user.Gender, user.Address, user.PhoneNumber, user.KycLevel, registeredDate)
 	return err
 }
 
-func (handler *UserServiceHandler) GetUserById(id string) (*pb.User, error) {
+func (handler *UserServiceHandler) SQLGetUserById(id string) (*pb.User, error) {
 	var user pb.User
 	err := handler.db.QueryRow(`
 		SELECT id, id_card_number, user_name, dob, gender, address, phone_number, kyc_level, registered_date
@@ -71,7 +77,7 @@ func (handler *UserServiceHandler) GetUserById(id string) (*pb.User, error) {
 	return &user, nil
 }
 
-func (handler *UserServiceHandler) UpdateUser(user *pb.User) error {
+func (handler *UserServiceHandler) SQLUpdateUser(user *pb.User) error {
 	_, err := handler.db.Exec(`
 		UPDATE user
 		SET id_card_number=?, user_name=?, dob=?, gender=?, address=?, phone_number=?, kyc_level=?, registered_date=?
@@ -80,13 +86,13 @@ func (handler *UserServiceHandler) UpdateUser(user *pb.User) error {
 	return err
 }
 
-func (handler *UserServiceHandler) DeleteUserById(id string) error {
+func (handler *UserServiceHandler) SQLDeleteUserById(id string) error {
 	_, err := handler.db.Exec("DELETE FROM user WHERE id=?", id)
 	return err
 }
 
-func (handler *UserServiceHandler) QueryUsers(params map[string]interface{}) ([]*pb.User, error) {
-	query, args := handler.queryGenerator(params)
+func (handler *UserServiceHandler) SQLQueryUsers(params map[string]interface{}) ([]*pb.User, error) {
+	query, args := handler.SQLQueryGenerator(params)
 
 	rows, err := handler.db.Query(query, args...)
 	if err != nil {
@@ -107,7 +113,7 @@ func (handler *UserServiceHandler) QueryUsers(params map[string]interface{}) ([]
 	return users, nil
 }
 
-func (handler *UserServiceHandler) queryGenerator(params map[string]interface{}) (string, []interface{}) {
+func (handler *UserServiceHandler) SQLQueryGenerator(params map[string]interface{}) (string, []interface{}) {
 	query := "SELECT * FROM user WHERE 1=1"
 	var args []interface{}
 
@@ -142,4 +148,15 @@ func (handler *UserServiceHandler) queryGenerator(params map[string]interface{})
 	}
 
 	return query, args
+}
+
+func ConvertDateFormat(dateISO string) (string, error) {
+	// Chuyển đổi từ ISO8601 sang đối tượng time.Time
+	t, err := time.Parse(time.RFC3339, dateISO)
+	if err != nil {
+		return "", err
+	}
+
+	// Chuyển đổi đối tượng time.Time sang chuỗi định dạng "YYYY-MM-DD"
+	return t.Format("2006-01-02"), nil
 }
