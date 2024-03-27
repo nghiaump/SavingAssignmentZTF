@@ -8,6 +8,12 @@ import "saving.proto";
 import "google/api/annotations.proto";
 
 service MidSavingService {
+  rpc Login(LoginRequest) returns (JWTToken){
+    option (google.api.http) = {
+      post: "/api/login"
+      body: "*"
+    };
+  };
   rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse){
     option (google.api.http) = {
       post: "/api/users/register"
