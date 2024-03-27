@@ -27,7 +27,21 @@ func run() error {
 		return err
 	}
 	log.Println("api-gateway start 8081")
-	handler := cors.Default().Handler(mux)
+
+	// cors.Default() không đủ, đặc biệt pre-flight request
+	//handler := cors.Default().Handler(mux)
+
+	// tạo CORS handler với custom options
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"}, // Change this to the appropriate origin or origins
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Authorization", "Content-Type"},
+		AllowCredentials: true,
+	})
+
+	// Wrap the ServeMux with the CORS handler
+	handler := c.Handler(mux)
+
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	return http.ListenAndServe(":8081", handler)
 }
