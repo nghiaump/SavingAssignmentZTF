@@ -75,12 +75,12 @@ func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req
 	}
 
 	// Produce message to Kafka
-	errKafka := ProduceNewSavingAccountMessage(req)
-	if errKafka != nil {
-		log.Println("Error producing Kafka message")
-	} else {
-		log.Println("Produced new message to Kafka")
-	}
+	//errKafka := ProduceNewSavingAccountMessage(req)
+	//if errKafka != nil {
+	//	log.Println("Error producing Kafka message")
+	//} else {
+	//	log.Println("Produced new message to Kafka")
+	//}
 
 	return req, status.New(codes.OK, "").Err()
 }
