@@ -5,8 +5,9 @@ go 1.21
 //replace github.com/nghiaump/SavingAssignmentZTF/protobuf => /Users/lap14122/Documents/GoLearning/BankSystem/protobuf
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/golang/mock v1.6.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240321184706-8ff8e347d5b3
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327173304-765fbb521bac
 	google.golang.org/grpc v1.61.0
 )
 

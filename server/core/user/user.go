@@ -49,9 +49,20 @@ func StartUserServer(handler *UserServiceHandler, port string) {
 	}
 }
 
+func (handler *UserServiceHandler) Login(ctx context.Context, req *pb.LoginRequest) (*pb.JWTToken, error) {
+	// TODO
+	if req.Username == "admin" && req.Password == "admin" {
+		return &pb.JWTToken{
+			Token: "OK",
+		}, nil
+	}
+	return &pb.JWTToken{
+		Token: "INVALID",
+	}, nil
+}
+
 func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.RegisterUserRequest) (*pb.RegisterUserResponse, error) {
 	existed := handler.CheckExistingUser(ctx, req.IdCardNumber)
-
 	if existed {
 		return &pb.RegisterUserResponse{Success: false, UserId: ""}, status.Error(codes.AlreadyExists, "")
 	}

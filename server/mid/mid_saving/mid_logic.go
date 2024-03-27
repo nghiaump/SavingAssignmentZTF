@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -41,8 +42,34 @@ func StartMidServer(midHandler *MidServiceHandler, port string) {
 	}
 }
 
+func (handler *MidServiceHandler) Login(ctx context.Context, req *pb.LoginRequest) (*pb.JWTToken, error) {
+	log.Printf("Login() %v\n", req)
+	res, _ := handler.userServiceClient.Login(ctx, req)
+
+	log.Println(res)
+	if res.Token == "OK" {
+		tokenString, err := CreateTokenString(req)
+		if err == nil {
+			log.Println("Authenticated successfully!")
+			log.Printf("Return tokenstring OK: %v", tokenString)
+			return &pb.JWTToken{
+				Token: tokenString,
+			}, nil
+		}
+	}
+	return &pb.JWTToken{Token: ""}, nil
+}
+
 func (handler *MidServiceHandler) RegisterUser(ctx context.Context, req *pb.RegisterUserRequest) (*pb.RegisterUserResponse, error) {
-	log.Println("Calling user service for RegisterUser()")
+	log.Println("RegisterUser()")
+
+	tokenString := GetTokenFromContext(ctx)
+	_, err := ValidateJWTToken(tokenString)
+	if err != nil {
+		log.Println("Invalid JWT token")
+		return nil, errors.New("Invalid JWT token")
+	}
+
 	log.Printf("%v", req)
 	res, err := handler.userServiceClient.RegisterUser(ctx, req)
 
@@ -56,7 +83,7 @@ func (handler *MidServiceHandler) RegisterUser(ctx context.Context, req *pb.Regi
 }
 
 func (handler *MidServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
-	log.Println("Calling User service for CurrentKYC()")
+	log.Println("GetCurrentKYC()")
 	res, err := handler.userServiceClient.GetCurrentKYC(ctx, req)
 
 	if err != nil {
@@ -69,7 +96,7 @@ func (handler *MidServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Get
 }
 
 func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.OpenSavingsAccountRequest) (*pb.OpenSavingsAccountResponse, error) {
-	log.Println("Calling User service to get KYC level")
+	log.Println("OpenSavingAccount()")
 	user, err := handler.userServiceClient.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
 		IdCardNumber: req.IdCardNumber,
 	})
@@ -141,7 +168,7 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 }
 
 func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.WithdrawalRequest) (*pb.WithdrawalResponse, error) {
-	log.Printf("===========WITHDRAWAL=========\n")
+	log.Println("Withdrawal()")
 	log.Println("Calling Saving service for AccountInquiry()")
 	accReq := &pb.AccountInquiryRequest{
 		UserId:    req.UserId,
@@ -206,7 +233,7 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 }
 
 func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccount, error) {
-	log.Println("Calling Saving service for AccountInquiry()")
+	log.Println("AccountInquiry()")
 	resAcc, _ := handler.savingServiceClient.SearchAccountByID(ctx, &pb.AccID{
 		Id: req.AccountId,
 	})
@@ -223,7 +250,7 @@ func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.Ac
 // SEARCH ACCOUNT=====
 
 func (handler *MidServiceHandler) SearchAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
-	log.Printf("Calling Seach Accounts for userID: %v", req.UserId)
+	log.Printf("SearchAccountsByUserID(): %v", req.UserId)
 	savingAccList, _ := handler.savingServiceClient.SearchAccountsByUserID(ctx, req)
 
 	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))

@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240321184706-8ff8e347d5b3
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327173304-765fbb521bac
 	github.com/rs/cors v1.10.1
 	google.golang.org/grpc v1.62.1
 )
