@@ -1,18 +1,19 @@
-module SavingCore
+module MidSaving
 
 go 1.21
 
 //replace github.com/nghiaump/SavingAssignmentZTF/protobuf => /Users/lap14122/Documents/GoLearning/BankSystem/protobuf
 
 require (
+	github.com/confluentinc/confluent-kafka-go/v2 v2.3.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/golang/glog v1.2.0
 	github.com/golang/mock v1.6.0
 	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327185408-9da8cdd9c6c0
 	google.golang.org/grpc v1.61.0
 )
 
 require (
-	github.com/golang/glog v1.2.0 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	golang.org/x/net v0.20.0 // indirect

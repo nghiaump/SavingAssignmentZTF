@@ -44,7 +44,9 @@ func main() {
 	}
 	defer connSavingCore.Close()
 
-	midServiceHandler := CreateMidServiceHandler(pb.NewUserServiceClient(connUserCore), pb.NewSavingsServiceClient(connSavingCore))
+	kafkaProducer := NewKafkaProducer()
+
+	midServiceHandler := CreateMidServiceHandler(pb.NewUserServiceClient(connUserCore), pb.NewSavingsServiceClient(connSavingCore), kafkaProducer)
 
 	StartMidServer(midServiceHandler, MidPort)
 }

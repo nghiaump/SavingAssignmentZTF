@@ -1,18 +1,6 @@
 version: '3'
 
 services:
-#  saving-client:
-#    build:
-#      context: ./client
-#      dockerfile: Dockerfile
-#    image: docker-saving-client:1.0
-#    environment:
-#      - CONTAINER_MID_SAVING_HOST=mid-saving
-#    networks:
-#      - my_network
-#    stdin_open: true
-#    tty: true
-
   api-gateway:
     build:
       context: ./server/api-gateway
@@ -85,6 +73,19 @@ services:
     networks:
       - my_network
 
+#  saving-client console da duoc thay bang ReactJS frontend
+#  saving-client:
+#    build:
+#      context: ./client
+#      dockerfile: Dockerfile
+#    image: docker-saving-client:1.0
+#    environment:
+#      - CONTAINER_MID_SAVING_HOST=mid-saving
+#    networks:
+#      - my_network
+#    stdin_open: true
+#    tty: true
+
 #  zookeeper:
 #    image: confluentinc/cp-zookeeper:latest
 #    environment:
@@ -94,6 +95,8 @@ services:
 #    networks:
 #      - my_network
 #
+
+#  kafka da doi sang he thong khac, su dung Kafka Cloud
 #  kafka:
 #    image: confluentinc/cp-kafka
 #    container_name: kafka

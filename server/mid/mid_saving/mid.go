@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
@@ -18,12 +19,14 @@ const (
 type MidServiceHandler struct {
 	userServiceClient   pb.UserServiceClient
 	savingServiceClient pb.SavingsServiceClient
+	kafkaProducer       *kafka.Producer
 }
 
-func CreateMidServiceHandler(userServiceClient pb.UserServiceClient, savingServiceClient pb.SavingsServiceClient) *MidServiceHandler {
+func CreateMidServiceHandler(userServiceClient pb.UserServiceClient, savingServiceClient pb.SavingsServiceClient, producer *kafka.Producer) *MidServiceHandler {
 	midServiceHandler := MidServiceHandler{
 		userServiceClient:   userServiceClient,
 		savingServiceClient: savingServiceClient,
+		kafkaProducer:       producer,
 	}
 	return &midServiceHandler
 }
@@ -157,6 +160,11 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 	}
 
 	glog.Infof("OpenSavingAccount: success: \nUserID: %v, Account Detail: %v", req.UserId, accRes)
+
+	// Kafka
+	glog.Info("OpenSavingAccount: Producing Kafka message:")
+	handler.ProduceNewMessage(accRes)
+
 	return &pb.OpenSavingsAccountResponse{
 		Success:          true,
 		UserId:           accRes.UserId,
