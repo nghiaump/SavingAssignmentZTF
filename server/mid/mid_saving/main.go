@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"flag"
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	"log"
 	"os"
 )
 
@@ -16,27 +16,31 @@ const ContainerUserCoreEnv = "CONTAINER_USER_CORE_HOST"
 const ContainerSavingCoreEnv = "CONTAINER_SAVING_CORE_HOST"
 
 func main() {
+	os.Args = append(os.Args, "-logtostderr=true")
+	flag.Parse()
+	defer glog.Flush()
+
 	// Lấy giá trị của biến môi trường
 	addressUserCore := os.Getenv(ContainerUserCoreEnv)
 	if addressUserCore == "" {
-		fmt.Println("Biến môi trường CONTAINER_USER_CORE_HOST không được cung cấp.")
+		glog.Info("Biến môi trường CONTAINER_USER_CORE_HOST không được cung cấp.")
 		return
 	}
 	addressSavingCore := os.Getenv(ContainerSavingCoreEnv)
 	if addressSavingCore == "" {
-		fmt.Println("Biến môi trường CONTAINER_SAVING_CORE_HOST không được cung cấp.")
+		glog.Info("Biến môi trường CONTAINER_SAVING_CORE_HOST không được cung cấp.")
 		return
 	}
 
 	connUserCore, errUserCore := grpc.Dial(addressUserCore+UserPort, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if errUserCore != nil {
-		log.Fatalf("Cannot connect to User Core: %v", errUserCore)
+		glog.Fatalf("Cannot connect to User Core: %v", errUserCore)
 	}
 	defer connUserCore.Close()
 
 	connSavingCore, errSavingCore := grpc.Dial(addressSavingCore+SavingPort, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if errSavingCore != nil {
-		log.Fatalf("Cannot connect to User Core: %v", errSavingCore)
+		glog.Fatalf("Cannot connect to User Core: %v", errSavingCore)
 	}
 	defer connSavingCore.Close()
 

@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
-	"log"
 	"time"
 )
 
@@ -13,18 +13,18 @@ func CreateMySQLClient() *sql.DB {
 	db, err := sql.Open("mysql", "root:@tcp(mysql:3306)/")
 	for err != nil {
 		time.Sleep(5 * time.Second)
-		log.Println("Try to reconnect to mysql database")
+		glog.Info("Try to reconnect to mysql database")
 		db, err = sql.Open("mysql", "root:@tcp(mysql:3306)/")
 	}
 	//defer db.Close() // khong dong ket noi
-	log.Println("Connected to sql container")
+	glog.Info("Connected to sql container")
 
 	// Tạo database "dbo.user" nếu chưa tồn tại
 	_, err = db.Exec("CREATE DATABASE IF NOT EXISTS userdb")
 	if err != nil {
 		panic(err.Error())
 	}
-	log.Println("Database UserDB is ready!")
+	glog.Info("Database UserDB is ready!")
 
 	// Chọn database "userdb" để thực hiện các thao tác tiếp theo
 	_, err = db.Exec("USE userdb")
@@ -49,7 +49,7 @@ func CreateMySQLClient() *sql.DB {
 	if err != nil {
 		return nil
 	}
-	log.Println("Table 'user' has been created (if it didn't exist already).")
+	glog.Info("Table 'user' has been created (if it didn't exist already).")
 	return db
 }
 

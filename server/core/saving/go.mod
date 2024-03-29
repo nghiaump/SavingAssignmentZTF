@@ -14,10 +14,11 @@ require (
 	github.com/IBM/sarama v1.43.0
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
 	github.com/go-sql-driver/mysql v1.7.1
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327173304-765fbb521bac
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327185408-9da8cdd9c6c0
 )
 
 require (
+	github.com/golang/glog v1.2.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0 // indirect
 	google.golang.org/genproto v0.0.0-20240116215550-a9fa1716bcac // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240125205218-1f4bbc51befe // indirect

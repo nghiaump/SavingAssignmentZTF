@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
-	"log"
 )
 
 // SavingAccountPT includes Calculator, which uses StrategyPattern
@@ -29,11 +29,14 @@ func (acc *SavingAccountPT) ParseFrom(pbAcc *pb.SavingAccount) {
 
 func (acc *SavingAccountPT) GetCalculator(withDrawDate string) {
 	if LaterThan(withDrawDate, acc.DueDate) {
-		log.Println("OnTimeInterest")
+		glog.Info("OnTimeInterest")
 		acc.Calculator = &OnTimeInterestCalculator{}
-	} else {
-		log.Println("EarlyInterest")
+	} else if LaterThan(withDrawDate, acc.CreatedDate) {
+		glog.Info("EarlyInterest")
 		acc.Calculator = &EarlyInterestCalculator{}
+	} else {
+		// Invalid withdrawal date: Early than created date
+		acc.Calculator = nil
 	}
 }
 
@@ -57,6 +60,6 @@ func (earlyInterest *EarlyInterestCalculator) CalculateRate(acc *SavingAccountPT
 }
 
 func (onTimeInterest *OnTimeInterestCalculator) CalculateRate(acc *SavingAccountPT, withdrawnDate string) float64 {
-	log.Printf("rate: %v\n", float64(acc.TermInDays)/float64(360)*float64(acc.InterestRate))
+	glog.Infof("rate: %v\n", float64(acc.TermInDays)/float64(360)*float64(acc.InterestRate))
 	return float64(acc.TermInDays) / float64(360) * float64(acc.InterestRate)
 }

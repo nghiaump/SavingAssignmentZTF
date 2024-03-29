@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
-	"log"
 	"time"
 )
 
@@ -85,7 +85,7 @@ func CalculatePassedDays(createdDateStr string, withdrawnDateStr string) int {
 	date1, err1 := time.Parse(DateLayout, createdDateStr)
 	date2, err2 := time.Parse(DateLayout, withdrawnDateStr)
 	if err1 != nil || err2 != nil {
-		log.Printf("cannot parse Date")
+		glog.Info("cannot parse Date")
 		//return 0
 	}
 	return int(date2.Sub(date1).Hours() / 24)

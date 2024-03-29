@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc/metadata"
-	"log"
 	"strings"
 	"time"
 )
@@ -21,7 +21,6 @@ type Claims struct {
 
 func CreateTokenString(req *pb.LoginRequest) (string, error) {
 	// Tạo Claims chứa thông tin payload cho JWT
-	log.Printf("CreateTokenString() %v", req)
 	claims := Claims{
 		Username: req.Username,
 		StandardClaims: jwt.StandardClaims{
@@ -34,8 +33,17 @@ func CreateTokenString(req *pb.LoginRequest) (string, error) {
 
 	// Ký JWT bằng key bí mật và chuyển thành chuỗi
 	tokenString, err := token.SignedString([]byte(SecretKey))
-	log.Printf("Token string: %v", tokenString)
 	return tokenString, err
+}
+
+func CheckJWTFromContext(ctx context.Context) error {
+	tokenString := GetTokenFromContext(ctx)
+	_, err := ValidateJWTToken(tokenString)
+	if err != nil {
+		glog.Info("Invalid JWT token")
+		return errors.New("Invalid JWT token")
+	}
+	return nil
 }
 
 func GetTokenFromContext(ctx context.Context) string {

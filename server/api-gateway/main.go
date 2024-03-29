@@ -3,17 +3,23 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"github.com/rs/cors"
 	"google.golang.org/grpc"
-	"log"
 	"net/http"
+	"os"
 )
 
 const MidAddress = "mid-saving:50050"
 
 func run() error {
+	// Init glog
+	os.Args = append(os.Args, "-logtostderr=true")
+	flag.Parse()
+	defer glog.Flush()
+
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -26,7 +32,7 @@ func run() error {
 	if err != nil {
 		return err
 	}
-	log.Println("api-gateway start 8081")
+	glog.Info("api-gateway start 8081")
 
 	// cors.Default() không đủ, đặc biệt pre-flight request
 	//handler := cors.Default().Handler(mux)
@@ -49,6 +55,6 @@ func run() error {
 func main() {
 	flag.Parse()
 	if err := run(); err != nil {
-		log.Printf("Error: %v", err)
+		glog.Errorf("Error: %v", err)
 	}
 }

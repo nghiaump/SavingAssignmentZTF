@@ -3,8 +3,9 @@ module APIGateway
 go 1.21
 
 require (
+	github.com/golang/glog v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327173304-765fbb521bac
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327185408-9da8cdd9c6c0
 	github.com/rs/cors v1.10.1
 	google.golang.org/grpc v1.62.1
 )

@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
+	"github.com/golang/glog"
 	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
-	"log"
 	"os"
 	"reflect"
 	"strings"
@@ -39,7 +39,7 @@ func ConvertFromISO8601(isoDate string) (string, error) {
 func CreateESClient() (*elasticsearch.Client, bool) {
 	addressESContainer := os.Getenv(ContainerElasticSearchEnv)
 	if addressESContainer == "" {
-		log.Println("Biến môi trường CONTAINER_ES_HOST không được cung cấp.")
+		glog.Info("ContainerElasticSearchEnv not found.")
 		return nil, true
 	}
 
@@ -48,10 +48,10 @@ func CreateESClient() (*elasticsearch.Client, bool) {
 	})
 
 	if err != nil {
-		log.Println("Error creating Elasticsearch client:", err)
+		glog.Errorf("Failed to create Elasticsearch client: %v", err)
 		return nil, true
 	} else {
-		log.Println("Connect thanh cong toi ElasticSearch")
+		glog.Info("Connected to ElasticSearch")
 	}
 	return esClient, false
 }
@@ -59,13 +59,13 @@ func CreateESClient() (*elasticsearch.Client, bool) {
 func InitIndex(indexName string, esClient *elasticsearch.Client) {
 	exist, _ := esClient.Indices.Exists([]string{indexName})
 	if !(exist != nil && exist.StatusCode == 200) {
-		log.Println("Init index user in elasticsearch")
+		glog.Info("InitIndex")
 		_, err3 := esClient.Indices.Create(indexName)
 		if err3 != nil {
 			fmt.Println(err3)
 		}
 	} else {
-		log.Println(`Index "user" existing`)
+		glog.Info(`InitIndex: Index "user" existing`)
 	}
 }
 
@@ -99,7 +99,7 @@ func CreateIndexingRequest(req interface{}, indexName string) esapi.IndexRequest
 		// TODO
 	}
 
-	log.Printf("Test json marshal %v", string(jsonStr))
+	glog.Info("Test json marshal %v", string(jsonStr))
 	indexReq := esapi.IndexRequest{
 		Index:   indexName,
 		Body:    strings.NewReader(string(jsonStr)),
@@ -117,7 +117,7 @@ func SearchOneUserByUniqueTextField(fieldName string, value string, client *elas
 	}
 
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		glog.Fatalf("Error encoding query: %s", err)
 	}
 
 	// Perform the search request.
@@ -129,17 +129,17 @@ func SearchOneUserByUniqueTextField(fieldName string, value string, client *elas
 		client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		glog.Fatalf("Error getting response: %s", err)
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
 		var e map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			log.Fatalf("Error parsing the response body: %s", err)
+			glog.Fatalf("SearchOneUserByUniqueTextField: Error parsing the response body: %s", err)
 		} else {
 			// Print the response status and error information.
-			log.Fatalf("[%s] %s: %s",
+			glog.Fatalf("[%s] %s: %s",
 				res.Status(),
 				e["error"].(map[string]interface{})["type"],
 				e["error"].(map[string]interface{})["reason"],
@@ -148,15 +148,15 @@ func SearchOneUserByUniqueTextField(fieldName string, value string, client *elas
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		glog.Fatalf("SearchOneUserByUniqueTextField: Error parsing the response body: %s", err)
 	}
 	// Print the response status, number of results, and request duration.
-	log.Printf(
-		"[%s] %d hits; took: %dms",
-		res.Status(),
-		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
-		int(r["took"].(float64)),
-	)
+	// glog.Infof(
+	//	"[%s] %d hits; took: %dms",
+	//	res.Status(),
+	//	int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+	//	int(r["took"].(float64)),
+	//)
 
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
 		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
@@ -164,15 +164,15 @@ func SearchOneUserByUniqueTextField(fieldName string, value string, client *elas
 		// Convert the bytes data to JSON
 		jsonData, err := json.Marshal(doc)
 		if err != nil {
-			fmt.Println("Error marshaling JSON:", err)
+			glog.Errorf("SearchOneUserByUniqueTextField: Error marshaling JSON: %v", err)
 		}
 
 		// Convert JSON to struct
 		userObj := pb.User{}
 		if err := json.Unmarshal(jsonData, &userObj); err != nil {
-			log.Println("Error unmarshalling document in response:", err)
+			glog.Infof("SearchOneUserByUniqueTextField: Error unmarshalling document in response: %v", err)
 		} else {
-			log.Printf("Unmarshaled successfully: %v", userObj)
+			glog.Infof("SearchOneUserByUniqueTextField: Unmarshaled successfully: %v", userObj)
 			return &userObj
 		}
 	}
@@ -185,7 +185,7 @@ func SearchUsersByFiltersHelper(filterObj *pb.UserFilter, client *elasticsearch.
 	var r map[string]interface{}
 	var buf bytes.Buffer
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		glog.Fatalf("SearchUsersByFiltersHelper: Fail to encode query: %s", err)
 	}
 
 	// Perform the search request.
@@ -197,17 +197,17 @@ func SearchUsersByFiltersHelper(filterObj *pb.UserFilter, client *elasticsearch.
 		client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		glog.Fatalf("SearchUsersByFiltersHelper: Failed to get response: %s", err)
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
 		var e map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			log.Fatalf("Error parsing the response body: %s", err)
+			glog.Fatalf("SearchUsersByFiltersHelper: Failed to parse response body: %s", err)
 		} else {
 			// Print the response status and error information.
-			log.Fatalf("[%s] %s: %s",
+			glog.Fatalf("[%s] %s: %s",
 				res.Status(),
 				e["error"].(map[string]interface{})["type"],
 				e["error"].(map[string]interface{})["reason"],
@@ -216,39 +216,38 @@ func SearchUsersByFiltersHelper(filterObj *pb.UserFilter, client *elasticsearch.
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		glog.Fatalf("SearchUsersByFiltersHelper: Failed to parse response body: %s", err)
 	}
 	// Print the response status, number of results, and request duration.
-	log.Printf(
-		"[%s] %d hits; took: %dms",
-		res.Status(),
-		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
-		int(r["took"].(float64)),
-	)
+	//glog.Infof(
+	//	"[%s] %d hits; took: %dms",
+	//	res.Status(),
+	//	int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+	//	int(r["took"].(float64)),
+	//)
 
 	userList := []*pb.User{}
 
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
-		//log.Printf(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
+		//glog.Info(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
 		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
 
 		// Convert the bytes data to JSON
 		jsonData, err := json.Marshal(doc)
 		if err != nil {
-			fmt.Println("Error marshaling JSON:", err)
+			fmt.Println("SearchUsersByFiltersHelper: Error marshaling JSON:", err)
 		}
 
 		// Convert JSON to struct
 		userObj := pb.User{}
 		if err := json.Unmarshal(jsonData, &userObj); err != nil {
-			log.Println("Error unmarshalling document in response:", err)
+			glog.Infof("SearchUsersByFiltersHelper: Error unmarshalling document in response: %v", err)
 		} else {
-			log.Printf("after unmarshaled: %v", userObj)
+			glog.Infof("SearchUsersByFiltersHelper: after unmarshaled: %v", userObj)
 			userList = append(userList, &userObj)
 		}
 	}
 
-	log.Println(strings.Repeat("=", 37))
 	return userList
 }
 
@@ -287,7 +286,7 @@ func GenerateQuery(filterObj *pb.UserFilter) map[string]interface{} {
 			},
 		},
 	}
-	log.Printf("final query: %v\n", query)
+	glog.Info("GenerateQuery: query: %v\n", query)
 	return query
 }
 
@@ -415,7 +414,7 @@ func FilterByStringExact(fieldName string, searchText string) map[string]interfa
 		},
 	}
 
-	log.Printf("FilterByStringExact: %v\n", query)
+	glog.Infof("FilterByStringExact: query %v\n", query)
 
 	return query
 }

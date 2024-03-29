@@ -7,9 +7,9 @@ import (
 	"fmt"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
+	"github.com/golang/glog"
 	"github.com/google/uuid"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
-	"log"
 	"os"
 	"reflect"
 	"strings"
@@ -39,7 +39,7 @@ func ConvertFromISO8601(isoDate string) (string, error) {
 func CreateESClient() (*elasticsearch.Client, bool) {
 	addressESContainer := os.Getenv(ContainerElasticSearchEnv)
 	if addressESContainer == "" {
-		log.Println("Biến môi trường CONTAINER_ES_HOST không được cung cấp.")
+		glog.Info("ContainerElasticSearchEnv not found")
 		return nil, true
 	}
 
@@ -48,10 +48,10 @@ func CreateESClient() (*elasticsearch.Client, bool) {
 	})
 
 	if err != nil {
-		log.Println("Error creating Elasticsearch client:", err)
+		glog.Infof("Error creating Elasticsearch client:", err)
 		return nil, true
 	} else {
-		log.Println("Connected to ElasticSearch")
+		glog.Info("Connected to ElasticSearch")
 	}
 	return esClient, false
 }
@@ -59,13 +59,13 @@ func CreateESClient() (*elasticsearch.Client, bool) {
 func InitIndex(indexName string, esClient *elasticsearch.Client) {
 	exist, _ := esClient.Indices.Exists([]string{indexName})
 	if !(exist != nil && exist.StatusCode == 200) {
-		log.Println("Init index saving")
+		glog.Info("InitIndex")
 		_, err3 := esClient.Indices.Create(indexName)
 		if err3 != nil {
 			fmt.Println(err3)
 		}
 	} else {
-		log.Println(`Index "saving" existing`)
+		glog.Info(`InitIndes: "saving" existing`)
 	}
 }
 
@@ -99,7 +99,7 @@ func CreateIndexingRequest(req interface{}, indexName string) esapi.IndexRequest
 		// TODO
 	}
 
-	log.Printf("Test json marshal %v", string(jsonStr))
+	glog.Infof("Test json marshal %v", string(jsonStr))
 	indexReq := esapi.IndexRequest{
 		Index:   indexName,
 		Body:    strings.NewReader(string(jsonStr)),
@@ -135,7 +135,7 @@ func CreateUpdateRequest(req interface{}, indexName string) esapi.UpdateRequest 
 		// TODO
 	}
 
-	log.Printf("Test json marshal %v", string(jsonStr))
+	glog.Infof("Test json marshal %v", string(jsonStr))
 	updateReq := esapi.UpdateRequest{
 		Index:   indexName,
 		Body:    strings.NewReader(string(jsonStr)),
@@ -153,7 +153,7 @@ func SearchOneAccountByUniqueTextField(fieldName string, value string, client *e
 	}
 
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		glog.Fatalf("Error encoding query: %s", err)
 	}
 
 	// Perform the search request.
@@ -165,17 +165,17 @@ func SearchOneAccountByUniqueTextField(fieldName string, value string, client *e
 		client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		glog.Fatalf("Error getting response: %s", err)
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
 		var e map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			log.Fatalf("Error parsing the response body: %s", err)
+			glog.Fatalf("Error parsing the response body: %s", err)
 		} else {
 			// Print the response status and error information.
-			log.Fatalf("[%s] %s: %s",
+			glog.Fatalf("[%s] %s: %s",
 				res.Status(),
 				e["error"].(map[string]interface{})["type"],
 				e["error"].(map[string]interface{})["reason"],
@@ -184,15 +184,15 @@ func SearchOneAccountByUniqueTextField(fieldName string, value string, client *e
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		glog.Fatalf("Error parsing the response body: %s", err)
 	}
-	// Print the response status, number of results, and request duration.
-	log.Printf(
-		"[%s] %d hits; took: %dms",
-		res.Status(),
-		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
-		int(r["took"].(float64)),
-	)
+	//// Print the response status, number of results, and request duration.
+	//glog.Infof(
+	//	"[%s] %d hits; took: %dms",
+	//	res.Status(),
+	//	int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+	//	int(r["took"].(float64)),
+	//)
 
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
 		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
@@ -206,9 +206,9 @@ func SearchOneAccountByUniqueTextField(fieldName string, value string, client *e
 		// Convert JSON to struct
 		accObj := pb.SavingAccount{}
 		if err := json.Unmarshal(jsonData, &accObj); err != nil {
-			log.Println("Error unmarshalling document in response:", err)
+			glog.Infof("Error unmarshalling document in response:", err)
 		} else {
-			log.Printf("Unmarshaled successfully: %v", accObj)
+			glog.Infof("Unmarshaled successfully: %v", accObj)
 			return &accObj
 		}
 	}
@@ -224,7 +224,7 @@ func SearchDocIDByUniqueTextField(fieldName string, value string, client *elasti
 	}
 
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		glog.Fatalf("Error encoding query: %s", err)
 	}
 
 	// Perform the search request.
@@ -236,17 +236,17 @@ func SearchDocIDByUniqueTextField(fieldName string, value string, client *elasti
 		client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		glog.Fatalf("Error getting response: %s", err)
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
 		var e map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			log.Fatalf("Error parsing the response body: %s", err)
+			glog.Fatalf("Error parsing the response body: %s", err)
 		} else {
 			// Print the response status and error information.
-			log.Fatalf("[%s] %s: %s",
+			glog.Fatalf("[%s] %s: %s",
 				res.Status(),
 				e["error"].(map[string]interface{})["type"],
 				e["error"].(map[string]interface{})["reason"],
@@ -255,15 +255,15 @@ func SearchDocIDByUniqueTextField(fieldName string, value string, client *elasti
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		glog.Fatalf("Error parsing the response body: %s", err)
 	}
 	// Print the response status, number of results, and request duration.
-	log.Printf(
-		"[%s] %d hits; took: %dms",
-		res.Status(),
-		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
-		int(r["took"].(float64)),
-	)
+	//glog.Infof(
+	//	"[%s] %d hits; took: %dms",
+	//	res.Status(),
+	//	int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+	//	int(r["took"].(float64)),
+	//)
 
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
 		docID := hit.(map[string]interface{})["_id"].(string)
@@ -282,10 +282,10 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 		"query": FilterByStringExact("user_id", userID),
 	}
 
-	log.Printf("query: %v", query)
+	glog.Infof("GetAllAccountsByUserIDHelper: query: %v", query)
 
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		glog.Fatalf("Error encoding query: %s", err)
 	}
 
 	// Perform the search request.
@@ -297,17 +297,17 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 		client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		glog.Fatalf("Error getting response: %s", err)
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
 		var e map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			log.Fatalf("Error parsing the response body: %s", err)
+			glog.Fatalf("Error parsing the response body: %s", err)
 		} else {
 			// Print the response status and error information.
-			log.Fatalf("[%s] %s: %s",
+			glog.Fatalf("[%s] %s: %s",
 				res.Status(),
 				e["error"].(map[string]interface{})["type"],
 				e["error"].(map[string]interface{})["reason"],
@@ -316,20 +316,20 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		glog.Fatalf("GetAllAccountsByUserIDHelper: Error parsing the response body: %s", err)
 	}
 	// Print the response status, number of results, and request duration.
-	log.Printf(
-		"[%s] %d hits; took: %dms",
-		res.Status(),
-		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
-		int(r["took"].(float64)),
-	)
+	//glog.Infof(
+	//	"[%s] %d hits; took: %dms",
+	//	res.Status(),
+	//	int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+	//	int(r["took"].(float64)),
+	//)
 
 	accList := []*pb.SavingAccount{}
 
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
-		//log.Printf(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
+		//glog.Info(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
 		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
 
 		// Convert the bytes data to JSON
@@ -341,13 +341,13 @@ func GetAllAccountsByUserIDHelper(userID string, client *elasticsearch.Client) [
 		// Convert JSON to struct
 		accStruct := pb.SavingAccount{}
 		if err := json.Unmarshal(jsonData, &accStruct); err != nil {
-			log.Println("Error unmarshalling document in response:", err)
+			glog.Infof("GetAllAccountsByUserIDHelper: Error unmarshalling document in response:", err)
 		} else {
 			accList = append(accList, &accStruct)
 		}
 	}
 
-	log.Println(strings.Repeat("=", 37))
+	//glog.Infof(strings.Repeat("=", 37))
 	return accList
 }
 
@@ -356,7 +356,7 @@ func SearchAccountsByFiltersHelper(filterObj *pb.Filter, client *elasticsearch.C
 	var r map[string]interface{}
 	var buf bytes.Buffer
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		glog.Errorf("SearchAccountsByFiltersHelper: Error encoding query: %s", err)
 	}
 
 	// Perform the search request.
@@ -368,17 +368,17 @@ func SearchAccountsByFiltersHelper(filterObj *pb.Filter, client *elasticsearch.C
 		client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		glog.Fatalf("Error getting response: %s", err)
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
 		var e map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			log.Fatalf("Error parsing the response body: %s", err)
+			glog.Fatalf("Error parsing the response body: %s", err)
 		} else {
 			// Print the response status and error information.
-			log.Fatalf("[%s] %s: %s",
+			glog.Fatalf("[%s] %s: %s",
 				res.Status(),
 				e["error"].(map[string]interface{})["type"],
 				e["error"].(map[string]interface{})["reason"],
@@ -387,10 +387,10 @@ func SearchAccountsByFiltersHelper(filterObj *pb.Filter, client *elasticsearch.C
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		glog.Fatalf("Error parsing the response body: %s", err)
 	}
 	// Print the response status, number of results, and request duration.
-	log.Printf(
+	glog.Info(
 		"[%s] %d hits; took: %dms",
 		res.Status(),
 		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
@@ -400,7 +400,7 @@ func SearchAccountsByFiltersHelper(filterObj *pb.Filter, client *elasticsearch.C
 	accList := []*pb.SavingAccount{}
 
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
-		//log.Printf(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
+		//glog.Info(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
 		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
 
 		// Convert the bytes data to JSON
@@ -412,13 +412,13 @@ func SearchAccountsByFiltersHelper(filterObj *pb.Filter, client *elasticsearch.C
 		// Convert JSON to struct
 		accStruct := pb.SavingAccount{}
 		if err := json.Unmarshal(jsonData, &accStruct); err != nil {
-			log.Println("Error unmarshalling document in response:", err)
+			glog.Info("Error unmarshalling document in response:", err)
 		} else {
 			accList = append(accList, &accStruct)
 		}
 	}
 
-	log.Println(strings.Repeat("=", 37))
+	//glog.Infof(strings.Repeat("=", 37))
 	return accList
 }
 
@@ -427,7 +427,7 @@ func SearchAccountsByFiltersWithPaging(filterObj *pb.Filter, client *elasticsear
 	var r map[string]interface{}
 	var buf bytes.Buffer
 	if err := json.NewEncoder(&buf).Encode(query); err != nil {
-		log.Fatalf("Error encoding query: %s", err)
+		glog.Fatalf("Error encoding query: %s", err)
 	}
 
 	// Perform the search request.
@@ -439,17 +439,17 @@ func SearchAccountsByFiltersWithPaging(filterObj *pb.Filter, client *elasticsear
 		client.Search.WithPretty(),
 	)
 	if err != nil {
-		log.Fatalf("Error getting response: %s", err)
+		glog.Fatalf("SearchAccountsByFiltersWithPaging: Error getting response: %s", err)
 	}
 	defer res.Body.Close()
 
 	if res.IsError() {
 		var e map[string]interface{}
 		if err := json.NewDecoder(res.Body).Decode(&e); err != nil {
-			log.Fatalf("Error parsing the response body: %s", err)
+			glog.Fatalf("SearchAccountsByFiltersWithPaging: Error parsing the response body: %s", err)
 		} else {
 			// Print the response status and error information.
-			log.Fatalf("[%s] %s: %s",
+			glog.Errorf("[%s] %s: %s",
 				res.Status(),
 				e["error"].(map[string]interface{})["type"],
 				e["error"].(map[string]interface{})["reason"],
@@ -458,32 +458,32 @@ func SearchAccountsByFiltersWithPaging(filterObj *pb.Filter, client *elasticsear
 	}
 
 	if err := json.NewDecoder(res.Body).Decode(&r); err != nil {
-		log.Fatalf("Error parsing the response body: %s", err)
+		glog.Fatalf("SearchAccountsByFiltersWithPaging: Error parsing the response body: %s", err)
 	}
 	// Print the response status, number of results, and request duration.
-	log.Printf(
-		"[%s] %d hits; took: %dms",
-		res.Status(),
-		int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
-		int(r["took"].(float64)),
-	)
+	//glog.Infof(
+	//	"[%s] %d hits; took: %dms",
+	//	res.Status(),
+	//	int(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64)),
+	//	int(r["took"].(float64)),
+	//)
 
 	accList := []*pb.SavingAccount{}
 
 	for _, hit := range r["hits"].(map[string]interface{})["hits"].([]interface{}) {
-		//log.Printf(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
+		//glog.Info(" * ID=%s:\n", hit.(map[string]interface{})["_id"])
 		doc := hit.(map[string]interface{})["_source"].(map[string]interface{})
 
 		// Convert the bytes data to JSON
 		jsonData, err := json.Marshal(doc)
 		if err != nil {
-			fmt.Println("Error marshaling JSON:", err)
+			glog.Infof("SearchAccountsByFiltersWithPaging: Error marshaling JSON:", err)
 		}
 
 		// Convert JSON to struct
 		accStruct := pb.SavingAccount{}
 		if err := json.Unmarshal(jsonData, &accStruct); err != nil {
-			log.Println("Error unmarshalling document in response:", err)
+			glog.Infof("SearchAccountsByFiltersWithPaging: Error unmarshalling document in response:", err)
 		} else {
 			accList = append(accList, &accStruct)
 		}
@@ -492,8 +492,8 @@ func SearchAccountsByFiltersWithPaging(filterObj *pb.Filter, client *elasticsear
 	totalHits := int64(r["hits"].(map[string]interface{})["total"].(map[string]interface{})["value"].(float64))
 	aggregations := r["aggregations"].(map[string]interface{})
 	totalBalance := int64(aggregations["total_balance"].(map[string]interface{})["value"].(float64))
-	log.Printf("Full aggregations: %v\n", aggregations)
-	log.Printf("Total balance of matched accounts %v:", totalBalance)
+	glog.Infof("SearchAccountsByFiltersWithPaging: Full aggregations: %v\n", aggregations)
+	glog.Infof("SearchAccountsByFiltersWithPaging: Total balance of matched accounts %v:", totalBalance)
 
 	return accList, totalHits, totalBalance
 }

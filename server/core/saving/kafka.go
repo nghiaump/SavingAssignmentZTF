@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"github.com/IBM/sarama"
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
-	"log"
 )
 
 type Producer struct {
@@ -39,16 +39,16 @@ func (p *Producer) Produce(topic string, value []byte) error {
 }
 
 func ProduceNewSavingAccountMessage(account *pb.SavingAccount) error {
-	log.Println("Produce message to Kafka")
+	glog.Info("ProduceNewSavingAccountMessage")
 	producer, err := NewProducer()
 	if err != nil {
-		log.Printf("Failed to create Kafka producer: %s", err)
+		glog.Infof("ProduceNewSavingAccountMessage: Failed to create Kafka producer: %s", err)
 		return err
 	}
 	defer producer.Close()
 	accJSON, _ := json.Marshal(account)
 	if err := producer.Produce(KafkaTopicSavingAccount, accJSON); err != nil {
-		log.Printf("Failed to produce message to Kafka: %s", err)
+		glog.Infof("ProduceNewSavingAccountMessage: Failed to produce message to Kafka: %s", err)
 		return err
 	}
 	return nil

@@ -2,12 +2,11 @@ package main
 
 import (
 	"context"
-	"errors"
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"log"
 	"net"
 )
 
@@ -32,88 +31,93 @@ func CreateMidServiceHandler(userServiceClient pb.UserServiceClient, savingServi
 func StartMidServer(midHandler *MidServiceHandler, port string) {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		glog.Fatalf("StartMidServer: failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
 	pb.RegisterMidSavingServiceServer(s, midHandler)
-	log.Printf("Starting gRPC mid_saving service listener on port " + port)
+	glog.Info("StartMidServer: listening on port " + port)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		glog.Fatalf("StartMidServer: failed to serve: %v", err)
 	}
 }
 
 func (handler *MidServiceHandler) Login(ctx context.Context, req *pb.LoginRequest) (*pb.JWTToken, error) {
-	log.Printf("Login() %v\n", req)
+	glog.Infof("Login: username:%v", req.Username)
 	res, _ := handler.userServiceClient.Login(ctx, req)
 
-	log.Println(res)
 	if res.Token == "OK" {
 		tokenString, err := CreateTokenString(req)
 		if err == nil {
-			log.Println("Authenticated successfully!")
-			log.Printf("Return tokenstring OK: %v", tokenString)
+			glog.Infof("Login: Authenticated successfully, tokenstring: %v", tokenString)
 			return &pb.JWTToken{
 				Token: tokenString,
 			}, nil
 		}
 	}
+
+	glog.Info("Login: Failed to Authenticate!")
 	return &pb.JWTToken{Token: ""}, nil
 }
 
 func (handler *MidServiceHandler) RegisterUser(ctx context.Context, req *pb.RegisterUserRequest) (*pb.RegisterUserResponse, error) {
-	log.Println("RegisterUser()")
+	glog.Info("RegisterUser")
 
-	tokenString := GetTokenFromContext(ctx)
-	_, err := ValidateJWTToken(tokenString)
-	if err != nil {
-		log.Println("Invalid JWT token")
-		return nil, errors.New("Invalid JWT token")
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
 	}
 
-	log.Printf("%v", req)
+	glog.Infof("%v", req)
 	res, err := handler.userServiceClient.RegisterUser(ctx, req)
 
 	if err != nil {
-		log.Printf("Could not register new user: %v", err)
+		glog.Infof("RegisterUser: Could not register new user: %v", err)
 		return res, err
 	}
 
-	log.Printf("User ID: %v registered successfully", res.UserId)
+	glog.Infof("RegisterUser:%v registered successfully", res.UserId)
 	return res, status.New(codes.OK, "").Err()
 }
 
 func (handler *MidServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
-	log.Println("GetCurrentKYC()")
+	glog.Info("GetCurrentKYC:")
 	res, err := handler.userServiceClient.GetCurrentKYC(ctx, req)
 
 	if err != nil {
-		log.Printf("Could not Get KYC level: %v", err)
+		glog.Infof("GetCurrentKYC: Get KYC level: %v", err)
 		return nil, err
 	}
 
-	log.Printf("User ID: %v, KYC level: %v", res.UserId, res.KycLevel)
+	glog.Infof("GetCurrentKYC: User ID: %v, KYC level: %v", res.UserId, res.KycLevel)
 	return res, status.New(codes.OK, "").Err()
 }
 
 func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.OpenSavingsAccountRequest) (*pb.OpenSavingsAccountResponse, error) {
-	log.Println("OpenSavingAccount()")
+	glog.Info("OpenSavingAccount:")
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	user, err := handler.userServiceClient.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
 		IdCardNumber: req.IdCardNumber,
 	})
 
 	if user == nil || err != nil {
-		log.Printf("User not found: %v", err)
+		glog.Infof("OpenSavingAccount: User not found: %v", err)
 		return &pb.OpenSavingsAccountResponse{
 			Success: false,
-		}, status.New(codes.NotFound, "User not found").Err()
+		}, status.New(codes.NotFound, "OpenSavingAccount: User not found").Err()
 	}
 
 	if user.KycLevel <= 1 {
-		log.Printf("No permission for KYC level %v", user.KycLevel)
+		glog.Infof("OpenSavingAccount: No permission for KYC level %v", user.KycLevel)
 		return &pb.OpenSavingsAccountResponse{
 			Success: false,
 			UserId:  req.UserId,
-		}, status.Error(codes.PermissionDenied, "KYC level < 2")
+		}, status.Error(codes.PermissionDenied, "OpenSavingAccount: KYC level < 2")
 	}
 
 	dueDate := CalculateDueDate(req.TermType, int(req.Term), req.CreatedDate)
@@ -145,15 +149,14 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 		savingAcc.TermInDays = savingAcc.Term * 360
 	}
 
-	log.Println("Calling Saving service for OpenSavingAccount()")
 	accRes, errOpenSaving := handler.savingServiceClient.OpenSavingsAccount(ctx, savingAcc)
 
 	if errOpenSaving != nil {
-		log.Println("Cannot create new SavingAccount")
+		glog.Info("OpenSavingAccount: failed to call core saving")
 		return &pb.OpenSavingsAccountResponse{Success: false}, status.Error(codes.Internal, "Failed to create new SavingAccount")
 	}
 
-	log.Printf("Created new SavingAccount successfully\nUserID: %v, Account Detail: %v", req.UserId, accRes)
+	glog.Infof("OpenSavingAccount: success: \nUserID: %v, Account Detail: %v", req.UserId, accRes)
 	return &pb.OpenSavingsAccountResponse{
 		Success:          true,
 		UserId:           accRes.UserId,
@@ -168,8 +171,14 @@ func (handler *MidServiceHandler) OpenSavingsAccount(ctx context.Context, req *p
 }
 
 func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.WithdrawalRequest) (*pb.WithdrawalResponse, error) {
-	log.Println("Withdrawal()")
-	log.Println("Calling Saving service for AccountInquiry()")
+	glog.Info("Withdrawal")
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	accReq := &pb.AccountInquiryRequest{
 		UserId:    req.UserId,
 		AccountId: req.AccountId,
@@ -177,8 +186,8 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 
 	accRes, accErr := handler.AccountInquiry(ctx, accReq)
 	if accErr != nil {
-		log.Printf("Cannot inquire the account for withdrawal, error %v", accErr)
-		return nil, status.Error(codes.Internal, "Cannot inquire the account")
+		glog.Infof("Withdrawal: Cannot inquire the account %v", accErr)
+		return nil, status.Error(codes.Internal, "Withdrawal: Cannot inquire the account")
 	}
 
 	var withdrawalLimit int64
@@ -195,27 +204,31 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 			Success:         false,
 			Acc:             nil,
 			WithdrawnAmount: 0,
-		}, status.Errorf(codes.Canceled, "withdrawal amount exceeded limit: %v", withdrawalLimit)
+		}, status.Errorf(codes.Canceled, "Withdrawal: amount exceeded limit: %v", withdrawalLimit)
 	}
 
 	// Validate amount by balance
 	if accRes.Balance >= req.Amount {
-		updatedAcc, errUpdate := handler.savingServiceClient.UpdateBalance(ctx, req)
-
-		if errUpdate != nil {
-			log.Printf("error occurs when update balance in Saving service: %v", errUpdate)
-			return nil, status.Error(codes.Internal, "Failed to update new balance")
-		}
-
 		// Use strategy for calculate the interest
 		accPT := &SavingAccountPT{}
 		accPT.ParseFrom(accRes)
 		accPT.GetCalculator(req.Date) // Using Strategy Pattern: Early or OnTime
 
-		log.Printf("Debug accPT: %v\n", accPT)
+		// Check valid withdrawal date
+		if accPT.Calculator == nil {
+			glog.Info("Withdrawal: invalid date")
+			return nil, status.Error(codes.PermissionDenied, "Withdrawal: invalid date")
+		}
 		totalWithdrawnAmount := int64(float64(req.Amount) * (accPT.CalculateRate(req.Date) + 1))
 
-		log.Println("Withdrawal successfully")
+		// Update to core service
+		updatedAcc, errUpdate := handler.savingServiceClient.UpdateBalance(ctx, req)
+		if errUpdate != nil {
+			glog.Infof("Withdrawal: failed to update balance in core saving: %v", errUpdate)
+			return nil, status.Error(codes.Internal, "Withdrawal: failed to update balance in core saving")
+		}
+
+		glog.Info("Withdrawal: success")
 		return &pb.WithdrawalResponse{
 			Success:         true,
 			Acc:             updatedAcc,
@@ -223,17 +236,24 @@ func (handler *MidServiceHandler) Withdrawal(ctx context.Context, req *pb.Withdr
 		}, status.New(codes.OK, "").Err()
 
 	} else {
-		// No enough money
+		// No money enough
 		return &pb.WithdrawalResponse{
 			Success:         false,
 			Acc:             accRes,
 			WithdrawnAmount: 0,
-		}, status.Errorf(codes.Aborted, "Not enough balance.\nRemaining balance: %v", accRes.Balance)
+		}, status.Errorf(codes.Aborted, "Withdrawal: Not enough balance. Remain balance: %v", accRes.Balance)
 	}
 }
 
 func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccount, error) {
-	log.Println("AccountInquiry()")
+	glog.Info("AccountInquiry")
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	resAcc, _ := handler.savingServiceClient.SearchAccountByID(ctx, &pb.AccID{
 		Id: req.AccountId,
 	})
@@ -250,42 +270,60 @@ func (handler *MidServiceHandler) AccountInquiry(ctx context.Context, req *pb.Ac
 // SEARCH ACCOUNT=====
 
 func (handler *MidServiceHandler) SearchAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
-	log.Printf("SearchAccountsByUserID(): %v", req.UserId)
-	savingAccList, _ := handler.savingServiceClient.SearchAccountsByUserID(ctx, req)
+	glog.Infof("SearchAccountsByUserID: %v", req.UserId)
 
-	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
+	savingAccList, _ := handler.savingServiceClient.SearchAccountsByUserID(ctx, req)
+	glog.Infof("SearchAccountsByUserID: Result received from core_saving: %v\n", len(savingAccList.AccList))
 	for _, acc := range savingAccList.AccList {
-		log.Println(acc.Id)
+		glog.Info(acc.Id)
 	}
 	return savingAccList, nil
 }
 
 func (handler *MidServiceHandler) SearchAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
-	log.Printf("Calling SearchAccountsByFilters with request %v", req)
+	glog.Infof("SearchAccountsByFilter: received request %v", req)
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
 
 	// Validate the filter request
 	valid := ValidateFilterRequest(req)
 	if !valid {
-		log.Println("Invalid filters")
-		return nil, status.Error(codes.InvalidArgument, "")
+		glog.Info("SearchAccountsByFilter: Invalid filters")
+		return nil, status.Error(codes.InvalidArgument, "SearchAccountsByFilter: Invalid filters")
 	}
 
 	savingAccList, _ := handler.savingServiceClient.SearchAccountsByFilter(ctx, req)
 
-	log.Printf("Result received from core_saving: %v\n", len(savingAccList.AccList))
+	glog.Infof("SearchAccountsByFilter: Result received from core_saving: %v\n", len(savingAccList.AccList))
 	for _, acc := range savingAccList.AccList {
-		log.Println(acc.Id)
+		glog.Info(acc.Id)
 	}
 	return savingAccList, nil
 }
 
 func (handler *MidServiceHandler) SearchAccountsByIDCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.SavingAccountList, error) {
-	log.Printf("Calling SearchAccountByIDCardNumber %v", req.IdCardNumber)
+	glog.Infof("SearchAccountByIDCardNumber: %v", req.IdCardNumber)
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	user, _ := handler.SearchUserByIdCardNumber(ctx, req)
 	if user == nil {
 		return nil, nil
 	}
-
 	accList, _ := handler.SearchAccountsByUserID(ctx, &pb.AccountInquiryRequest{
 		UserId:    user.Id,
 		AccountId: "",
@@ -295,7 +333,14 @@ func (handler *MidServiceHandler) SearchAccountsByIDCardNumber(ctx context.Conte
 }
 
 func (handler *MidServiceHandler) SearchAccountByID(ctx context.Context, req *pb.AccID) (*pb.SavingAccount, error) {
-	log.Printf("Search Account by accountID: %v", req.Id)
+	glog.Infof("SearchAccountByID: %v", req.Id)
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	resAcc, err := handler.savingServiceClient.SearchAccountByID(ctx, req)
 	return resAcc, err
 }
@@ -303,13 +348,27 @@ func (handler *MidServiceHandler) SearchAccountByID(ctx context.Context, req *pb
 // SEARCH USER ========
 
 func (handler *MidServiceHandler) SearchUserByNumberAccountRange(ctx context.Context, req *pb.NumberAccountRange) (*pb.ListUserWithAccounts, error) {
-	log.Printf("SearchUserByNumberAccountRange()")
+	glog.Info("SearchUserByNumberAccountRange")
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	resList, err := handler.savingServiceClient.SearchUserByNumberAccountRange(ctx, req)
 	return resList, err
 }
 
 func (handler *MidServiceHandler) SearchUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
-	log.Printf("Search User by userID: %v", req.Id)
+	glog.Infof("SearchUserByID: %v", req.Id)
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	resUser, err := handler.userServiceClient.SearchUserByID(ctx, req)
 	return resUser, err
 }
@@ -320,6 +379,12 @@ func (handler *MidServiceHandler) SearchUserByIdCardNumber(ctx context.Context, 
 }
 
 func (handler *MidServiceHandler) SearchUserByAccountID(ctx context.Context, req *pb.AccountID) (*pb.User, error) {
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	acc, err := handler.savingServiceClient.SearchAccountByID(ctx, &pb.AccID{
 		Id: req.AccountID,
 	})
@@ -339,6 +404,12 @@ func (handler *MidServiceHandler) SearchUserByAccountID(ctx context.Context, req
 }
 
 func (handler *MidServiceHandler) SearchUsersByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	users, _ := handler.userServiceClient.SearchUserByFilter(ctx, req)
 	return users, nil
 }

@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"log"
+	"github.com/golang/glog"
 	"strings"
 	"time"
 )
@@ -18,17 +18,17 @@ func CreateMySQLClient() *sql.DB {
 	db, err := sql.Open("mysql", "root:@tcp(mysql:3306)/")
 	for err != nil {
 		time.Sleep(5 * time.Second)
-		log.Println("Try to reconnect to mysql database")
+		glog.Info("Try to reconnect to mysql database")
 		db, err = sql.Open("mysql", "root:@tcp(mysql:3306)/")
 	}
 	//defer db.Close() -> Phai xoa, khong duoc dong ket noi
-	log.Println("Connected to sql container")
+	glog.Info("Connected to sql container")
 
 	_, err = db.Exec("CREATE DATABASE IF NOT EXISTS account_db")
 	if err != nil {
 		panic(err.Error())
 	}
-	log.Println("Database account_db is ready!")
+	glog.Info("Database account_db is ready!")
 
 	_, err = db.Exec("USE account_db")
 	if err != nil {
@@ -43,10 +43,10 @@ func CreateMySQLClient() *sql.DB {
 	`)
 
 	if err != nil {
-		log.Println("Table 'account_user' cannot be created.")
+		glog.Info("Table 'account_user' cannot be created.")
 		return nil
 	}
-	log.Println("Table 'account_user' has been created (if it didn't exist already).")
+	glog.Info("Table 'account_user' has been created (if it didn't exist already).")
 	return db
 }
 
@@ -56,7 +56,7 @@ func (handler *SavingServiceHandler) SQLCreateAccountUser(accountUser *AccountUs
 		VALUES (?, ?)
 	`, accountUser.accountID, accountUser.userID)
 	if err != nil {
-		log.Println(err)
+		glog.Info(err)
 	}
 	return err
 }
@@ -89,7 +89,7 @@ func (handler *SavingServiceHandler) SQLDeleteAccountUserByAccountId(accountID s
 }
 
 func (handler *SavingServiceHandler) GetUserHavingAccountNumber(minNum int, maxNum int) (map[string][]string, error) {
-	log.Printf("min-num-acc: %v, max-num-acc: %v", minNum, maxNum)
+	glog.Info("min-num-acc: %v, max-num-acc: %v", minNum, maxNum)
 	userAccounts := make(map[string][]string)
 
 	query := fmt.Sprintf(`

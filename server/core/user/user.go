@@ -7,11 +7,11 @@ import (
 	"fmt"
 	"github.com/elastic/go-elasticsearch/v7"
 	"github.com/elastic/go-elasticsearch/v7/esapi"
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"log"
 	"math/rand"
 	"net"
 	"reflect"
@@ -37,21 +37,21 @@ func NewUserServiceHandler(client *elasticsearch.Client, db *sql.DB) *UserServic
 func StartUserServer(handler *UserServiceHandler, port string) {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		glog.Fatalf("failed to listen: %v", err)
 	}
 
 	s := grpc.NewServer()
-	log.Println("Creating UserServiceHandler")
+	glog.Info("Creating UserServiceHandler")
 	pb.RegisterUserServiceServer(s, handler)
-	log.Printf("Starting gRPC User service listener on port " + port)
+	glog.Infof("Starting gRPC User service listener on port %v", port)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		glog.Fatalf("failed to serve: %v", err)
 	}
 }
 
 func (handler *UserServiceHandler) Login(ctx context.Context, req *pb.LoginRequest) (*pb.JWTToken, error) {
 	// TODO
-	if req.Username == "admin" && req.Password == "admin" {
+	if req.Username == "admin" && req.Password == "nguyendainghia" {
 		return &pb.JWTToken{
 			Token: "OK",
 		}, nil
@@ -67,26 +67,26 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 		return &pb.RegisterUserResponse{Success: false, UserId: ""}, status.Error(codes.AlreadyExists, "")
 	}
 
-	log.Printf("RegisterUser(): %v", req)
+	glog.Infof("RegisterUser: %v", req)
 	newUser := FillUserFromRegisterRequest(req)
 
 	// ElasticSearch
 	doc := CreateDocument(newUser)
 	indexReq := CreateIndexRequest(ESUserIndex, doc)
-	log.Printf("RegisterUser() - Indexed new User to ElasticSearch\n")
+	glog.Infof("RegisterUser: Indexed new User to ElasticSearch\n")
 	indexRes, err2 := indexReq.Do(context.Background(), handler.esClient)
 	if err2 != nil {
-		log.Printf("RegisterUser() - Error indexing document: %v\n", err2)
+		glog.Infof("RegisterUser: Failed to index document: %v\n", err2)
 	}
 	defer indexRes.Body.Close()
 
 	// SQL
-	log.Printf("RegisterUser() - Write User to MySQL database")
+	glog.Info("RegisterUser: Write User to MySQL database")
 	errSQL := handler.SQLCreateUser(newUser)
 	if errSQL != nil {
-		log.Printf("RegisterUser() - Error writing to MySQL database: %v\n", errSQL)
+		glog.Infof("RegisterUser: Failed to write to MySQL database: %v\n", errSQL)
 	} else {
-		log.Printf("RegisterUser() - Write new user to MySQL database successfully\n")
+		glog.Infof("RegisterUser: Write new user to MySQL database successfully\n")
 	}
 
 	return &pb.RegisterUserResponse{Success: true, UserId: req.UserName}, status.New(codes.OK, "").Err()
@@ -98,7 +98,7 @@ func CreateIndexRequest(indexName string, doc map[string]interface{}) esapi.Inde
 		// TODO
 	}
 
-	log.Printf("Test json marshal %v", string(jsonStr))
+	glog.Infof("Test json marshal %v", string(jsonStr))
 	indexReq := esapi.IndexRequest{
 		Index:   indexName,
 		Body:    strings.NewReader(string(jsonStr)),
@@ -135,7 +135,7 @@ func (handler *UserServiceHandler) CheckExistingUser(ctx context.Context, IDCard
 		IdCardNumber: IDCardNumber,
 	})
 
-	log.Printf("check existing user %v", resUser)
+	glog.Info("check existing user %v", resUser)
 	if resUser != nil {
 		return true
 	}
@@ -159,7 +159,7 @@ func FillUserFromRegisterRequest(req *pb.RegisterUserRequest) *pb.User {
 }
 
 func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
-	log.Printf("Calling GetCurrentKYC for userID: %v", req.UserId)
+	glog.Infof("Calling GetCurrentKYC for userID: %v", req.UserId)
 	user, _ := handler.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
 		IdCardNumber: req.IdCardNumber,
 	})
@@ -186,7 +186,7 @@ func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Ge
 }
 
 func (handler *UserServiceHandler) SearchUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
-	log.Printf("Search User by userID: %v", req.Id)
+	glog.Infof("Search User by userID: %v", req.Id)
 	resUser := SearchOneUserByUniqueTextField("user_name", req.Id, handler.esClient)
 	if resUser == nil {
 		return nil, status.Error(codes.NotFound, "")
@@ -196,7 +196,7 @@ func (handler *UserServiceHandler) SearchUserByID(ctx context.Context, req *pb.U
 }
 
 func (handler *UserServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
-	log.Printf("Search User by ID Card Number %v", req.IdCardNumber)
+	glog.Infof("Search User by ID Card Number %v", req.IdCardNumber)
 	resUser := SearchOneUserByUniqueTextField("id_card_number", req.IdCardNumber, handler.esClient)
 	if resUser == nil {
 		return nil, status.Error(codes.NotFound, "")
@@ -205,7 +205,7 @@ func (handler *UserServiceHandler) SearchUserByIdCardNumber(ctx context.Context,
 }
 
 func (handler *UserServiceHandler) SearchUserByAccountID(ctx context.Context, req *pb.AccountID) (*pb.User, error) {
-	log.Printf("Search User by AccountID %v", req.AccountID)
+	glog.Infof("Search User by AccountID %v", req.AccountID)
 	resUser := SearchOneUserByUniqueTextField("account_id", req.AccountID, handler.esClient)
 	if resUser == nil {
 		return nil, status.Error(codes.NotFound, "")
@@ -214,7 +214,7 @@ func (handler *UserServiceHandler) SearchUserByAccountID(ctx context.Context, re
 }
 
 func (handler *UserServiceHandler) SearchUserByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
-	log.Printf("SearchUsersByFilters %v", req)
+	glog.Infof("SearchUsersByFilters %v", req)
 	users := SearchUsersByFiltersHelper(req, handler.esClient)
 	if len(users) < 1 {
 		return &pb.UserList{

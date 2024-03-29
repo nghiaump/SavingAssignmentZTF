@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/golang/glog"
 	pb "github.com/nghiaump/SavingAssignmentZTF/protobuf"
-	"log"
 )
 
 const NilFlagInt = -1
@@ -40,7 +40,7 @@ func GenerateQuery(filterObj *pb.Filter) map[string]interface{} {
 			},
 		},
 	}
-	log.Printf("final query: %v\n", query)
+	glog.Infof("GenerateQuery: final query: %v\n", query)
 	return query
 }
 
@@ -87,7 +87,7 @@ func GenerateQueryWithAgg(filterObj *pb.Filter) map[string]interface{} {
 		},
 	}
 
-	log.Printf("final query: %v\n", query)
+	glog.Infof("GenerateQueryWithAgg: final query: %v\n", query)
 	return query
 }
 
