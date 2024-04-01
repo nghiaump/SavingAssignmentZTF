@@ -78,10 +78,30 @@ service MidSavingService {
     };
   };
 
-  rpc SearchUserByID(UserID) returns (User);
-  rpc SearchUserByIdCardNumber(IDCardNumber) returns (User);
-  rpc SearchUserByAccountID(AccountID) returns (User);
-  rpc SearchUsersByFilter(UserFilter) returns (UserList);
+  rpc SearchUserByID(UserID) returns (User){
+    option (google.api.http) = {
+      post: "/api/users/by-id"
+      body: "*"
+    };
+  };
+  rpc SearchUserByIdCardNumber(IDCardNumber) returns (User){
+    option (google.api.http) = {
+      post: "/api/users/by-card"
+      body: "*"
+    };
+  };
+  rpc SearchUserByAccountID(AccountID) returns (User){
+    option (google.api.http) = {
+      post: "/api/users/by-account-id"
+      body: "*"
+    };
+  };
+  rpc SearchUsersByFilter(UserFilter) returns (UserList){
+    option (google.api.http) = {
+      post: "/api/users/by-filter"
+      body: "*"
+    };
+  };
 }
 
 
