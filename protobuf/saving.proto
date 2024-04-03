@@ -11,7 +11,7 @@ service SavingService {
   rpc ListAccountsByFilter(Filter) returns (SavingAccountList);
   rpc ListUsersByNumberAccountRange(NumberAccountRange) returns (ListUserWithAccounts);
 
-  rpc CreateSavingsAccount(SavingAccount) returns (SavingAccount);
+  rpc CreateSavingAccount(SavingAccount) returns (SavingAccount);
 
   rpc UpdateAccountByWithdrawal(WithdrawalRequest) returns (SavingAccount);
 
