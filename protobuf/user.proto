@@ -4,16 +4,26 @@ syntax = "proto3";
 package protobuf;
 
 service UserService {
-  rpc Login(LoginRequest) returns (JWTToken);
-  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc GetJWT(LoginRequest) returns (JWT);
+  rpc GetUserByID(UserID) returns (User);
+  rpc GetUserByIdCardNumber(IDCardNumber) returns (User);
   rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse);
-  rpc SearchUserByID(UserID) returns (User);
-  rpc SearchUserByIdCardNumber(IDCardNumber) returns (User);
-  rpc SearchUserByFilter(UserFilter) returns (UserList);
+
+  rpc ListUsersByFilter(UserFilter) returns (UserList);
+
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+
+  rpc UpdateUser(User) returns (User);
+
+  rpc DeleteUser(User) returns (DeleteUserResponse);
 }
 
-message JWTToken {
+message JWT {
   string token = 1;
+}
+
+message DeleteUserResponse{
+  bool success = 1;
 }
 
 message LoginRequest {
@@ -90,7 +100,7 @@ message AccountID {
   string accountID = 1 [json_name = "account_id"];
 }
 
-message RegisterUserRequest {
+message CreateUserRequest {
   // @gotags: es:"id_card_number"
   string id_card_number = 1 [json_name = "id_card_number"];
 
@@ -110,7 +120,7 @@ message RegisterUserRequest {
   string phone_number = 6 [json_name = "phone_number"];
 }
 
-message RegisterUserResponse {
+message CreateUserResponse {
   bool success = 1;
   string userId = 2 [json_name = "user_id"];
 }

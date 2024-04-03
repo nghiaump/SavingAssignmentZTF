@@ -28,47 +28,51 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 func init() { proto.RegisterFile("mid_saving.proto", fileDescriptor_262d7cf1cc6f51b8) }
 
 var fileDescriptor_262d7cf1cc6f51b8 = []byte{
-	// 629 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x94, 0xdd, 0x6e, 0x12, 0x41,
-	0x14, 0xc7, 0x83, 0x89, 0xc6, 0x4c, 0x5a, 0x8a, 0x43, 0x69, 0xe9, 0xf2, 0xa5, 0xd3, 0x7a, 0x21,
-	0x09, 0x90, 0xa8, 0x57, 0xbd, 0xb3, 0x10, 0x0d, 0xb5, 0xda, 0xa4, 0xd4, 0x34, 0x5e, 0xe9, 0xb0,
-	0x3b, 0x5d, 0x26, 0xc0, 0x2c, 0x9d, 0xd9, 0x6d, 0xc3, 0x95, 0xb1, 0xaf, 0xa0, 0x6f, 0xe6, 0x2b,
-	0xf8, 0x20, 0x66, 0x66, 0x76, 0xd8, 0x99, 0x02, 0xd5, 0xc4, 0x2b, 0x92, 0xf3, 0xf1, 0xff, 0x9d,
-	0x73, 0xf6, 0x3f, 0x80, 0xc2, 0x94, 0x06, 0x5f, 0x04, 0xbe, 0xa6, 0x2c, 0x6c, 0xcf, 0x78, 0x14,
-	0x47, 0xf0, 0xb1, 0xfa, 0x19, 0x26, 0x97, 0x1e, 0x48, 0x04, 0xe1, 0x3a, 0xea, 0x6d, 0xd8, 0x35,
-	0x5e, 0x35, 0x8c, 0xa2, 0x70, 0x42, 0x3a, 0x78, 0x46, 0x3b, 0x98, 0xb1, 0x28, 0xc6, 0x31, 0x8d,
-	0x98, 0xd0, 0xd9, 0x97, 0xdf, 0x37, 0x41, 0xe1, 0x03, 0x0d, 0x06, 0xaa, 0x63, 0x40, 0xf8, 0x35,
-	0xf5, 0x09, 0x3c, 0x06, 0x0f, 0x4f, 0xa2, 0x90, 0x32, 0xb8, 0xd3, 0x36, 0x80, 0xb6, 0x0a, 0x9c,
-	0x91, 0xab, 0x84, 0x88, 0xd8, 0x83, 0x59, 0xfc, 0xf8, 0xe2, 0xfc, 0x3c, 0x1a, 0x13, 0x86, 0x4a,
-	0xb7, 0xbf, 0x7e, 0xff, 0x78, 0xb0, 0x85, 0x80, 0x22, 0x4d, 0x64, 0xf9, 0x61, 0xae, 0x09, 0xa7,
-	0x60, 0xe3, 0x8c, 0x84, 0x54, 0xc4, 0x84, 0x7f, 0x12, 0x84, 0xc3, 0x5a, 0xd6, 0x6a, 0xc7, 0x8d,
-	0x72, 0x7d, 0x5d, 0x5a, 0xcc, 0x22, 0x26, 0x08, 0xaa, 0x2b, 0x4a, 0x19, 0x15, 0x15, 0x45, 0x2e,
-	0x2d, 0x3a, 0x3c, 0x2d, 0x94, 0xb8, 0x31, 0xd8, 0x7c, 0x47, 0xe2, 0x6e, 0xc2, 0x39, 0x61, 0xf1,
-	0xfb, 0xcf, 0x5d, 0x68, 0x09, 0x3a, 0x09, 0x03, 0x6c, 0xac, 0xcd, 0xa7, 0xc4, 0x3d, 0x45, 0x2c,
-	0xa2, 0xbc, 0x45, 0x1c, 0xcf, 0x7d, 0x09, 0xbb, 0xcd, 0x01, 0x78, 0x3a, 0x23, 0x4c, 0x5f, 0x4f,
-	0xbc, 0xf1, 0xfd, 0x28, 0x61, 0x31, 0xdc, 0xcf, 0x24, 0x97, 0xb3, 0x86, 0x7b, 0x70, 0x7f, 0x51,
-	0x0a, 0x7f, 0xa6, 0xe0, 0x15, 0xb4, 0xa3, 0x3f, 0x9f, 0xce, 0xba, 0x1b, 0x4f, 0x00, 0xb8, 0xa0,
-	0xf1, 0x28, 0xe0, 0xf8, 0x06, 0x4f, 0x60, 0x25, 0x93, 0xcd, 0xa2, 0x86, 0x59, 0x5d, 0x9d, 0x4c,
-	0x59, 0xfb, 0x8a, 0x55, 0x43, 0x65, 0x97, 0x75, 0xb3, 0xa8, 0xd4, 0xb4, 0x7c, 0x3a, 0x63, 0x9f,
-	0x5d, 0x25, 0x94, 0xcf, 0xa1, 0x75, 0x40, 0x37, 0x63, 0xa8, 0xbb, 0x59, 0x81, 0xde, 0x32, 0x2d,
-	0x43, 0x4f, 0x15, 0xd0, 0x43, 0x25, 0x17, 0x48, 0x75, 0xbb, 0xa4, 0x05, 0xe0, 0xc9, 0x80, 0x60,
-	0xee, 0x8f, 0xd2, 0x96, 0xa3, 0x79, 0xbf, 0x07, 0xb7, 0x1c, 0x60, 0xbf, 0xb7, 0x1e, 0xf0, 0x5c,
-	0x01, 0x1a, 0xc8, 0x73, 0x01, 0x42, 0x49, 0xb6, 0x86, 0xf3, 0x16, 0x0d, 0x24, 0xe5, 0x1b, 0xa8,
-	0x3a, 0x14, 0x21, 0x31, 0x5d, 0xcc, 0x83, 0x8f, 0xc9, 0x74, 0x48, 0xb8, 0xfd, 0x0a, 0xec, 0xb8,
-	0x57, 0x59, 0xc3, 0x3d, 0xa1, 0x22, 0x46, 0x4d, 0xc5, 0x3e, 0x40, 0x8d, 0xf5, 0xec, 0x96, 0x8f,
-	0x79, 0x90, 0xfa, 0x68, 0xe7, 0xee, 0x04, 0xd2, 0xf5, 0xfd, 0xde, 0xdf, 0xaf, 0xfb, 0x7f, 0x43,
-	0x48, 0x3b, 0xa7, 0x57, 0x18, 0x2d, 0xcf, 0xf0, 0x96, 0x4e, 0x62, 0xc2, 0x61, 0x21, 0x43, 0xe8,
-	0xc8, 0xfd, 0xd0, 0x86, 0x82, 0xee, 0xa1, 0xed, 0x55, 0x50, 0x49, 0xfa, 0x99, 0x03, 0x75, 0x8d,
-	0x92, 0x4b, 0x1e, 0xcd, 0xf5, 0x39, 0x8d, 0xf5, 0x31, 0x0b, 0x09, 0xb4, 0x9c, 0xba, 0x9c, 0xb5,
-	0xff, 0x24, 0x24, 0x51, 0xaa, 0x48, 0x3f, 0x9b, 0xc1, 0xd1, 0x6b, 0x35, 0x41, 0x1b, 0xbd, 0xb0,
-	0x9e, 0x6c, 0xb6, 0x33, 0x53, 0x82, 0xad, 0x74, 0xb0, 0x16, 0x97, 0x92, 0x72, 0xac, 0x53, 0x90,
-	0xb7, 0xa7, 0xea, 0xf7, 0xec, 0xc5, 0xf5, 0xe7, 0xf0, 0xf2, 0x6e, 0x04, 0x55, 0x14, 0xa9, 0x84,
-	0x0a, 0x16, 0x69, 0xe1, 0x2b, 0x0c, 0xca, 0x8e, 0x60, 0xf0, 0x0f, 0x9e, 0xba, 0x0b, 0xa8, 0x29,
-	0xc0, 0x2e, 0x82, 0x2e, 0xc0, 0x38, 0x07, 0x83, 0x92, 0x8d, 0x30, 0x16, 0xe9, 0xc1, 0xe2, 0xb2,
-	0x6f, 0x96, 0xa7, 0x77, 0x5f, 0xfc, 0x42, 0xdc, 0x5c, 0x46, 0x6f, 0xf1, 0x15, 0x14, 0x33, 0x44,
-	0x66, 0x8a, 0x6d, 0x57, 0x2b, 0x35, 0x06, 0x74, 0xa3, 0x2b, 0xfc, 0xb0, 0xa0, 0x5c, 0xaa, 0x8e,
-	0xc3, 0x5c, 0x73, 0xf8, 0x48, 0xf5, 0xbc, 0xfa, 0x13, 0x00, 0x00, 0xff, 0xff, 0x90, 0xe3, 0xc2,
-	0x48, 0xe0, 0x06, 0x00, 0x00,
+	// 693 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x95, 0x4b, 0x6e, 0x13, 0x31,
+	0x18, 0xc7, 0x15, 0x16, 0x15, 0x32, 0x34, 0x4d, 0xdd, 0xa4, 0x8f, 0x69, 0xda, 0x80, 0x5b, 0x16,
+	0x54, 0x6a, 0x22, 0x01, 0xab, 0xee, 0x20, 0x51, 0xa3, 0x94, 0x02, 0x52, 0x1f, 0xaa, 0xd8, 0x80,
+	0x9c, 0x8c, 0x3b, 0xb1, 0x9a, 0xce, 0xa4, 0xb6, 0xa7, 0x55, 0x84, 0x90, 0x10, 0xe2, 0x04, 0x70,
+	0x22, 0xce, 0xc0, 0x15, 0x38, 0x08, 0xb2, 0x3d, 0x1e, 0xdb, 0x4d, 0xa6, 0x20, 0xb1, 0x8a, 0xf4,
+	0x3d, 0x7e, 0xff, 0xef, 0xe5, 0x09, 0xa8, 0x5c, 0xd2, 0xf0, 0x23, 0xc7, 0xd7, 0x34, 0x8e, 0x9a,
+	0x63, 0x96, 0x88, 0x04, 0xde, 0x57, 0x3f, 0xfd, 0xf4, 0x3c, 0x00, 0x29, 0x27, 0x4c, 0x5b, 0x83,
+	0x87, 0x6e, 0x4c, 0x50, 0x8f, 0x92, 0x24, 0x1a, 0x91, 0x16, 0x1e, 0xd3, 0x16, 0x8e, 0xe3, 0x44,
+	0x60, 0x41, 0x93, 0x98, 0x6b, 0xef, 0xb3, 0x9f, 0x65, 0x50, 0x79, 0x43, 0xc3, 0x63, 0x95, 0x71,
+	0x4c, 0xd8, 0x35, 0x1d, 0x10, 0xb8, 0x0f, 0xe6, 0xba, 0x44, 0x1c, 0x9c, 0x9d, 0xc0, 0xe5, 0xa6,
+	0x51, 0x68, 0x1e, 0x26, 0x11, 0x8d, 0x8f, 0xc8, 0x55, 0x4a, 0xb8, 0x08, 0xe6, 0xad, 0xfd, 0xe0,
+	0xec, 0x04, 0xd5, 0xbe, 0xfe, 0xfa, 0xfd, 0xe3, 0xde, 0x02, 0x02, 0x4a, 0x65, 0x24, 0x23, 0xf7,
+	0x4a, 0x3b, 0xf0, 0x02, 0xcc, 0x77, 0x89, 0x68, 0xa7, 0x8c, 0x91, 0x58, 0xbc, 0x7e, 0xdf, 0x86,
+	0x9b, 0x36, 0xcd, 0x73, 0x18, 0x6c, 0xa3, 0xd0, 0xcf, 0xc7, 0x49, 0xcc, 0x09, 0x5a, 0x53, 0x42,
+	0x4b, 0xa8, 0xac, 0x84, 0x64, 0xcf, 0xbc, 0x75, 0x31, 0x19, 0x48, 0xb1, 0x43, 0xf0, 0xa0, 0x4b,
+	0xc4, 0x29, 0x27, 0xec, 0xd5, 0xa4, 0xd7, 0x81, 0x15, 0x8b, 0x92, 0xb6, 0x5e, 0x27, 0x28, 0xfb,
+	0x16, 0xb4, 0xae, 0x58, 0x35, 0x54, 0x71, 0x58, 0xfd, 0xc9, 0x2e, 0x0d, 0x25, 0xed, 0x03, 0xa8,
+	0x59, 0x5a, 0xd8, 0xc6, 0x2c, 0x7c, 0x9b, 0x5e, 0xf6, 0x09, 0x73, 0x27, 0xd2, 0xeb, 0x58, 0xfb,
+	0x14, 0x7d, 0x43, 0xd1, 0x57, 0x10, 0xf4, 0xe9, 0x03, 0xcc, 0x32, 0x3e, 0xcc, 0xf9, 0x2f, 0x07,
+	0x83, 0x24, 0x8d, 0x45, 0xaf, 0x03, 0x97, 0x2c, 0x24, 0x37, 0x4e, 0x91, 0xb7, 0x14, 0x79, 0x03,
+	0xad, 0xfa, 0x64, 0xac, 0x13, 0xb2, 0xfa, 0x87, 0x00, 0x74, 0x89, 0xc8, 0x20, 0xb0, 0x31, 0xcd,
+	0x8d, 0xaf, 0x52, 0xca, 0x26, 0x66, 0xf0, 0x2b, 0x36, 0x40, 0x9f, 0x42, 0x16, 0x86, 0x1e, 0x29,
+	0xb1, 0x00, 0xd5, 0xf4, 0xfd, 0x68, 0x2b, 0x6f, 0x51, 0x9d, 0x2e, 0x95, 0x30, 0x28, 0x5b, 0x25,
+	0x35, 0xfa, 0x05, 0x4f, 0xad, 0xd7, 0x29, 0xa6, 0x3f, 0x51, 0xf4, 0x06, 0x0a, 0x7c, 0x3a, 0x27,
+	0x98, 0x0d, 0x86, 0xbb, 0xf9, 0x32, 0x3e, 0x83, 0xe0, 0x90, 0x72, 0xa3, 0xc1, 0xa5, 0xc8, 0x3f,
+	0x6c, 0x64, 0xbd, 0x40, 0x55, 0xa2, 0xd0, 0x8e, 0x52, 0xde, 0x46, 0x8d, 0x62, 0xe5, 0x7c, 0x57,
+	0x5f, 0x4a, 0xa0, 0xea, 0xeb, 0xeb, 0x8b, 0xfa, 0xfb, 0x58, 0xff, 0xaf, 0x04, 0xb9, 0xda, 0x6c,
+	0x02, 0xe7, 0xb7, 0x2b, 0xd8, 0xa7, 0x23, 0x41, 0x98, 0x7b, 0xe5, 0xda, 0x72, 0xb7, 0x64, 0x43,
+	0x49, 0xae, 0xa1, 0xea, 0x2c, 0x49, 0xa9, 0xf3, 0xbd, 0x04, 0xea, 0x32, 0x52, 0x1f, 0xa6, 0x1e,
+	0x64, 0x06, 0x38, 0xc2, 0x71, 0x44, 0x60, 0xdd, 0xe2, 0xa7, 0xbd, 0x81, 0xf3, 0xbe, 0x0d, 0xe5,
+	0x8c, 0x8a, 0xa1, 0x29, 0x1b, 0xbd, 0x50, 0xfa, 0x4d, 0xf4, 0xd4, 0x39, 0x5d, 0xdb, 0x6f, 0xac,
+	0x80, 0xf9, 0x21, 0x33, 0x89, 0xd4, 0x6f, 0x65, 0xd1, 0xd0, 0x6c, 0xe7, 0x55, 0xff, 0x55, 0x64,
+	0xdd, 0x43, 0xdf, 0x3a, 0xa3, 0xe9, 0xfc, 0xbd, 0x9c, 0xab, 0x0c, 0xc9, 0x8f, 0x00, 0x68, 0x33,
+	0x82, 0x05, 0x91, 0x29, 0xd0, 0x19, 0xa0, 0xb5, 0x9a, 0x85, 0xd6, 0x67, 0x3b, 0xb3, 0xaf, 0xd3,
+	0xa6, 0x52, 0x5a, 0x45, 0x4b, 0x8e, 0x12, 0x23, 0x11, 0xe5, 0x99, 0xd0, 0xb7, 0x12, 0xa8, 0xea,
+	0x34, 0xbd, 0x1a, 0x6e, 0xde, 0xe7, 0x96, 0xc5, 0xbe, 0x1b, 0x93, 0xd8, 0xf7, 0x1a, 0xed, 0xed,
+	0xbb, 0x83, 0xb2, 0x1a, 0x1e, 0xab, 0x1a, 0xd6, 0xd1, 0xb2, 0xbf, 0x62, 0xb7, 0x8c, 0x4f, 0x60,
+	0xed, 0x74, 0x1c, 0x62, 0x41, 0xf2, 0x47, 0x2b, 0x97, 0x14, 0x32, 0x7c, 0x83, 0x47, 0x6e, 0xfb,
+	0xd6, 0x3a, 0xa3, 0x7d, 0xd7, 0x99, 0x49, 0xfb, 0x1f, 0xa6, 0x5c, 0xfa, 0x26, 0x8f, 0x94, 0xe2,
+	0x07, 0x00, 0x68, 0x71, 0x35, 0xec, 0x5b, 0xdf, 0xb6, 0xa9, 0x6f, 0x5d, 0x5d, 0x21, 0x97, 0xd1,
+	0xa2, 0x33, 0xd1, 0x54, 0xa5, 0x4b, 0xd6, 0x1e, 0x00, 0x1d, 0x32, 0x22, 0x05, 0x2c, 0xa7, 0x58,
+	0x1b, 0x65, 0x8a, 0x85, 0x3d, 0x30, 0xaf, 0xad, 0x66, 0x07, 0x45, 0x1f, 0x29, 0xf7, 0x4f, 0xc9,
+	0xcb, 0x30, 0xa8, 0xfe, 0x9c, 0xf2, 0x3f, 0xff, 0x13, 0x00, 0x00, 0xff, 0xff, 0xff, 0xf7, 0xb7,
+	0x4a, 0xa0, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -83,21 +87,24 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MidSavingServiceClient interface {
-	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*JWTToken, error)
-	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
+	GetJWT(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*JWT, error)
 	GetCurrentKYC(ctx context.Context, in *GetCurrentKYCRequest, opts ...grpc.CallOption) (*GetCurrentKYCResponse, error)
-	OpenSavingsAccount(ctx context.Context, in *OpenSavingsAccountRequest, opts ...grpc.CallOption) (*OpenSavingsAccountResponse, error)
-	Withdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
-	AccountInquiry(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error)
-	SearchAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error)
-	SearchAccountsByIDCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*SavingAccountList, error)
-	SearchAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error)
-	SearchAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error)
-	SearchUserByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error)
-	SearchUserByID(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*User, error)
-	SearchUserByIdCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*User, error)
-	SearchUserByAccountID(ctx context.Context, in *AccountID, opts ...grpc.CallOption) (*User, error)
-	SearchUsersByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error)
+	GetUserByID(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*User, error)
+	GetUserByIdCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*User, error)
+	GetUserByAccountID(ctx context.Context, in *AccountID, opts ...grpc.CallOption) (*User, error)
+	GetAccount(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error)
+	GetAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error)
+	ListAccountsByIDCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*SavingAccountList, error)
+	ListAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error)
+	ListAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error)
+	ListUserByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error)
+	ListUsersByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	CreateSavingsAccount(ctx context.Context, in *OpenSavingsAccountRequest, opts ...grpc.CallOption) (*OpenSavingsAccountResponse, error)
+	UpdateAccountByWithdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
+	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
+	DeleteUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*DeleteUserResponse, error)
+	DeleteAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*DeleteAccountResponse, error)
 }
 
 type midSavingServiceClient struct {
@@ -108,18 +115,9 @@ func NewMidSavingServiceClient(cc *grpc.ClientConn) MidSavingServiceClient {
 	return &midSavingServiceClient{cc}
 }
 
-func (c *midSavingServiceClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*JWTToken, error) {
-	out := new(JWTToken)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/Login", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *midSavingServiceClient) RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error) {
-	out := new(RegisterUserResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/RegisterUser", in, out, opts...)
+func (c *midSavingServiceClient) GetJWT(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*JWT, error) {
+	out := new(JWT)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/GetJWT", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -135,108 +133,144 @@ func (c *midSavingServiceClient) GetCurrentKYC(ctx context.Context, in *GetCurre
 	return out, nil
 }
 
-func (c *midSavingServiceClient) OpenSavingsAccount(ctx context.Context, in *OpenSavingsAccountRequest, opts ...grpc.CallOption) (*OpenSavingsAccountResponse, error) {
-	out := new(OpenSavingsAccountResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/OpenSavingsAccount", in, out, opts...)
+func (c *midSavingServiceClient) GetUserByID(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/GetUserByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) Withdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error) {
-	out := new(WithdrawalResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/Withdrawal", in, out, opts...)
+func (c *midSavingServiceClient) GetUserByIdCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/GetUserByIdCardNumber", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) AccountInquiry(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
+func (c *midSavingServiceClient) GetUserByAccountID(ctx context.Context, in *AccountID, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/GetUserByAccountID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *midSavingServiceClient) GetAccount(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
 	out := new(SavingAccount)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/AccountInquiry", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/GetAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) SearchAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error) {
+func (c *midSavingServiceClient) GetAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error) {
 	out := new(SavingAccount)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchAccountByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/GetAccountByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) SearchAccountsByIDCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*SavingAccountList, error) {
+func (c *midSavingServiceClient) ListAccountsByIDCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*SavingAccountList, error) {
 	out := new(SavingAccountList)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchAccountsByIDCardNumber", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/ListAccountsByIDCardNumber", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) SearchAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
+func (c *midSavingServiceClient) ListAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
 	out := new(SavingAccountList)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchAccountsByUserID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/ListAccountsByUserID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) SearchAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error) {
+func (c *midSavingServiceClient) ListAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error) {
 	out := new(SavingAccountList)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchAccountsByFilter", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/ListAccountsByFilter", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) SearchUserByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error) {
+func (c *midSavingServiceClient) ListUserByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error) {
 	out := new(ListUserWithAccounts)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchUserByNumberAccountRange", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/ListUserByNumberAccountRange", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *midSavingServiceClient) SearchUserByID(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchUserByID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *midSavingServiceClient) SearchUserByIdCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchUserByIdCardNumber", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *midSavingServiceClient) SearchUserByAccountID(ctx context.Context, in *AccountID, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchUserByAccountID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *midSavingServiceClient) SearchUsersByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error) {
+func (c *midSavingServiceClient) ListUsersByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error) {
 	out := new(UserList)
-	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/SearchUsersByFilter", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/ListUsersByFilter", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *midSavingServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
+	out := new(CreateUserResponse)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/CreateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *midSavingServiceClient) CreateSavingsAccount(ctx context.Context, in *OpenSavingsAccountRequest, opts ...grpc.CallOption) (*OpenSavingsAccountResponse, error) {
+	out := new(OpenSavingsAccountResponse)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/CreateSavingsAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *midSavingServiceClient) UpdateAccountByWithdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error) {
+	out := new(WithdrawalResponse)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/UpdateAccountByWithdrawal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *midSavingServiceClient) UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error) {
+	out := new(User)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/UpdateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *midSavingServiceClient) DeleteUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+	out := new(DeleteUserResponse)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/DeleteUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *midSavingServiceClient) DeleteAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*DeleteAccountResponse, error) {
+	out := new(DeleteAccountResponse)
+	err := c.cc.Invoke(ctx, "/protobuf.MidSavingService/DeleteAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -245,109 +279,103 @@ func (c *midSavingServiceClient) SearchUsersByFilter(ctx context.Context, in *Us
 
 // MidSavingServiceServer is the server API for MidSavingService service.
 type MidSavingServiceServer interface {
-	Login(context.Context, *LoginRequest) (*JWTToken, error)
-	RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
+	GetJWT(context.Context, *LoginRequest) (*JWT, error)
 	GetCurrentKYC(context.Context, *GetCurrentKYCRequest) (*GetCurrentKYCResponse, error)
-	OpenSavingsAccount(context.Context, *OpenSavingsAccountRequest) (*OpenSavingsAccountResponse, error)
-	Withdrawal(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
-	AccountInquiry(context.Context, *AccountInquiryRequest) (*SavingAccount, error)
-	SearchAccountByID(context.Context, *AccID) (*SavingAccount, error)
-	SearchAccountsByIDCardNumber(context.Context, *IDCardNumber) (*SavingAccountList, error)
-	SearchAccountsByUserID(context.Context, *AccountInquiryRequest) (*SavingAccountList, error)
-	SearchAccountsByFilter(context.Context, *Filter) (*SavingAccountList, error)
-	SearchUserByNumberAccountRange(context.Context, *NumberAccountRange) (*ListUserWithAccounts, error)
-	SearchUserByID(context.Context, *UserID) (*User, error)
-	SearchUserByIdCardNumber(context.Context, *IDCardNumber) (*User, error)
-	SearchUserByAccountID(context.Context, *AccountID) (*User, error)
-	SearchUsersByFilter(context.Context, *UserFilter) (*UserList, error)
+	GetUserByID(context.Context, *UserID) (*User, error)
+	GetUserByIdCardNumber(context.Context, *IDCardNumber) (*User, error)
+	GetUserByAccountID(context.Context, *AccountID) (*User, error)
+	GetAccount(context.Context, *AccountInquiryRequest) (*SavingAccount, error)
+	GetAccountByID(context.Context, *AccID) (*SavingAccount, error)
+	ListAccountsByIDCardNumber(context.Context, *IDCardNumber) (*SavingAccountList, error)
+	ListAccountsByUserID(context.Context, *AccountInquiryRequest) (*SavingAccountList, error)
+	ListAccountsByFilter(context.Context, *Filter) (*SavingAccountList, error)
+	ListUserByNumberAccountRange(context.Context, *NumberAccountRange) (*ListUserWithAccounts, error)
+	ListUsersByFilter(context.Context, *UserFilter) (*UserList, error)
+	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
+	CreateSavingsAccount(context.Context, *OpenSavingsAccountRequest) (*OpenSavingsAccountResponse, error)
+	UpdateAccountByWithdrawal(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
+	UpdateUser(context.Context, *User) (*User, error)
+	DeleteUser(context.Context, *User) (*DeleteUserResponse, error)
+	DeleteAccount(context.Context, *SavingAccount) (*DeleteAccountResponse, error)
 }
 
 // UnimplementedMidSavingServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedMidSavingServiceServer struct {
 }
 
-func (*UnimplementedMidSavingServiceServer) Login(ctx context.Context, req *LoginRequest) (*JWTToken, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
-}
-func (*UnimplementedMidSavingServiceServer) RegisterUser(ctx context.Context, req *RegisterUserRequest) (*RegisterUserResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterUser not implemented")
+func (*UnimplementedMidSavingServiceServer) GetJWT(ctx context.Context, req *LoginRequest) (*JWT, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetJWT not implemented")
 }
 func (*UnimplementedMidSavingServiceServer) GetCurrentKYC(ctx context.Context, req *GetCurrentKYCRequest) (*GetCurrentKYCResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentKYC not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) OpenSavingsAccount(ctx context.Context, req *OpenSavingsAccountRequest) (*OpenSavingsAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OpenSavingsAccount not implemented")
+func (*UnimplementedMidSavingServiceServer) GetUserByID(ctx context.Context, req *UserID) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByID not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) Withdrawal(ctx context.Context, req *WithdrawalRequest) (*WithdrawalResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Withdrawal not implemented")
+func (*UnimplementedMidSavingServiceServer) GetUserByIdCardNumber(ctx context.Context, req *IDCardNumber) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByIdCardNumber not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) AccountInquiry(ctx context.Context, req *AccountInquiryRequest) (*SavingAccount, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AccountInquiry not implemented")
+func (*UnimplementedMidSavingServiceServer) GetUserByAccountID(ctx context.Context, req *AccountID) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByAccountID not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchAccountByID(ctx context.Context, req *AccID) (*SavingAccount, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchAccountByID not implemented")
+func (*UnimplementedMidSavingServiceServer) GetAccount(ctx context.Context, req *AccountInquiryRequest) (*SavingAccount, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchAccountsByIDCardNumber(ctx context.Context, req *IDCardNumber) (*SavingAccountList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchAccountsByIDCardNumber not implemented")
+func (*UnimplementedMidSavingServiceServer) GetAccountByID(ctx context.Context, req *AccID) (*SavingAccount, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountByID not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchAccountsByUserID(ctx context.Context, req *AccountInquiryRequest) (*SavingAccountList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchAccountsByUserID not implemented")
+func (*UnimplementedMidSavingServiceServer) ListAccountsByIDCardNumber(ctx context.Context, req *IDCardNumber) (*SavingAccountList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccountsByIDCardNumber not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchAccountsByFilter(ctx context.Context, req *Filter) (*SavingAccountList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchAccountsByFilter not implemented")
+func (*UnimplementedMidSavingServiceServer) ListAccountsByUserID(ctx context.Context, req *AccountInquiryRequest) (*SavingAccountList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccountsByUserID not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchUserByNumberAccountRange(ctx context.Context, req *NumberAccountRange) (*ListUserWithAccounts, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUserByNumberAccountRange not implemented")
+func (*UnimplementedMidSavingServiceServer) ListAccountsByFilter(ctx context.Context, req *Filter) (*SavingAccountList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccountsByFilter not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchUserByID(ctx context.Context, req *UserID) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUserByID not implemented")
+func (*UnimplementedMidSavingServiceServer) ListUserByNumberAccountRange(ctx context.Context, req *NumberAccountRange) (*ListUserWithAccounts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUserByNumberAccountRange not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchUserByIdCardNumber(ctx context.Context, req *IDCardNumber) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUserByIdCardNumber not implemented")
+func (*UnimplementedMidSavingServiceServer) ListUsersByFilter(ctx context.Context, req *UserFilter) (*UserList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsersByFilter not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchUserByAccountID(ctx context.Context, req *AccountID) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUserByAccountID not implemented")
+func (*UnimplementedMidSavingServiceServer) CreateUser(ctx context.Context, req *CreateUserRequest) (*CreateUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (*UnimplementedMidSavingServiceServer) SearchUsersByFilter(ctx context.Context, req *UserFilter) (*UserList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUsersByFilter not implemented")
+func (*UnimplementedMidSavingServiceServer) CreateSavingsAccount(ctx context.Context, req *OpenSavingsAccountRequest) (*OpenSavingsAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSavingsAccount not implemented")
+}
+func (*UnimplementedMidSavingServiceServer) UpdateAccountByWithdrawal(ctx context.Context, req *WithdrawalRequest) (*WithdrawalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccountByWithdrawal not implemented")
+}
+func (*UnimplementedMidSavingServiceServer) UpdateUser(ctx context.Context, req *User) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (*UnimplementedMidSavingServiceServer) DeleteUser(ctx context.Context, req *User) (*DeleteUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
+}
+func (*UnimplementedMidSavingServiceServer) DeleteAccount(ctx context.Context, req *SavingAccount) (*DeleteAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
 }
 
 func RegisterMidSavingServiceServer(s *grpc.Server, srv MidSavingServiceServer) {
 	s.RegisterService(&_MidSavingService_serviceDesc, srv)
 }
 
-func _MidSavingService_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MidSavingService_GetJWT_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(LoginRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MidSavingServiceServer).Login(ctx, in)
+		return srv.(MidSavingServiceServer).GetJWT(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/Login",
+		FullMethod: "/protobuf.MidSavingService/GetJWT",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).Login(ctx, req.(*LoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_RegisterUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterUserRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).RegisterUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/RegisterUser",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).RegisterUser(ctx, req.(*RegisterUserRequest))
+		return srv.(MidSavingServiceServer).GetJWT(ctx, req.(*LoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -370,218 +398,290 @@ func _MidSavingService_GetCurrentKYC_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MidSavingService_OpenSavingsAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OpenSavingsAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).OpenSavingsAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/OpenSavingsAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).OpenSavingsAccount(ctx, req.(*OpenSavingsAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_Withdrawal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WithdrawalRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).Withdrawal(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/Withdrawal",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).Withdrawal(ctx, req.(*WithdrawalRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_AccountInquiry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AccountInquiryRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).AccountInquiry(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/AccountInquiry",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).AccountInquiry(ctx, req.(*AccountInquiryRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_SearchAccountByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AccID)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchAccountByID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchAccountByID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchAccountByID(ctx, req.(*AccID))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_SearchAccountsByIDCardNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IDCardNumber)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchAccountsByIDCardNumber(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchAccountsByIDCardNumber",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchAccountsByIDCardNumber(ctx, req.(*IDCardNumber))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_SearchAccountsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AccountInquiryRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchAccountsByUserID(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchAccountsByUserID",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchAccountsByUserID(ctx, req.(*AccountInquiryRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_SearchAccountsByFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Filter)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchAccountsByFilter(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchAccountsByFilter",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchAccountsByFilter(ctx, req.(*Filter))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_SearchUserByNumberAccountRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(NumberAccountRange)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchUserByNumberAccountRange(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchUserByNumberAccountRange",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchUserByNumberAccountRange(ctx, req.(*NumberAccountRange))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _MidSavingService_SearchUserByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MidSavingService_GetUserByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchUserByID(ctx, in)
+		return srv.(MidSavingServiceServer).GetUserByID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchUserByID",
+		FullMethod: "/protobuf.MidSavingService/GetUserByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchUserByID(ctx, req.(*UserID))
+		return srv.(MidSavingServiceServer).GetUserByID(ctx, req.(*UserID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MidSavingService_SearchUserByIdCardNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MidSavingService_GetUserByIdCardNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(IDCardNumber)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchUserByIdCardNumber(ctx, in)
+		return srv.(MidSavingServiceServer).GetUserByIdCardNumber(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchUserByIdCardNumber",
+		FullMethod: "/protobuf.MidSavingService/GetUserByIdCardNumber",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchUserByIdCardNumber(ctx, req.(*IDCardNumber))
+		return srv.(MidSavingServiceServer).GetUserByIdCardNumber(ctx, req.(*IDCardNumber))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MidSavingService_SearchUserByAccountID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MidSavingService_GetUserByAccountID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AccountID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchUserByAccountID(ctx, in)
+		return srv.(MidSavingServiceServer).GetUserByAccountID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchUserByAccountID",
+		FullMethod: "/protobuf.MidSavingService/GetUserByAccountID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchUserByAccountID(ctx, req.(*AccountID))
+		return srv.(MidSavingServiceServer).GetUserByAccountID(ctx, req.(*AccountID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MidSavingService_SearchUsersByFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _MidSavingService_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AccountInquiryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).GetAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/GetAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).GetAccount(ctx, req.(*AccountInquiryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_GetAccountByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AccID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).GetAccountByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/GetAccountByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).GetAccountByID(ctx, req.(*AccID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_ListAccountsByIDCardNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDCardNumber)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).ListAccountsByIDCardNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/ListAccountsByIDCardNumber",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).ListAccountsByIDCardNumber(ctx, req.(*IDCardNumber))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_ListAccountsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AccountInquiryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).ListAccountsByUserID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/ListAccountsByUserID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).ListAccountsByUserID(ctx, req.(*AccountInquiryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_ListAccountsByFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Filter)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).ListAccountsByFilter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/ListAccountsByFilter",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).ListAccountsByFilter(ctx, req.(*Filter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_ListUserByNumberAccountRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NumberAccountRange)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).ListUserByNumberAccountRange(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/ListUserByNumberAccountRange",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).ListUserByNumberAccountRange(ctx, req.(*NumberAccountRange))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_ListUsersByFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserFilter)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MidSavingServiceServer).SearchUsersByFilter(ctx, in)
+		return srv.(MidSavingServiceServer).ListUsersByFilter(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.MidSavingService/SearchUsersByFilter",
+		FullMethod: "/protobuf.MidSavingService/ListUsersByFilter",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MidSavingServiceServer).SearchUsersByFilter(ctx, req.(*UserFilter))
+		return srv.(MidSavingServiceServer).ListUsersByFilter(ctx, req.(*UserFilter))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/CreateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).CreateUser(ctx, req.(*CreateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_CreateSavingsAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OpenSavingsAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).CreateSavingsAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/CreateSavingsAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).CreateSavingsAccount(ctx, req.(*OpenSavingsAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_UpdateAccountByWithdrawal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WithdrawalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).UpdateAccountByWithdrawal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/UpdateAccountByWithdrawal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).UpdateAccountByWithdrawal(ctx, req.(*WithdrawalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/UpdateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).UpdateUser(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/DeleteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).DeleteUser(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MidSavingService_DeleteAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SavingAccount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MidSavingServiceServer).DeleteAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.MidSavingService/DeleteAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MidSavingServiceServer).DeleteAccount(ctx, req.(*SavingAccount))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -591,64 +691,76 @@ var _MidSavingService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*MidSavingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Login",
-			Handler:    _MidSavingService_Login_Handler,
-		},
-		{
-			MethodName: "RegisterUser",
-			Handler:    _MidSavingService_RegisterUser_Handler,
+			MethodName: "GetJWT",
+			Handler:    _MidSavingService_GetJWT_Handler,
 		},
 		{
 			MethodName: "GetCurrentKYC",
 			Handler:    _MidSavingService_GetCurrentKYC_Handler,
 		},
 		{
-			MethodName: "OpenSavingsAccount",
-			Handler:    _MidSavingService_OpenSavingsAccount_Handler,
+			MethodName: "GetUserByID",
+			Handler:    _MidSavingService_GetUserByID_Handler,
 		},
 		{
-			MethodName: "Withdrawal",
-			Handler:    _MidSavingService_Withdrawal_Handler,
+			MethodName: "GetUserByIdCardNumber",
+			Handler:    _MidSavingService_GetUserByIdCardNumber_Handler,
 		},
 		{
-			MethodName: "AccountInquiry",
-			Handler:    _MidSavingService_AccountInquiry_Handler,
+			MethodName: "GetUserByAccountID",
+			Handler:    _MidSavingService_GetUserByAccountID_Handler,
 		},
 		{
-			MethodName: "SearchAccountByID",
-			Handler:    _MidSavingService_SearchAccountByID_Handler,
+			MethodName: "GetAccount",
+			Handler:    _MidSavingService_GetAccount_Handler,
 		},
 		{
-			MethodName: "SearchAccountsByIDCardNumber",
-			Handler:    _MidSavingService_SearchAccountsByIDCardNumber_Handler,
+			MethodName: "GetAccountByID",
+			Handler:    _MidSavingService_GetAccountByID_Handler,
 		},
 		{
-			MethodName: "SearchAccountsByUserID",
-			Handler:    _MidSavingService_SearchAccountsByUserID_Handler,
+			MethodName: "ListAccountsByIDCardNumber",
+			Handler:    _MidSavingService_ListAccountsByIDCardNumber_Handler,
 		},
 		{
-			MethodName: "SearchAccountsByFilter",
-			Handler:    _MidSavingService_SearchAccountsByFilter_Handler,
+			MethodName: "ListAccountsByUserID",
+			Handler:    _MidSavingService_ListAccountsByUserID_Handler,
 		},
 		{
-			MethodName: "SearchUserByNumberAccountRange",
-			Handler:    _MidSavingService_SearchUserByNumberAccountRange_Handler,
+			MethodName: "ListAccountsByFilter",
+			Handler:    _MidSavingService_ListAccountsByFilter_Handler,
 		},
 		{
-			MethodName: "SearchUserByID",
-			Handler:    _MidSavingService_SearchUserByID_Handler,
+			MethodName: "ListUserByNumberAccountRange",
+			Handler:    _MidSavingService_ListUserByNumberAccountRange_Handler,
 		},
 		{
-			MethodName: "SearchUserByIdCardNumber",
-			Handler:    _MidSavingService_SearchUserByIdCardNumber_Handler,
+			MethodName: "ListUsersByFilter",
+			Handler:    _MidSavingService_ListUsersByFilter_Handler,
 		},
 		{
-			MethodName: "SearchUserByAccountID",
-			Handler:    _MidSavingService_SearchUserByAccountID_Handler,
+			MethodName: "CreateUser",
+			Handler:    _MidSavingService_CreateUser_Handler,
 		},
 		{
-			MethodName: "SearchUsersByFilter",
-			Handler:    _MidSavingService_SearchUsersByFilter_Handler,
+			MethodName: "CreateSavingsAccount",
+			Handler:    _MidSavingService_CreateSavingsAccount_Handler,
+		},
+		{
+			MethodName: "UpdateAccountByWithdrawal",
+			Handler:    _MidSavingService_UpdateAccountByWithdrawal_Handler,
+		},
+		{
+			MethodName: "UpdateUser",
+			Handler:    _MidSavingService_UpdateUser_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _MidSavingService_DeleteUser_Handler,
+		},
+		{
+			MethodName: "DeleteAccount",
+			Handler:    _MidSavingService_DeleteAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
