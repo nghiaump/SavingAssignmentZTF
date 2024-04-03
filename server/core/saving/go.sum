@@ -94,6 +94,10 @@ github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403084544-970b21ff0
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403084544-970b21ff0374/go.mod h1:d0rSuND9LDEHU1tdqzlhUGty3cjnJFjv4nbyUn4oVWg=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403092810-c5fa22560c3f h1:Hno0PtZI8I3Xt7D5/2PfSGJIyy242XbGgkUYDZiaJmw=
 github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403092810-c5fa22560c3f/go.mod h1:d0rSuND9LDEHU1tdqzlhUGty3cjnJFjv4nbyUn4oVWg=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403100531-56876ac8165c h1:6zZA1TZ2XtDXYIIzkQf6gYKBh5hxhmaUMQSVvDd1FjM=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403100531-56876ac8165c/go.mod h1:d0rSuND9LDEHU1tdqzlhUGty3cjnJFjv4nbyUn4oVWg=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403101844-52fe6efe5d75 h1:b4A9p0oLqv4owCXGFA0w1/ihAJxTVnI3Hpq8BRsS284=
+github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403101844-52fe6efe5d75/go.mod h1:d0rSuND9LDEHU1tdqzlhUGty3cjnJFjv4nbyUn4oVWg=
 github.com/pierrec/lz4/v4 v4.1.21 h1:yOVMLb6qSIDP67pl/5F7RepeKYu/VmTyEXvuMI5d9mQ=
 github.com/pierrec/lz4/v4 v4.1.21/go.mod h1:gZWDp/Ze/IJXGXf23ltt2EXimqmTUXEy0GFuRQyBid4=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

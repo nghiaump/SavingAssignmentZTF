@@ -42,7 +42,7 @@ func StartSavingServer(handler *SavingServiceHandler, port string) {
 
 	s := grpc.NewServer()
 	glog.Info("StartSavingServer")
-	pb.RegisterSavingsServiceServer(s, handler)
+	pb.RegisterSavingServiceServer(s, handler)
 	glog.Infof("StartSavingServer listening on %v", port)
 	if err := s.Serve(lis); err != nil {
 		glog.Fatalf("StartSavingServer: failed to serve: %v", err)

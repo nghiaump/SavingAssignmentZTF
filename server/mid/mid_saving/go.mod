@@ -9,7 +9,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/golang/glog v1.2.0
 	github.com/golang/mock v1.6.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403092810-c5fa22560c3f
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403101844-52fe6efe5d75
 	google.golang.org/grpc v1.61.0
 )
 

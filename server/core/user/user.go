@@ -49,22 +49,22 @@ func StartUserServer(handler *UserServiceHandler, port string) {
 	}
 }
 
-func (handler *UserServiceHandler) Login(ctx context.Context, req *pb.LoginRequest) (*pb.JWTToken, error) {
+func (handler *UserServiceHandler) GetJWT(ctx context.Context, req *pb.LoginRequest) (*pb.JWT, error) {
 	// TODO
 	if req.Username == "admin" && req.Password == "nguyendainghia" {
-		return &pb.JWTToken{
+		return &pb.JWT{
 			Token: "OK",
 		}, nil
 	}
-	return &pb.JWTToken{
+	return &pb.JWT{
 		Token: "INVALID",
 	}, nil
 }
 
-func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.RegisterUserRequest) (*pb.RegisterUserResponse, error) {
+func (handler *UserServiceHandler) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
 	existed := handler.CheckExistingUser(ctx, req.IdCardNumber)
 	if existed {
-		return &pb.RegisterUserResponse{Success: false, UserId: ""}, status.Error(codes.AlreadyExists, "")
+		return &pb.CreateUserResponse{Success: false, UserId: ""}, status.Error(codes.AlreadyExists, "")
 	}
 
 	glog.Infof("RegisterUser: %v", req)
@@ -89,7 +89,7 @@ func (handler *UserServiceHandler) RegisterUser(ctx context.Context, req *pb.Reg
 		glog.Infof("RegisterUser: Write new user to MySQL database successfully\n")
 	}
 
-	return &pb.RegisterUserResponse{Success: true, UserId: req.UserName}, status.New(codes.OK, "").Err()
+	return &pb.CreateUserResponse{Success: true, UserId: req.UserName}, status.New(codes.OK, "").Err()
 }
 
 func CreateIndexRequest(indexName string, doc map[string]interface{}) esapi.IndexRequest {
@@ -131,7 +131,7 @@ func CreateDocument(newUser *pb.User) map[string]interface{} {
 }
 
 func (handler *UserServiceHandler) CheckExistingUser(ctx context.Context, IDCardNumber string) bool {
-	resUser, _ := handler.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
+	resUser, _ := handler.GetUserByIdCardNumber(ctx, &pb.IDCardNumber{
 		IdCardNumber: IDCardNumber,
 	})
 
@@ -142,7 +142,7 @@ func (handler *UserServiceHandler) CheckExistingUser(ctx context.Context, IDCard
 	return false
 }
 
-func FillUserFromRegisterRequest(req *pb.RegisterUserRequest) *pb.User {
+func FillUserFromRegisterRequest(req *pb.CreateUserRequest) *pb.User {
 	registeredDate, _ := ConvertToISO8601("01012024")
 	dob, _ := ConvertToISO8601(req.Dob)
 	return &pb.User{
@@ -160,11 +160,11 @@ func FillUserFromRegisterRequest(req *pb.RegisterUserRequest) *pb.User {
 
 func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.GetCurrentKYCRequest) (*pb.GetCurrentKYCResponse, error) {
 	glog.Infof("Calling GetCurrentKYC for userID: %v", req.UserId)
-	user, _ := handler.SearchUserByIdCardNumber(ctx, &pb.IDCardNumber{
+	user, _ := handler.GetUserByIdCardNumber(ctx, &pb.IDCardNumber{
 		IdCardNumber: req.IdCardNumber,
 	})
 	if user == nil {
-		user, err := handler.SearchUserByID(ctx, &pb.UserID{Id: req.UserId})
+		user, err := handler.GetUserByID(ctx, &pb.UserID{Id: req.UserId})
 		if user == nil {
 			return nil, err
 		} else {
@@ -185,7 +185,7 @@ func (handler *UserServiceHandler) GetCurrentKYC(ctx context.Context, req *pb.Ge
 
 }
 
-func (handler *UserServiceHandler) SearchUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
+func (handler *UserServiceHandler) GetUserByID(ctx context.Context, req *pb.UserID) (*pb.User, error) {
 	glog.Infof("Search User by userID: %v", req.Id)
 	resUser := SearchOneUserByUniqueTextField("user_name", req.Id, handler.esClient)
 	if resUser == nil {
@@ -195,7 +195,7 @@ func (handler *UserServiceHandler) SearchUserByID(ctx context.Context, req *pb.U
 	}
 }
 
-func (handler *UserServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
+func (handler *UserServiceHandler) GetUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
 	glog.Infof("Search User by ID Card Number %v", req.IdCardNumber)
 	resUser := SearchOneUserByUniqueTextField("id_card_number", req.IdCardNumber, handler.esClient)
 	if resUser == nil {
@@ -204,7 +204,7 @@ func (handler *UserServiceHandler) SearchUserByIdCardNumber(ctx context.Context,
 	return resUser, nil
 }
 
-func (handler *UserServiceHandler) SearchUserByAccountID(ctx context.Context, req *pb.AccountID) (*pb.User, error) {
+func (handler *UserServiceHandler) GetUserByAccountID(ctx context.Context, req *pb.AccountID) (*pb.User, error) {
 	glog.Infof("Search User by AccountID %v", req.AccountID)
 	resUser := SearchOneUserByUniqueTextField("account_id", req.AccountID, handler.esClient)
 	if resUser == nil {
@@ -213,7 +213,7 @@ func (handler *UserServiceHandler) SearchUserByAccountID(ctx context.Context, re
 	return resUser, nil
 }
 
-func (handler *UserServiceHandler) SearchUserByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
+func (handler *UserServiceHandler) ListUsersByFilter(ctx context.Context, req *pb.UserFilter) (*pb.UserList, error) {
 	glog.Infof("SearchUsersByFilters %v", req)
 	users := SearchUsersByFiltersHelper(req, handler.esClient)
 	if len(users) < 1 {
@@ -225,6 +225,18 @@ func (handler *UserServiceHandler) SearchUserByFilter(ctx context.Context, req *
 		UserList: users,
 	}, nil
 
+}
+
+func (handler *UserServiceHandler) UpdateUser(ctx context.Context, req *pb.User) (*pb.User, error) {
+	// TODO
+	return nil, nil
+}
+
+func (hanlder *UserServiceHandler) DeleteUser(ctx context.Context, req *pb.User) (*pb.DeleteUserResponse, error) {
+	// TODO
+	return &pb.DeleteUserResponse{
+		Success: true,
+	}, nil
 }
 
 func GenKYCDefault() int32 {
