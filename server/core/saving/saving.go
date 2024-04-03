@@ -49,7 +49,7 @@ func StartSavingServer(handler *SavingServiceHandler, port string) {
 	}
 }
 
-func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req *pb.SavingAccount) (*pb.SavingAccount, error) {
+func (handler *SavingServiceHandler) CreateSavingsAccount(ctx context.Context, req *pb.SavingAccount) (*pb.SavingAccount, error) {
 	// ElasticSearch
 	indexReq := CreateIndexingRequest(req, ESSavingIndex)
 	indexRes, err := indexReq.Do(context.Background(), handler.esClient)
@@ -83,7 +83,7 @@ func (handler *SavingServiceHandler) OpenSavingsAccount(ctx context.Context, req
 	return req, status.New(codes.OK, "").Err()
 }
 
-func (handler *SavingServiceHandler) AccountInquiry(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccount, error) {
+func (handler *SavingServiceHandler) GetAccount(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccount, error) {
 	glog.Infof("AccountInquiry: received userID: %v, accountID: %v", req.UserId, req.AccountId)
 
 	acc, exists := handler.accountMap[req.AccountId]
@@ -109,9 +109,9 @@ func (handler *SavingServiceHandler) AccountInquiry(ctx context.Context, req *pb
 	return nil, status.Errorf(codes.NotFound, "")
 }
 
-func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.WithdrawalRequest) (*pb.SavingAccount, error) {
+func (handler *SavingServiceHandler) UpdateAccountByWithdrawal(ctx context.Context, req *pb.WithdrawalRequest) (*pb.SavingAccount, error) {
 	glog.Infof("UpdateBalance: accountID %v", req.AccountId)
-	acc, _ := handler.SearchAccountByID(ctx, &pb.AccID{
+	acc, _ := handler.GetAccountByID(ctx, &pb.AccID{
 		Id: req.AccountId, // validated before
 	})
 
@@ -164,7 +164,7 @@ func (handler *SavingServiceHandler) UpdateBalance(ctx context.Context, req *pb.
 	return acc, status.New(codes.OK, "").Err()
 }
 
-func (handler *SavingServiceHandler) SearchAccountByID(ctx context.Context, req *pb.AccID) (*pb.SavingAccount, error) {
+func (handler *SavingServiceHandler) GetAccountByID(ctx context.Context, req *pb.AccID) (*pb.SavingAccount, error) {
 	glog.Infof("SearchAccountByID: account ID: %v", req.Id)
 	resAcc := SearchOneAccountByUniqueTextField("id", req.Id, handler.esClient)
 	if resAcc == nil {
@@ -174,7 +174,7 @@ func (handler *SavingServiceHandler) SearchAccountByID(ctx context.Context, req 
 	}
 }
 
-func (handler *SavingServiceHandler) SearchAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
+func (handler *SavingServiceHandler) ListAccountsByUserID(ctx context.Context, req *pb.AccountInquiryRequest) (*pb.SavingAccountList, error) {
 	glog.Infof("SearchAccountsByUserID: %v", req.UserId)
 	accList := GetAllAccountsByUserIDHelper(req.UserId, handler.esClient)
 
@@ -183,7 +183,7 @@ func (handler *SavingServiceHandler) SearchAccountsByUserID(ctx context.Context,
 	}, nil
 }
 
-func (handler *SavingServiceHandler) SearchAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
+func (handler *SavingServiceHandler) ListAccountsByFilter(ctx context.Context, req *pb.Filter) (*pb.SavingAccountList, error) {
 	glog.Infof("SearchAccountsByFilters %v", req)
 	accList, totalHits, totalBalance := SearchAccountsByFiltersWithPaging(req, handler.esClient)
 
@@ -196,7 +196,7 @@ func (handler *SavingServiceHandler) SearchAccountsByFilter(ctx context.Context,
 	}, nil
 }
 
-func (handler *SavingServiceHandler) SearchUserByNumberAccountRange(ctx context.Context, req *pb.NumberAccountRange) (*pb.ListUserWithAccounts, error) {
+func (handler *SavingServiceHandler) ListUsersByNumberAccountRange(ctx context.Context, req *pb.NumberAccountRange) (*pb.ListUserWithAccounts, error) {
 	result, err := handler.GetUserHavingAccountNumber(int(req.MinNumber), int(req.MaxNumber))
 	if err != nil {
 		return nil, nil
@@ -214,4 +214,24 @@ func (handler *SavingServiceHandler) SearchUserByNumberAccountRange(ctx context.
 	return &pb.ListUserWithAccounts{
 		UserGroup: userGroup,
 	}, nil
+}
+
+func (handler *SavingServiceHandler) DeleteAccount(ctx context.Context, req *pb.SavingAccount) (*pb.DeleteAccountResponse, error) {
+	docID := SearchDocIDByUniqueTextField("id", req.Id, handler.esClient)
+	deleteReq := esapi.DeleteRequest{
+		Index:      ESSavingIndex,
+		DocumentID: docID,
+	}
+
+	_, err := deleteReq.Do(context.Background(), handler.esClient)
+	if err != nil {
+		glog.Errorf("Error deleting account: %s", err)
+		return &pb.DeleteAccountResponse{
+			Success: false,
+		}, err
+	}
+	glog.Infof("UpdateBalance: Deleted Saving Account from ElasticSearch %v\n", docID)
+	return &pb.DeleteAccountResponse{
+		Success: true,
+	}, status.New(codes.OK, "").Err()
 }

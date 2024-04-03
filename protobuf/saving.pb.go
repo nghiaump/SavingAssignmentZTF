@@ -143,6 +143,45 @@ func (m *SavingAccount) GetKyc() int32 {
 	return 0
 }
 
+type DeleteAccountResponse struct {
+	Success              bool     `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *DeleteAccountResponse) Reset()         { *m = DeleteAccountResponse{} }
+func (m *DeleteAccountResponse) String() string { return proto.CompactTextString(m) }
+func (*DeleteAccountResponse) ProtoMessage()    {}
+func (*DeleteAccountResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7e8dd110a4bce988, []int{1}
+}
+
+func (m *DeleteAccountResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_DeleteAccountResponse.Unmarshal(m, b)
+}
+func (m *DeleteAccountResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_DeleteAccountResponse.Marshal(b, m, deterministic)
+}
+func (m *DeleteAccountResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DeleteAccountResponse.Merge(m, src)
+}
+func (m *DeleteAccountResponse) XXX_Size() int {
+	return xxx_messageInfo_DeleteAccountResponse.Size(m)
+}
+func (m *DeleteAccountResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_DeleteAccountResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DeleteAccountResponse proto.InternalMessageInfo
+
+func (m *DeleteAccountResponse) GetSuccess() bool {
+	if m != nil {
+		return m.Success
+	}
+	return false
+}
+
 type AccID struct {
 	Id                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -154,7 +193,7 @@ func (m *AccID) Reset()         { *m = AccID{} }
 func (m *AccID) String() string { return proto.CompactTextString(m) }
 func (*AccID) ProtoMessage()    {}
 func (*AccID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{1}
+	return fileDescriptor_7e8dd110a4bce988, []int{2}
 }
 
 func (m *AccID) XXX_Unmarshal(b []byte) error {
@@ -199,7 +238,7 @@ func (m *Filter) Reset()         { *m = Filter{} }
 func (m *Filter) String() string { return proto.CompactTextString(m) }
 func (*Filter) ProtoMessage()    {}
 func (*Filter) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{2}
+	return fileDescriptor_7e8dd110a4bce988, []int{3}
 }
 
 func (m *Filter) XXX_Unmarshal(b []byte) error {
@@ -284,7 +323,7 @@ func (m *SavingAccountList) Reset()         { *m = SavingAccountList{} }
 func (m *SavingAccountList) String() string { return proto.CompactTextString(m) }
 func (*SavingAccountList) ProtoMessage()    {}
 func (*SavingAccountList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{3}
+	return fileDescriptor_7e8dd110a4bce988, []int{4}
 }
 
 func (m *SavingAccountList) XXX_Unmarshal(b []byte) error {
@@ -356,7 +395,7 @@ func (m *OpenSavingsAccountRequest) Reset()         { *m = OpenSavingsAccountReq
 func (m *OpenSavingsAccountRequest) String() string { return proto.CompactTextString(m) }
 func (*OpenSavingsAccountRequest) ProtoMessage()    {}
 func (*OpenSavingsAccountRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{4}
+	return fileDescriptor_7e8dd110a4bce988, []int{5}
 }
 
 func (m *OpenSavingsAccountRequest) XXX_Unmarshal(b []byte) error {
@@ -437,7 +476,7 @@ func (m *OpenSavingsAccountResponse) Reset()         { *m = OpenSavingsAccountRe
 func (m *OpenSavingsAccountResponse) String() string { return proto.CompactTextString(m) }
 func (*OpenSavingsAccountResponse) ProtoMessage()    {}
 func (*OpenSavingsAccountResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{5}
+	return fileDescriptor_7e8dd110a4bce988, []int{6}
 }
 
 func (m *OpenSavingsAccountResponse) XXX_Unmarshal(b []byte) error {
@@ -528,7 +567,7 @@ func (m *WithdrawalRequest) Reset()         { *m = WithdrawalRequest{} }
 func (m *WithdrawalRequest) String() string { return proto.CompactTextString(m) }
 func (*WithdrawalRequest) ProtoMessage()    {}
 func (*WithdrawalRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{6}
+	return fileDescriptor_7e8dd110a4bce988, []int{7}
 }
 
 func (m *WithdrawalRequest) XXX_Unmarshal(b []byte) error {
@@ -590,7 +629,7 @@ func (m *WithdrawalResponse) Reset()         { *m = WithdrawalResponse{} }
 func (m *WithdrawalResponse) String() string { return proto.CompactTextString(m) }
 func (*WithdrawalResponse) ProtoMessage()    {}
 func (*WithdrawalResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{7}
+	return fileDescriptor_7e8dd110a4bce988, []int{8}
 }
 
 func (m *WithdrawalResponse) XXX_Unmarshal(b []byte) error {
@@ -644,7 +683,7 @@ func (m *AccountInquiryRequest) Reset()         { *m = AccountInquiryRequest{} }
 func (m *AccountInquiryRequest) String() string { return proto.CompactTextString(m) }
 func (*AccountInquiryRequest) ProtoMessage()    {}
 func (*AccountInquiryRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{8}
+	return fileDescriptor_7e8dd110a4bce988, []int{9}
 }
 
 func (m *AccountInquiryRequest) XXX_Unmarshal(b []byte) error {
@@ -691,7 +730,7 @@ func (m *NumberAccountRange) Reset()         { *m = NumberAccountRange{} }
 func (m *NumberAccountRange) String() string { return proto.CompactTextString(m) }
 func (*NumberAccountRange) ProtoMessage()    {}
 func (*NumberAccountRange) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{9}
+	return fileDescriptor_7e8dd110a4bce988, []int{10}
 }
 
 func (m *NumberAccountRange) XXX_Unmarshal(b []byte) error {
@@ -738,7 +777,7 @@ func (m *UserWithAccounts) Reset()         { *m = UserWithAccounts{} }
 func (m *UserWithAccounts) String() string { return proto.CompactTextString(m) }
 func (*UserWithAccounts) ProtoMessage()    {}
 func (*UserWithAccounts) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{10}
+	return fileDescriptor_7e8dd110a4bce988, []int{11}
 }
 
 func (m *UserWithAccounts) XXX_Unmarshal(b []byte) error {
@@ -784,7 +823,7 @@ func (m *ListUserWithAccounts) Reset()         { *m = ListUserWithAccounts{} }
 func (m *ListUserWithAccounts) String() string { return proto.CompactTextString(m) }
 func (*ListUserWithAccounts) ProtoMessage()    {}
 func (*ListUserWithAccounts) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7e8dd110a4bce988, []int{11}
+	return fileDescriptor_7e8dd110a4bce988, []int{12}
 }
 
 func (m *ListUserWithAccounts) XXX_Unmarshal(b []byte) error {
@@ -814,6 +853,7 @@ func (m *ListUserWithAccounts) GetUserGroup() []*UserWithAccounts {
 
 func init() {
 	proto.RegisterType((*SavingAccount)(nil), "protobuf.SavingAccount")
+	proto.RegisterType((*DeleteAccountResponse)(nil), "protobuf.DeleteAccountResponse")
 	proto.RegisterType((*AccID)(nil), "protobuf.AccID")
 	proto.RegisterType((*Filter)(nil), "protobuf.Filter")
 	proto.RegisterType((*SavingAccountList)(nil), "protobuf.SavingAccountList")
@@ -830,60 +870,62 @@ func init() {
 func init() { proto.RegisterFile("saving.proto", fileDescriptor_7e8dd110a4bce988) }
 
 var fileDescriptor_7e8dd110a4bce988 = []byte{
-	// 841 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xcd, 0x6e, 0xeb, 0x44,
-	0x14, 0x96, 0xed, 0x24, 0x4d, 0x4e, 0x7b, 0xd3, 0x66, 0x04, 0xf7, 0x9a, 0xf4, 0x12, 0x22, 0x0b,
-	0xa1, 0x70, 0x55, 0x75, 0xd1, 0xee, 0x90, 0x58, 0x34, 0x0a, 0x85, 0x20, 0x54, 0x84, 0xd3, 0xc2,
-	0x0e, 0x6b, 0x32, 0x1e, 0xdc, 0x11, 0x89, 0xe3, 0xce, 0x8c, 0xdb, 0x9a, 0x3d, 0x3b, 0x24, 0x1e,
-	0x84, 0x67, 0x61, 0xcb, 0xa3, 0xb0, 0x46, 0x33, 0xb6, 0x63, 0x3b, 0x4e, 0x52, 0x24, 0x58, 0xc5,
-	0xe7, 0x3b, 0x3f, 0xf3, 0x9d, 0xdf, 0xc0, 0x91, 0xc0, 0x8f, 0x2c, 0x0c, 0xce, 0x23, 0xbe, 0x92,
-	0x2b, 0xd4, 0xd6, 0x3f, 0xf3, 0xf8, 0x27, 0xe7, 0x77, 0x13, 0x5e, 0xcd, 0xb4, 0xea, 0x8a, 0x90,
-	0x55, 0x1c, 0x4a, 0xd4, 0x05, 0x93, 0xf9, 0xb6, 0x31, 0x34, 0x46, 0x1d, 0xd7, 0x64, 0x3e, 0xb2,
-	0xe1, 0x20, 0x16, 0x94, 0x7b, 0xcc, 0xb7, 0x4d, 0x0d, 0xe6, 0xa2, 0xd2, 0xcc, 0xf1, 0x02, 0x87,
-	0x84, 0xda, 0xd6, 0xd0, 0x18, 0x59, 0x6e, 0x2e, 0xa2, 0xb7, 0xd0, 0x91, 0x94, 0x2f, 0x3d, 0x99,
-	0x44, 0xd4, 0x6e, 0x68, 0xaf, 0x02, 0x40, 0x08, 0x1a, 0x4a, 0xb0, 0x9b, 0x43, 0x63, 0xd4, 0x74,
-	0xf5, 0x37, 0x72, 0xe0, 0x48, 0x1b, 0xb0, 0xd0, 0xf3, 0x71, 0x22, 0xec, 0x96, 0xd6, 0x55, 0x30,
-	0x65, 0x43, 0x38, 0xc5, 0x92, 0xfa, 0x9e, 0x8f, 0x25, 0xb5, 0x0f, 0x74, 0xe0, 0x0a, 0x86, 0xfa,
-	0xd0, 0xf6, 0x63, 0x9a, 0xea, 0xdb, 0x5a, 0xbf, 0x96, 0xd5, 0xbb, 0x5c, 0xe1, 0x9d, 0xa1, 0x31,
-	0x32, 0x5d, 0xfd, 0x8d, 0x4e, 0xc0, 0xfa, 0x39, 0x21, 0x36, 0xe8, 0xe7, 0xd4, 0xa7, 0xf3, 0x06,
-	0x9a, 0x57, 0x84, 0x4c, 0x27, 0x9b, 0x85, 0x70, 0xfe, 0x36, 0xa0, 0x75, 0xcd, 0x16, 0x92, 0xf2,
-	0xdc, 0xcb, 0x58, 0x7b, 0xd5, 0xf8, 0x9b, 0x5b, 0xf8, 0x9f, 0x41, 0x2f, 0xe7, 0xe2, 0x51, 0xcc,
-	0x17, 0x8c, 0x0a, 0xa9, 0x2b, 0xd7, 0x71, 0xeb, 0x0a, 0x34, 0x82, 0xe3, 0x35, 0xb8, 0xc0, 0x52,
-	0xd9, 0xa6, 0x95, 0xdc, 0x84, 0xd1, 0x10, 0x0e, 0x97, 0x2c, 0xf4, 0xf2, 0x5e, 0x34, 0x75, 0x2f,
-	0xca, 0x90, 0xea, 0x47, 0x84, 0x03, 0xea, 0x09, 0xf6, 0x0b, 0xcd, 0x4a, 0x5b, 0x00, 0x68, 0x00,
-	0xa0, 0x05, 0x16, 0xfa, 0xf4, 0x59, 0x57, 0xb5, 0xe9, 0x96, 0x10, 0xe7, 0x2f, 0x03, 0x7a, 0x95,
-	0x19, 0xf9, 0x86, 0x09, 0x89, 0x2e, 0xa1, 0x8d, 0x09, 0xf1, 0x16, 0x4c, 0x48, 0xdb, 0x18, 0x5a,
-	0xa3, 0xc3, 0x8b, 0x37, 0xe7, 0xf9, 0x58, 0x9d, 0x57, 0xcc, 0xdd, 0xb5, 0x21, 0x3a, 0x2d, 0x13,
-	0x49, 0x6b, 0xd4, 0x56, 0xc0, 0x4c, 0xf1, 0xf8, 0xb0, 0xc2, 0xc3, 0x2a, 0x68, 0x4e, 0x15, 0x80,
-	0x3e, 0x86, 0x2e, 0x0e, 0x02, 0x4f, 0xae, 0x24, 0x5e, 0x78, 0xf7, 0x4c, 0x0a, 0x5d, 0x0f, 0xcb,
-	0x3d, 0xc2, 0x41, 0x70, 0xab, 0xc0, 0xaf, 0x98, 0x14, 0xe8, 0x1d, 0xf4, 0x0a, 0xab, 0x6a, 0x49,
-	0x8e, 0x73, 0xc3, 0x71, 0x0a, 0x3b, 0x7f, 0x1a, 0xf0, 0xc1, 0xb7, 0x11, 0x0d, 0x53, 0xb6, 0x22,
-	0xa7, 0x4b, 0x1f, 0x62, 0x55, 0xd6, 0xd2, 0xe0, 0x1b, 0xd5, 0xc1, 0xff, 0x04, 0xba, 0xcc, 0xf7,
-	0x08, 0xe6, 0xbe, 0x17, 0xc6, 0xcb, 0x39, 0xe5, 0xd9, 0x66, 0x6c, 0xa0, 0xff, 0xf7, 0x82, 0x54,
-	0x86, 0xbf, 0x55, 0x1f, 0x7e, 0xe7, 0x37, 0x13, 0xfa, 0xdb, 0xf2, 0x11, 0xd1, 0x2a, 0x14, 0x54,
-	0xd1, 0x11, 0x31, 0x21, 0x54, 0x08, 0x9d, 0x50, 0xdb, 0xcd, 0xc5, 0x3d, 0x3b, 0x3e, 0x00, 0xc0,
-	0x69, 0x18, 0xa5, 0x4c, 0x87, 0xb5, 0x84, 0x94, 0x53, 0x6c, 0x54, 0x53, 0xcc, 0xb7, 0xad, 0x59,
-	0xda, 0xb6, 0x7f, 0x91, 0x44, 0x65, 0x83, 0x0f, 0x36, 0x36, 0xf8, 0x0c, 0x7a, 0xf4, 0x39, 0xa2,
-	0x44, 0x19, 0xb3, 0x50, 0x52, 0xae, 0xb6, 0xa2, 0xad, 0xdf, 0xad, 0x2b, 0x9c, 0x04, 0x7a, 0x3f,
-	0x30, 0x79, 0xef, 0x73, 0xfc, 0x84, 0x17, 0x2f, 0x77, 0xb5, 0x9a, 0xaa, 0x59, 0x4b, 0xf5, 0x35,
-	0xb4, 0xf0, 0x52, 0x09, 0x59, 0x33, 0x33, 0x49, 0x25, 0xaa, 0xc9, 0xa6, 0x6d, 0xd4, 0xdf, 0xce,
-	0xaf, 0x06, 0xa0, 0xf2, 0xdb, 0x2f, 0x76, 0xe0, 0x53, 0xb0, 0x30, 0x21, 0xfa, 0xd5, 0x3d, 0x8b,
-	0xa4, 0x6c, 0xd0, 0x3b, 0x38, 0x79, 0xca, 0x42, 0x87, 0x5e, 0x85, 0x51, 0x0d, 0x77, 0xbe, 0x83,
-	0xf7, 0x33, 0xdf, 0x69, 0xf8, 0x10, 0x33, 0x9e, 0xfc, 0xe7, 0x32, 0x38, 0xb7, 0x80, 0x6e, 0xf4,
-	0x78, 0xe7, 0xa4, 0x70, 0x18, 0xe8, 0x1b, 0xa2, 0x0e, 0x4e, 0xb6, 0x0e, 0xe9, 0x61, 0x2c, 0x21,
-	0x5a, 0x8f, 0x9f, 0xcb, 0xeb, 0xa2, 0xf4, 0x6b, 0xc4, 0xb9, 0x81, 0x93, 0x3b, 0x41, 0xb9, 0xaa,
-	0x59, 0x16, 0x57, 0xec, 0xe1, 0x38, 0x84, 0xc3, 0x82, 0x91, 0x3a, 0xb6, 0xd6, 0xa8, 0xe3, 0x96,
-	0x21, 0xc7, 0x85, 0xf7, 0xd4, 0x95, 0xaa, 0xc5, 0xfc, 0x0c, 0x40, 0x07, 0x09, 0xf8, 0x2a, 0x8e,
-	0xb2, 0xbb, 0xd5, 0x2f, 0xca, 0xbd, 0x69, 0xef, 0x96, 0xac, 0x2f, 0xfe, 0x68, 0x40, 0x37, 0x5b,
-	0xad, 0x19, 0xe5, 0x8f, 0x8c, 0x50, 0x74, 0x0d, 0xa8, 0xbe, 0x70, 0x68, 0x57, 0xff, 0xfa, 0xbb,
-	0x14, 0xe8, 0x6b, 0xe8, 0x56, 0xfb, 0x84, 0x3e, 0x2a, 0x4c, 0xb7, 0x76, 0x70, 0x77, 0xac, 0x2f,
-	0xe0, 0xd5, 0x5d, 0xa4, 0xa6, 0x30, 0x3b, 0x73, 0xe8, 0xb4, 0xb0, 0xac, 0xed, 0xc3, 0xee, 0x30,
-	0x9f, 0x43, 0x6f, 0x46, 0x31, 0x27, 0x79, 0x2d, 0xc6, 0xc9, 0x74, 0x82, 0x8e, 0x2b, 0xac, 0xa6,
-	0x93, 0xdd, 0xee, 0xdf, 0xc3, 0xeb, 0x8a, 0xbb, 0x18, 0x27, 0xaa, 0xb8, 0xd3, 0xc9, 0xcb, 0x99,
-	0x9d, 0xee, 0x88, 0xa9, 0xff, 0x76, 0xbe, 0xac, 0xc7, 0xcd, 0xff, 0x94, 0x0b, 0xb7, 0x14, 0xd9,
-	0x1f, 0xe8, 0x47, 0x18, 0xa4, 0x81, 0x14, 0xad, 0x71, 0xb2, 0x65, 0xa6, 0xdf, 0x16, 0xee, 0x75,
-	0x6d, 0x7f, 0x50, 0x68, 0xb7, 0x4d, 0xda, 0xbc, 0xa5, 0xd5, 0x97, 0xff, 0x04, 0x00, 0x00, 0xff,
-	0xff, 0xd5, 0xb8, 0x27, 0xfc, 0x7a, 0x09, 0x00, 0x00,
+	// 873 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x56, 0x4d, 0x6f, 0xe3, 0x36,
+	0x10, 0x85, 0x24, 0xdb, 0xb1, 0x27, 0x59, 0x27, 0x26, 0x76, 0xbb, 0x5a, 0xef, 0x6e, 0x6a, 0x08,
+	0x45, 0xe1, 0x06, 0x41, 0x80, 0x26, 0xb7, 0xdc, 0xe2, 0xba, 0x69, 0x0c, 0x14, 0x29, 0xa2, 0x24,
+	0xe8, 0xa9, 0x10, 0x68, 0x8a, 0x55, 0x88, 0xca, 0xb2, 0x22, 0x52, 0x49, 0xd4, 0x7b, 0x6f, 0x05,
+	0xfa, 0xcb, 0x7a, 0xed, 0x4f, 0x69, 0xaf, 0x05, 0x29, 0xc9, 0x92, 0x2c, 0x7f, 0x14, 0xe8, 0x9e,
+	0x4c, 0xbe, 0x19, 0x0e, 0x67, 0xde, 0xf0, 0x8d, 0x0c, 0x7b, 0x1c, 0x3f, 0xb1, 0xc0, 0x3b, 0x09,
+	0xa3, 0xb9, 0x98, 0xa3, 0xb6, 0xfa, 0x99, 0xc6, 0x3f, 0x5b, 0x7f, 0xe8, 0xf0, 0xea, 0x56, 0x99,
+	0x2e, 0x08, 0x99, 0xc7, 0x81, 0x40, 0x5d, 0xd0, 0x99, 0x6b, 0x6a, 0x03, 0x6d, 0xd8, 0xb1, 0x75,
+	0xe6, 0x22, 0x13, 0x76, 0x62, 0x4e, 0x23, 0x87, 0xb9, 0xa6, 0xae, 0xc0, 0x7c, 0x2b, 0x2d, 0x53,
+	0xec, 0xe3, 0x80, 0x50, 0xd3, 0x18, 0x68, 0x43, 0xc3, 0xce, 0xb7, 0xe8, 0x03, 0x74, 0x04, 0x8d,
+	0x66, 0x8e, 0x48, 0x42, 0x6a, 0x36, 0xd4, 0xa9, 0x02, 0x40, 0x08, 0x1a, 0x72, 0x63, 0x36, 0x07,
+	0xda, 0xb0, 0x69, 0xab, 0x35, 0xb2, 0x60, 0x4f, 0x39, 0xb0, 0xc0, 0x71, 0x71, 0xc2, 0xcd, 0x96,
+	0xb2, 0x55, 0x30, 0xe9, 0x43, 0x22, 0x8a, 0x05, 0x75, 0x1d, 0x17, 0x0b, 0x6a, 0xee, 0xa8, 0xc0,
+	0x15, 0x0c, 0xf5, 0xa1, 0xed, 0xc6, 0x34, 0xb5, 0xb7, 0x95, 0x7d, 0xb1, 0x97, 0xf7, 0x46, 0x12,
+	0xef, 0x0c, 0xb4, 0xa1, 0x6e, 0xab, 0x35, 0x3a, 0x00, 0xe3, 0x97, 0x84, 0x98, 0xa0, 0xae, 0x93,
+	0x4b, 0xeb, 0x6b, 0x78, 0x33, 0xa6, 0x3e, 0x15, 0x34, 0x23, 0xc4, 0xa6, 0x3c, 0x9c, 0x07, 0x9c,
+	0xca, 0x72, 0x79, 0x4c, 0x08, 0xe5, 0x5c, 0xb1, 0xd3, 0xb6, 0xf3, 0xad, 0xf5, 0x16, 0x9a, 0x17,
+	0x84, 0x4c, 0xc6, 0xcb, 0xdc, 0x59, 0x7f, 0x6b, 0xd0, 0xba, 0x64, 0xbe, 0xa0, 0x51, 0x7e, 0x91,
+	0xb6, 0xb8, 0xa8, 0x56, 0xb2, 0xbe, 0xa2, 0xe4, 0x63, 0xe8, 0xe5, 0xe9, 0x3b, 0x14, 0x47, 0x3e,
+	0xa3, 0x5c, 0x28, 0xb2, 0x3b, 0x76, 0xdd, 0x80, 0x86, 0xb0, 0xbf, 0x00, 0x7d, 0x2c, 0xa4, 0x6f,
+	0x4a, 0xfe, 0x32, 0x8c, 0x06, 0xb0, 0x3b, 0x63, 0x81, 0x93, 0xb7, 0xaf, 0xa9, 0xda, 0x57, 0x86,
+	0x64, 0x0b, 0x43, 0xec, 0x51, 0x87, 0xb3, 0x5f, 0x69, 0xd6, 0x8d, 0x02, 0x40, 0x87, 0x00, 0x6a,
+	0xc3, 0x02, 0x97, 0xbe, 0xa8, 0x46, 0x34, 0xed, 0x12, 0x62, 0xfd, 0xa5, 0x41, 0xaf, 0xf2, 0xac,
+	0xbe, 0x67, 0x5c, 0xa0, 0x33, 0x68, 0x63, 0x42, 0x1c, 0x9f, 0x71, 0x61, 0x6a, 0x03, 0x63, 0xb8,
+	0x7b, 0xfa, 0xf6, 0x24, 0x7f, 0x89, 0x27, 0x15, 0x77, 0x7b, 0xe1, 0x88, 0xde, 0x97, 0x13, 0x49,
+	0x39, 0x6a, 0x4b, 0xe0, 0x56, 0xe6, 0xf1, 0xb1, 0x92, 0x87, 0x51, 0xa4, 0x39, 0x91, 0x00, 0xfa,
+	0x02, 0xba, 0xd8, 0xf3, 0x1c, 0x31, 0x17, 0xd8, 0x77, 0x1e, 0x98, 0xe0, 0x8a, 0x0f, 0xc3, 0xde,
+	0xc3, 0x9e, 0x77, 0x27, 0xc1, 0x2b, 0x26, 0x38, 0x3a, 0x82, 0x5e, 0xe1, 0x55, 0xa5, 0x64, 0x3f,
+	0x77, 0x1c, 0xa5, 0xb0, 0xf5, 0xa7, 0x06, 0xef, 0x7e, 0x08, 0x69, 0x90, 0x66, 0xcb, 0x17, 0x6f,
+	0xe4, 0x31, 0x96, 0xb4, 0x96, 0xb4, 0xa2, 0x55, 0xb5, 0xf2, 0x25, 0x74, 0x99, 0xeb, 0x10, 0x1c,
+	0xb9, 0x4e, 0x10, 0xcf, 0xa6, 0x34, 0xca, 0xc4, 0xb4, 0x84, 0x7e, 0x6a, 0x4d, 0x55, 0xf4, 0xd2,
+	0xaa, 0xeb, 0xc5, 0xfa, 0x5d, 0x87, 0xfe, 0xaa, 0x7a, 0xb6, 0xbd, 0xf9, 0x0d, 0x63, 0xe1, 0x10,
+	0x00, 0xa7, 0x61, 0xa4, 0x31, 0x7d, 0xac, 0x25, 0xa4, 0x5c, 0x62, 0xa3, 0x5a, 0x62, 0x2e, 0xd0,
+	0x66, 0x49, 0xa0, 0xff, 0xa1, 0x88, 0x8a, 0xe8, 0x77, 0x96, 0x44, 0x7f, 0x0c, 0x3d, 0xfa, 0x12,
+	0x52, 0x22, 0x9d, 0x59, 0x20, 0x68, 0x24, 0x55, 0xd1, 0x56, 0xf7, 0xd6, 0x0d, 0x56, 0x02, 0xbd,
+	0x1f, 0x99, 0x78, 0x70, 0x23, 0xfc, 0x8c, 0xfd, 0xed, 0x5d, 0xad, 0x96, 0xaa, 0xd7, 0x4a, 0xfd,
+	0x0c, 0x5a, 0x78, 0x26, 0x37, 0x59, 0x33, 0xb3, 0x9d, 0x2c, 0x54, 0x25, 0x9b, 0xb6, 0x51, 0xad,
+	0xad, 0xdf, 0x34, 0x40, 0xe5, 0xbb, 0xb7, 0x76, 0xe0, 0x2b, 0x30, 0x30, 0x21, 0xea, 0xd6, 0x0d,
+	0x42, 0x92, 0x3e, 0xe8, 0x08, 0x0e, 0x9e, 0xb3, 0xd0, 0x81, 0x53, 0xc9, 0xa8, 0x86, 0x5b, 0x37,
+	0xf0, 0x26, 0x3b, 0x3b, 0x09, 0x1e, 0x63, 0x16, 0x25, 0xff, 0x9b, 0x06, 0xeb, 0x0e, 0xd0, 0xb5,
+	0x7a, 0xde, 0x79, 0x52, 0x38, 0xf0, 0xd4, 0x0c, 0x91, 0x03, 0x27, 0x93, 0x43, 0x3a, 0x18, 0x4b,
+	0x88, 0xb2, 0xe3, 0x97, 0xb2, 0x5c, 0xa4, 0x7d, 0x81, 0x58, 0xd7, 0x70, 0x70, 0xcf, 0x69, 0x24,
+	0x39, 0xcb, 0xe2, 0xf2, 0x0d, 0x39, 0x0e, 0x60, 0xb7, 0xc8, 0x48, 0x0e, 0x5b, 0x63, 0xd8, 0xb1,
+	0xcb, 0x90, 0x65, 0xc3, 0x6b, 0x39, 0xa5, 0x6a, 0x31, 0xcf, 0x01, 0x54, 0x10, 0x2f, 0x9a, 0xc7,
+	0x61, 0x36, 0xb7, 0xfa, 0x05, 0xdd, 0xcb, 0xfe, 0x76, 0xc9, 0xfb, 0xf4, 0x9f, 0x46, 0xfe, 0x79,
+	0xbd, 0xa5, 0xd1, 0x13, 0x23, 0x14, 0x5d, 0x02, 0x7c, 0x47, 0x45, 0xfe, 0xb1, 0xfd, 0xbc, 0x88,
+	0xb3, 0x92, 0xf4, 0xfe, 0xba, 0xbe, 0xa2, 0x73, 0xe8, 0x16, 0x71, 0x46, 0xc9, 0x64, 0x8c, 0xf6,
+	0x2b, 0xb1, 0x26, 0xe3, 0xf5, 0x67, 0xef, 0xd2, 0x4a, 0xf3, 0x8c, 0x47, 0x89, 0xac, 0x61, 0x32,
+	0xde, 0x9e, 0xcd, 0xfb, 0x35, 0x11, 0xd5, 0x74, 0xff, 0x76, 0x39, 0x6a, 0xfe, 0xe5, 0x2b, 0x0e,
+	0xa5, 0xc8, 0xe6, 0x30, 0x3f, 0xc1, 0xc7, 0xbc, 0x0d, 0x7c, 0x94, 0xac, 0x78, 0x37, 0x1f, 0x8a,
+	0xd3, 0x75, 0x6b, 0xff, 0xb0, 0xb0, 0xae, 0xec, 0xe6, 0x15, 0xbc, 0xfe, 0x46, 0xcd, 0x8e, 0xea,
+	0xc4, 0x43, 0xeb, 0xc8, 0x5a, 0xcf, 0xe2, 0x0d, 0xbc, 0xbb, 0x0f, 0xa5, 0x74, 0x17, 0x4d, 0x28,
+	0xe4, 0x8b, 0x4a, 0x25, 0xd6, 0x06, 0xca, 0xfa, 0x90, 0x13, 0x78, 0x55, 0xf9, 0xef, 0xb1, 0x3e,
+	0xab, 0x52, 0xab, 0x56, 0xfe, 0x5b, 0x99, 0xb6, 0x94, 0xfd, 0xec, 0xdf, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0xb0, 0x75, 0x65, 0x20, 0xf9, 0x09, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -894,288 +936,324 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// SavingsServiceClient is the client API for SavingsService service.
+// SavingServiceClient is the client API for SavingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type SavingsServiceClient interface {
-	OpenSavingsAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*SavingAccount, error)
-	AccountInquiry(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error)
-	UpdateBalance(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*SavingAccount, error)
-	SearchAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error)
-	SearchAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error)
-	SearchAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error)
-	SearchUserByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error)
+type SavingServiceClient interface {
+	GetAccount(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error)
+	GetAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error)
+	ListAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error)
+	ListAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error)
+	ListUsersByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error)
+	CreateSavingsAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*SavingAccount, error)
+	UpdateAccountByWithdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*SavingAccount, error)
+	DeleteAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*DeleteAccountResponse, error)
 }
 
-type savingsServiceClient struct {
+type savingServiceClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewSavingsServiceClient(cc *grpc.ClientConn) SavingsServiceClient {
-	return &savingsServiceClient{cc}
+func NewSavingServiceClient(cc *grpc.ClientConn) SavingServiceClient {
+	return &savingServiceClient{cc}
 }
 
-func (c *savingsServiceClient) OpenSavingsAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*SavingAccount, error) {
+func (c *savingServiceClient) GetAccount(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
 	out := new(SavingAccount)
-	err := c.cc.Invoke(ctx, "/protobuf.SavingsService/OpenSavingsAccount", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/GetAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *savingsServiceClient) AccountInquiry(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
+func (c *savingServiceClient) GetAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error) {
 	out := new(SavingAccount)
-	err := c.cc.Invoke(ctx, "/protobuf.SavingsService/AccountInquiry", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/GetAccountByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *savingsServiceClient) UpdateBalance(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
-	out := new(SavingAccount)
-	err := c.cc.Invoke(ctx, "/protobuf.SavingsService/UpdateBalance", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *savingsServiceClient) SearchAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error) {
-	out := new(SavingAccount)
-	err := c.cc.Invoke(ctx, "/protobuf.SavingsService/SearchAccountByID", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *savingsServiceClient) SearchAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
+func (c *savingServiceClient) ListAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
 	out := new(SavingAccountList)
-	err := c.cc.Invoke(ctx, "/protobuf.SavingsService/SearchAccountsByUserID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/ListAccountsByUserID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *savingsServiceClient) SearchAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error) {
+func (c *savingServiceClient) ListAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error) {
 	out := new(SavingAccountList)
-	err := c.cc.Invoke(ctx, "/protobuf.SavingsService/SearchAccountsByFilter", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/ListAccountsByFilter", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *savingsServiceClient) SearchUserByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error) {
+func (c *savingServiceClient) ListUsersByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error) {
 	out := new(ListUserWithAccounts)
-	err := c.cc.Invoke(ctx, "/protobuf.SavingsService/SearchUserByNumberAccountRange", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/ListUsersByNumberAccountRange", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SavingsServiceServer is the server API for SavingsService service.
-type SavingsServiceServer interface {
-	OpenSavingsAccount(context.Context, *SavingAccount) (*SavingAccount, error)
-	AccountInquiry(context.Context, *AccountInquiryRequest) (*SavingAccount, error)
-	UpdateBalance(context.Context, *WithdrawalRequest) (*SavingAccount, error)
-	SearchAccountByID(context.Context, *AccID) (*SavingAccount, error)
-	SearchAccountsByUserID(context.Context, *AccountInquiryRequest) (*SavingAccountList, error)
-	SearchAccountsByFilter(context.Context, *Filter) (*SavingAccountList, error)
-	SearchUserByNumberAccountRange(context.Context, *NumberAccountRange) (*ListUserWithAccounts, error)
-}
-
-// UnimplementedSavingsServiceServer can be embedded to have forward compatible implementations.
-type UnimplementedSavingsServiceServer struct {
-}
-
-func (*UnimplementedSavingsServiceServer) OpenSavingsAccount(ctx context.Context, req *SavingAccount) (*SavingAccount, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OpenSavingsAccount not implemented")
-}
-func (*UnimplementedSavingsServiceServer) AccountInquiry(ctx context.Context, req *AccountInquiryRequest) (*SavingAccount, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AccountInquiry not implemented")
-}
-func (*UnimplementedSavingsServiceServer) UpdateBalance(ctx context.Context, req *WithdrawalRequest) (*SavingAccount, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateBalance not implemented")
-}
-func (*UnimplementedSavingsServiceServer) SearchAccountByID(ctx context.Context, req *AccID) (*SavingAccount, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchAccountByID not implemented")
-}
-func (*UnimplementedSavingsServiceServer) SearchAccountsByUserID(ctx context.Context, req *AccountInquiryRequest) (*SavingAccountList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchAccountsByUserID not implemented")
-}
-func (*UnimplementedSavingsServiceServer) SearchAccountsByFilter(ctx context.Context, req *Filter) (*SavingAccountList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchAccountsByFilter not implemented")
-}
-func (*UnimplementedSavingsServiceServer) SearchUserByNumberAccountRange(ctx context.Context, req *NumberAccountRange) (*ListUserWithAccounts, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchUserByNumberAccountRange not implemented")
-}
-
-func RegisterSavingsServiceServer(s *grpc.Server, srv SavingsServiceServer) {
-	s.RegisterService(&_SavingsService_serviceDesc, srv)
-}
-
-func _SavingsService_OpenSavingsAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SavingAccount)
-	if err := dec(in); err != nil {
+func (c *savingServiceClient) CreateSavingsAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*SavingAccount, error) {
+	out := new(SavingAccount)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/CreateSavingsAccount", in, out, opts...)
+	if err != nil {
 		return nil, err
 	}
-	if interceptor == nil {
-		return srv.(SavingsServiceServer).OpenSavingsAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.SavingsService/OpenSavingsAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavingsServiceServer).OpenSavingsAccount(ctx, req.(*SavingAccount))
-	}
-	return interceptor(ctx, in, info, handler)
+	return out, nil
 }
 
-func _SavingsService_AccountInquiry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func (c *savingServiceClient) UpdateAccountByWithdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
+	out := new(SavingAccount)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/UpdateAccountByWithdrawal", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *savingServiceClient) DeleteAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*DeleteAccountResponse, error) {
+	out := new(DeleteAccountResponse)
+	err := c.cc.Invoke(ctx, "/protobuf.SavingService/DeleteAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// SavingServiceServer is the server API for SavingService service.
+type SavingServiceServer interface {
+	GetAccount(context.Context, *AccountInquiryRequest) (*SavingAccount, error)
+	GetAccountByID(context.Context, *AccID) (*SavingAccount, error)
+	ListAccountsByUserID(context.Context, *AccountInquiryRequest) (*SavingAccountList, error)
+	ListAccountsByFilter(context.Context, *Filter) (*SavingAccountList, error)
+	ListUsersByNumberAccountRange(context.Context, *NumberAccountRange) (*ListUserWithAccounts, error)
+	CreateSavingsAccount(context.Context, *SavingAccount) (*SavingAccount, error)
+	UpdateAccountByWithdrawal(context.Context, *WithdrawalRequest) (*SavingAccount, error)
+	DeleteAccount(context.Context, *SavingAccount) (*DeleteAccountResponse, error)
+}
+
+// UnimplementedSavingServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedSavingServiceServer struct {
+}
+
+func (*UnimplementedSavingServiceServer) GetAccount(ctx context.Context, req *AccountInquiryRequest) (*SavingAccount, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccount not implemented")
+}
+func (*UnimplementedSavingServiceServer) GetAccountByID(ctx context.Context, req *AccID) (*SavingAccount, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountByID not implemented")
+}
+func (*UnimplementedSavingServiceServer) ListAccountsByUserID(ctx context.Context, req *AccountInquiryRequest) (*SavingAccountList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccountsByUserID not implemented")
+}
+func (*UnimplementedSavingServiceServer) ListAccountsByFilter(ctx context.Context, req *Filter) (*SavingAccountList, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListAccountsByFilter not implemented")
+}
+func (*UnimplementedSavingServiceServer) ListUsersByNumberAccountRange(ctx context.Context, req *NumberAccountRange) (*ListUserWithAccounts, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListUsersByNumberAccountRange not implemented")
+}
+func (*UnimplementedSavingServiceServer) CreateSavingsAccount(ctx context.Context, req *SavingAccount) (*SavingAccount, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSavingsAccount not implemented")
+}
+func (*UnimplementedSavingServiceServer) UpdateAccountByWithdrawal(ctx context.Context, req *WithdrawalRequest) (*SavingAccount, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAccountByWithdrawal not implemented")
+}
+func (*UnimplementedSavingServiceServer) DeleteAccount(ctx context.Context, req *SavingAccount) (*DeleteAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
+}
+
+func RegisterSavingServiceServer(s *grpc.Server, srv SavingServiceServer) {
+	s.RegisterService(&_SavingService_serviceDesc, srv)
+}
+
+func _SavingService_GetAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AccountInquiryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SavingsServiceServer).AccountInquiry(ctx, in)
+		return srv.(SavingServiceServer).GetAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.SavingsService/AccountInquiry",
+		FullMethod: "/protobuf.SavingService/GetAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavingsServiceServer).AccountInquiry(ctx, req.(*AccountInquiryRequest))
+		return srv.(SavingServiceServer).GetAccount(ctx, req.(*AccountInquiryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SavingsService_UpdateBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(WithdrawalRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SavingsServiceServer).UpdateBalance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protobuf.SavingsService/UpdateBalance",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavingsServiceServer).UpdateBalance(ctx, req.(*WithdrawalRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SavingsService_SearchAccountByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SavingService_GetAccountByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AccID)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SavingsServiceServer).SearchAccountByID(ctx, in)
+		return srv.(SavingServiceServer).GetAccountByID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.SavingsService/SearchAccountByID",
+		FullMethod: "/protobuf.SavingService/GetAccountByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavingsServiceServer).SearchAccountByID(ctx, req.(*AccID))
+		return srv.(SavingServiceServer).GetAccountByID(ctx, req.(*AccID))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SavingsService_SearchAccountsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SavingService_ListAccountsByUserID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AccountInquiryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SavingsServiceServer).SearchAccountsByUserID(ctx, in)
+		return srv.(SavingServiceServer).ListAccountsByUserID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.SavingsService/SearchAccountsByUserID",
+		FullMethod: "/protobuf.SavingService/ListAccountsByUserID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavingsServiceServer).SearchAccountsByUserID(ctx, req.(*AccountInquiryRequest))
+		return srv.(SavingServiceServer).ListAccountsByUserID(ctx, req.(*AccountInquiryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SavingsService_SearchAccountsByFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SavingService_ListAccountsByFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Filter)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SavingsServiceServer).SearchAccountsByFilter(ctx, in)
+		return srv.(SavingServiceServer).ListAccountsByFilter(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.SavingsService/SearchAccountsByFilter",
+		FullMethod: "/protobuf.SavingService/ListAccountsByFilter",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavingsServiceServer).SearchAccountsByFilter(ctx, req.(*Filter))
+		return srv.(SavingServiceServer).ListAccountsByFilter(ctx, req.(*Filter))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SavingsService_SearchUserByNumberAccountRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SavingService_ListUsersByNumberAccountRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(NumberAccountRange)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SavingsServiceServer).SearchUserByNumberAccountRange(ctx, in)
+		return srv.(SavingServiceServer).ListUsersByNumberAccountRange(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.SavingsService/SearchUserByNumberAccountRange",
+		FullMethod: "/protobuf.SavingService/ListUsersByNumberAccountRange",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SavingsServiceServer).SearchUserByNumberAccountRange(ctx, req.(*NumberAccountRange))
+		return srv.(SavingServiceServer).ListUsersByNumberAccountRange(ctx, req.(*NumberAccountRange))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _SavingsService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "protobuf.SavingsService",
-	HandlerType: (*SavingsServiceServer)(nil),
+func _SavingService_CreateSavingsAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SavingAccount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SavingServiceServer).CreateSavingsAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.SavingService/CreateSavingsAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SavingServiceServer).CreateSavingsAccount(ctx, req.(*SavingAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SavingService_UpdateAccountByWithdrawal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WithdrawalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SavingServiceServer).UpdateAccountByWithdrawal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.SavingService/UpdateAccountByWithdrawal",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SavingServiceServer).UpdateAccountByWithdrawal(ctx, req.(*WithdrawalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SavingService_DeleteAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SavingAccount)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SavingServiceServer).DeleteAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protobuf.SavingService/DeleteAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SavingServiceServer).DeleteAccount(ctx, req.(*SavingAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _SavingService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "protobuf.SavingService",
+	HandlerType: (*SavingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "OpenSavingsAccount",
-			Handler:    _SavingsService_OpenSavingsAccount_Handler,
+			MethodName: "GetAccount",
+			Handler:    _SavingService_GetAccount_Handler,
 		},
 		{
-			MethodName: "AccountInquiry",
-			Handler:    _SavingsService_AccountInquiry_Handler,
+			MethodName: "GetAccountByID",
+			Handler:    _SavingService_GetAccountByID_Handler,
 		},
 		{
-			MethodName: "UpdateBalance",
-			Handler:    _SavingsService_UpdateBalance_Handler,
+			MethodName: "ListAccountsByUserID",
+			Handler:    _SavingService_ListAccountsByUserID_Handler,
 		},
 		{
-			MethodName: "SearchAccountByID",
-			Handler:    _SavingsService_SearchAccountByID_Handler,
+			MethodName: "ListAccountsByFilter",
+			Handler:    _SavingService_ListAccountsByFilter_Handler,
 		},
 		{
-			MethodName: "SearchAccountsByUserID",
-			Handler:    _SavingsService_SearchAccountsByUserID_Handler,
+			MethodName: "ListUsersByNumberAccountRange",
+			Handler:    _SavingService_ListUsersByNumberAccountRange_Handler,
 		},
 		{
-			MethodName: "SearchAccountsByFilter",
-			Handler:    _SavingsService_SearchAccountsByFilter_Handler,
+			MethodName: "CreateSavingsAccount",
+			Handler:    _SavingService_CreateSavingsAccount_Handler,
 		},
 		{
-			MethodName: "SearchUserByNumberAccountRange",
-			Handler:    _SavingsService_SearchUserByNumberAccountRange_Handler,
+			MethodName: "UpdateAccountByWithdrawal",
+			Handler:    _SavingService_UpdateAccountByWithdrawal_Handler,
+		},
+		{
+			MethodName: "DeleteAccount",
+			Handler:    _SavingService_DeleteAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

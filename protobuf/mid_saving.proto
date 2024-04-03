@@ -8,100 +8,117 @@ import "saving.proto";
 import "google/api/annotations.proto";
 
 service MidSavingService {
-  rpc Login(LoginRequest) returns (JWTToken){
+  rpc GetJWT(LoginRequest) returns (JWT){
     option (google.api.http) = {
       post: "/api/login"
       body: "*"
     };
   };
-  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse){
-    option (google.api.http) = {
-      post: "/api/users/register"
-      body: "*"
-    };
-  };
+
   rpc GetCurrentKYC(GetCurrentKYCRequest) returns (GetCurrentKYCResponse){
     option (google.api.http) = {
       post: "/api/users/kyc"
       body: "*"
     };
   };
-  rpc OpenSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse){
+
+  rpc GetUserByID(UserID) returns (User){
     option (google.api.http) = {
-      post: "/api/accounts/register"
+      post: "/api/users/by-id"
       body: "*"
     };
   };
-  rpc Withdrawal(WithdrawalRequest) returns (WithdrawalResponse){
+  rpc GetUserByIdCardNumber(IDCardNumber) returns (User){
     option (google.api.http) = {
-      post: "/api/accounts/withdrawal"
+      post: "/api/users/by-card"
       body: "*"
     };
   };
-  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount){
+  rpc GetUserByAccountID(AccountID) returns (User){
+    option (google.api.http) = {
+      post: "/api/users/by-account-id"
+      body: "*"
+    };
+  };
+
+  rpc GetAccount(AccountInquiryRequest) returns (SavingAccount){
     option (google.api.http) = {
       post: "/api/accounts/inquiry"
       body: "*"
     };
   };
 
-  rpc SearchAccountByID(AccID) returns (SavingAccount){
+  rpc GetAccountByID(AccID) returns (SavingAccount){
     option (google.api.http) = {
       post: "/api/accounts/search-by-id"
       body: "*"
     };
   };
-  rpc SearchAccountsByIDCardNumber(IDCardNumber) returns (SavingAccountList){
+  rpc ListAccountsByIDCardNumber(IDCardNumber) returns (SavingAccountList){
     option (google.api.http) = {
       post: "/api/accounts/search-by-id-card"
       body: "*"
     };
   };
-  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList){
+  rpc ListAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList){
     option (google.api.http) = {
       post: "/api/accounts/search-by-user-id"
       body: "*"
     };
   };
 
-  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList){
+  rpc ListAccountsByFilter(Filter) returns (SavingAccountList){
     option (google.api.http) = {
       post: "/api/accounts/search"
       body: "*"
     };
   };
 
-  rpc SearchUserByNumberAccountRange(NumberAccountRange) returns (ListUserWithAccounts){
+  rpc ListUserByNumberAccountRange(NumberAccountRange) returns (ListUserWithAccounts){
     option (google.api.http) = {
       post: "/api/users/search-by-number-account-range"
       body: "*"
     };
   };
 
-  rpc SearchUserByID(UserID) returns (User){
-    option (google.api.http) = {
-      post: "/api/users/by-id"
-      body: "*"
-    };
-  };
-  rpc SearchUserByIdCardNumber(IDCardNumber) returns (User){
-    option (google.api.http) = {
-      post: "/api/users/by-card"
-      body: "*"
-    };
-  };
-  rpc SearchUserByAccountID(AccountID) returns (User){
-    option (google.api.http) = {
-      post: "/api/users/by-account-id"
-      body: "*"
-    };
-  };
-  rpc SearchUsersByFilter(UserFilter) returns (UserList){
+  rpc ListUsersByFilter(UserFilter) returns (UserList){
     option (google.api.http) = {
       post: "/api/users/by-filter"
       body: "*"
     };
   };
+
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse){
+    option (google.api.http) = {
+      post: "/api/users/register"
+      body: "*"
+    };
+  };
+
+  rpc CreateSavingsAccount(OpenSavingsAccountRequest) returns (OpenSavingsAccountResponse){
+    option (google.api.http) = {
+      post: "/api/accounts/register"
+      body: "*"
+    };
+  };
+
+  rpc UpdateAccountByWithdrawal(WithdrawalRequest) returns (WithdrawalResponse){
+    option (google.api.http) = {
+      post: "/api/accounts/withdrawal"
+      body: "*"
+    };
+  };
+
+  rpc UpdateUser(User) returns (User){
+    option (google.api.http) = {
+      post: "/api/users/update"
+      body: "*"
+    };
+  };
+
+  rpc DeleteUser(User) returns (DeleteUserResponse);
+  rpc DeleteAccount(SavingAccount) returns (DeleteAccountResponse);
+
 }
 
 

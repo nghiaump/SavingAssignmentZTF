@@ -3,14 +3,19 @@ syntax = "proto3";
 
 package protobuf;
 
-service SavingsService {
-  rpc OpenSavingsAccount(SavingAccount) returns (SavingAccount);
-  rpc AccountInquiry(AccountInquiryRequest) returns (SavingAccount);
-  rpc UpdateBalance(WithdrawalRequest) returns (SavingAccount);
-  rpc SearchAccountByID(AccID) returns (SavingAccount);
-  rpc SearchAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
-  rpc SearchAccountsByFilter(Filter) returns (SavingAccountList);
-  rpc SearchUserByNumberAccountRange(NumberAccountRange) returns (ListUserWithAccounts);
+service SavingService {
+  rpc GetAccount(AccountInquiryRequest) returns (SavingAccount);
+  rpc GetAccountByID(AccID) returns (SavingAccount);
+
+  rpc ListAccountsByUserID(AccountInquiryRequest) returns (SavingAccountList);
+  rpc ListAccountsByFilter(Filter) returns (SavingAccountList);
+  rpc ListUsersByNumberAccountRange(NumberAccountRange) returns (ListUserWithAccounts);
+
+  rpc CreateSavingAccount(SavingAccount) returns (SavingAccount);
+
+  rpc UpdateAccountByWithdrawal(WithdrawalRequest) returns (SavingAccount);
+
+  rpc DeleteAccount(SavingAccount) returns (DeleteAccountResponse);
 }
 
 message SavingAccount {
@@ -41,6 +46,10 @@ message SavingAccount {
 
   // @gotags: es:"kyc"
   int32 kyc = 10;
+}
+
+message DeleteAccountResponse{
+  bool success = 1;
 }
 
 message AccID{
