@@ -3,7 +3,7 @@ syntax = "proto3";
 
 package protobuf;
 
-service SavingsService {
+service SavingService {
   rpc GetAccount(AccountInquiryRequest) returns (SavingAccount);
   rpc GetAccountByID(AccID) returns (SavingAccount);
 
