@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/golang/glog v1.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240401162227-0d730662c6fb
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240403092810-c5fa22560c3f
 	github.com/rs/cors v1.10.1
 	google.golang.org/grpc v1.62.1
 )
