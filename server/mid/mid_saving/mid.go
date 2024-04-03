@@ -382,6 +382,14 @@ func (handler *MidServiceHandler) SearchUserByID(ctx context.Context, req *pb.Us
 }
 
 func (handler *MidServiceHandler) SearchUserByIdCardNumber(ctx context.Context, req *pb.IDCardNumber) (*pb.User, error) {
+	glog.Infof("SearchUserByIDCardNumber: %v", req.IdCardNumber)
+
+	// authentication check
+	authErr := CheckJWTFromContext(ctx)
+	if authErr != nil {
+		return nil, authErr
+	}
+
 	user, _ := handler.userServiceClient.SearchUserByIdCardNumber(ctx, req)
 	return user, nil
 }

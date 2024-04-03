@@ -14,7 +14,7 @@ require (
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
 	github.com/go-sql-driver/mysql v1.8.0
 	github.com/golang/glog v1.2.0
-	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240327185408-9da8cdd9c6c0
+	github.com/nghiaump/SavingAssignmentZTF/protobuf v0.0.0-20240401162227-0d730662c6fb
 )
 
 require (
