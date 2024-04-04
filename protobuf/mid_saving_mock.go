@@ -35,24 +35,124 @@ func (m *MockMidSavingServiceClient) EXPECT() *MockMidSavingServiceClientMockRec
 	return m.recorder
 }
 
-// AccountInquiry mocks base method.
-func (m *MockMidSavingServiceClient) AccountInquiry(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
+// CreateSavingsAccount mocks base method.
+func (m *MockMidSavingServiceClient) CreateSavingsAccount(ctx context.Context, in *OpenSavingsAccountRequest, opts ...grpc.CallOption) (*OpenSavingsAccountResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "AccountInquiry", varargs...)
+	ret := m.ctrl.Call(m, "CreateSavingsAccount", varargs...)
+	ret0, _ := ret[0].(*OpenSavingsAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateSavingsAccount indicates an expected call of CreateSavingsAccount.
+func (mr *MockMidSavingServiceClientMockRecorder) CreateSavingsAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSavingsAccount", reflect.TypeOf((*MockMidSavingServiceClient)(nil).CreateSavingsAccount), varargs...)
+}
+
+// CreateUser mocks base method.
+func (m *MockMidSavingServiceClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "CreateUser", varargs...)
+	ret0, _ := ret[0].(*CreateUserResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockMidSavingServiceClientMockRecorder) CreateUser(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockMidSavingServiceClient)(nil).CreateUser), varargs...)
+}
+
+// DeleteAccount mocks base method.
+func (m *MockMidSavingServiceClient) DeleteAccount(ctx context.Context, in *SavingAccount, opts ...grpc.CallOption) (*DeleteAccountResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteAccount", varargs...)
+	ret0, _ := ret[0].(*DeleteAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteAccount indicates an expected call of DeleteAccount.
+func (mr *MockMidSavingServiceClientMockRecorder) DeleteAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAccount", reflect.TypeOf((*MockMidSavingServiceClient)(nil).DeleteAccount), varargs...)
+}
+
+// DeleteUser mocks base method.
+func (m *MockMidSavingServiceClient) DeleteUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*DeleteUserResponse, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "DeleteUser", varargs...)
+	ret0, _ := ret[0].(*DeleteUserResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteUser indicates an expected call of DeleteUser.
+func (mr *MockMidSavingServiceClientMockRecorder) DeleteUser(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockMidSavingServiceClient)(nil).DeleteUser), varargs...)
+}
+
+// GetAccount mocks base method.
+func (m *MockMidSavingServiceClient) GetAccount(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccount, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetAccount", varargs...)
 	ret0, _ := ret[0].(*SavingAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// AccountInquiry indicates an expected call of AccountInquiry.
-func (mr *MockMidSavingServiceClientMockRecorder) AccountInquiry(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// GetAccount indicates an expected call of GetAccount.
+func (mr *MockMidSavingServiceClientMockRecorder) GetAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountInquiry", reflect.TypeOf((*MockMidSavingServiceClient)(nil).AccountInquiry), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccount", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetAccount), varargs...)
+}
+
+// GetAccountByID mocks base method.
+func (m *MockMidSavingServiceClient) GetAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "GetAccountByID", varargs...)
+	ret0, _ := ret[0].(*SavingAccount)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAccountByID indicates an expected call of GetAccountByID.
+func (mr *MockMidSavingServiceClientMockRecorder) GetAccountByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccountByID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetAccountByID), varargs...)
 }
 
 // GetCurrentKYC mocks base method.
@@ -75,224 +175,224 @@ func (mr *MockMidSavingServiceClientMockRecorder) GetCurrentKYC(ctx, in interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentKYC", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetCurrentKYC), varargs...)
 }
 
-// OpenSavingsAccount mocks base method.
-func (m *MockMidSavingServiceClient) OpenSavingsAccount(ctx context.Context, in *OpenSavingsAccountRequest, opts ...grpc.CallOption) (*OpenSavingsAccountResponse, error) {
+// GetJWT mocks base method.
+func (m *MockMidSavingServiceClient) GetJWT(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*JWT, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "OpenSavingsAccount", varargs...)
-	ret0, _ := ret[0].(*OpenSavingsAccountResponse)
+	ret := m.ctrl.Call(m, "GetJWT", varargs...)
+	ret0, _ := ret[0].(*JWT)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// OpenSavingsAccount indicates an expected call of OpenSavingsAccount.
-func (mr *MockMidSavingServiceClientMockRecorder) OpenSavingsAccount(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// GetJWT indicates an expected call of GetJWT.
+func (mr *MockMidSavingServiceClientMockRecorder) GetJWT(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenSavingsAccount", reflect.TypeOf((*MockMidSavingServiceClient)(nil).OpenSavingsAccount), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetJWT", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetJWT), varargs...)
 }
 
-// RegisterUser mocks base method.
-func (m *MockMidSavingServiceClient) RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error) {
+// GetUserByAccountID mocks base method.
+func (m *MockMidSavingServiceClient) GetUserByAccountID(ctx context.Context, in *AccountID, opts ...grpc.CallOption) (*User, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "RegisterUser", varargs...)
-	ret0, _ := ret[0].(*RegisterUserResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// RegisterUser indicates an expected call of RegisterUser.
-func (mr *MockMidSavingServiceClientMockRecorder) RegisterUser(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockMidSavingServiceClient)(nil).RegisterUser), varargs...)
-}
-
-// SearchAccountByID mocks base method.
-func (m *MockMidSavingServiceClient) SearchAccountByID(ctx context.Context, in *AccID, opts ...grpc.CallOption) (*SavingAccount, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "SearchAccountByID", varargs...)
-	ret0, _ := ret[0].(*SavingAccount)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountByID indicates an expected call of SearchAccountByID.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchAccountByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountByID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchAccountByID), varargs...)
-}
-
-// SearchAccountsByFilter mocks base method.
-func (m *MockMidSavingServiceClient) SearchAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "SearchAccountsByFilter", varargs...)
-	ret0, _ := ret[0].(*SavingAccountList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountsByFilter indicates an expected call of SearchAccountsByFilter.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchAccountsByFilter(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountsByFilter", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchAccountsByFilter), varargs...)
-}
-
-// SearchAccountsByIDCardNumber mocks base method.
-func (m *MockMidSavingServiceClient) SearchAccountsByIDCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*SavingAccountList, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "SearchAccountsByIDCardNumber", varargs...)
-	ret0, _ := ret[0].(*SavingAccountList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountsByIDCardNumber indicates an expected call of SearchAccountsByIDCardNumber.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchAccountsByIDCardNumber(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountsByIDCardNumber", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchAccountsByIDCardNumber), varargs...)
-}
-
-// SearchAccountsByUserID mocks base method.
-func (m *MockMidSavingServiceClient) SearchAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "SearchAccountsByUserID", varargs...)
-	ret0, _ := ret[0].(*SavingAccountList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountsByUserID indicates an expected call of SearchAccountsByUserID.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchAccountsByUserID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountsByUserID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchAccountsByUserID), varargs...)
-}
-
-// SearchUserByAccountID mocks base method.
-func (m *MockMidSavingServiceClient) SearchUserByAccountID(ctx context.Context, in *AccountID, opts ...grpc.CallOption) (*User, error) {
-	m.ctrl.T.Helper()
-	varargs := []interface{}{ctx, in}
-	for _, a := range opts {
-		varargs = append(varargs, a)
-	}
-	ret := m.ctrl.Call(m, "SearchUserByAccountID", varargs...)
+	ret := m.ctrl.Call(m, "GetUserByAccountID", varargs...)
 	ret0, _ := ret[0].(*User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUserByAccountID indicates an expected call of SearchUserByAccountID.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchUserByAccountID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// GetUserByAccountID indicates an expected call of GetUserByAccountID.
+func (mr *MockMidSavingServiceClientMockRecorder) GetUserByAccountID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByAccountID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchUserByAccountID), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByAccountID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetUserByAccountID), varargs...)
 }
 
-// SearchUserByID mocks base method.
-func (m *MockMidSavingServiceClient) SearchUserByID(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*User, error) {
+// GetUserByID mocks base method.
+func (m *MockMidSavingServiceClient) GetUserByID(ctx context.Context, in *UserID, opts ...grpc.CallOption) (*User, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "SearchUserByID", varargs...)
+	ret := m.ctrl.Call(m, "GetUserByID", varargs...)
 	ret0, _ := ret[0].(*User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUserByID indicates an expected call of SearchUserByID.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchUserByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// GetUserByID indicates an expected call of GetUserByID.
+func (mr *MockMidSavingServiceClientMockRecorder) GetUserByID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchUserByID), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetUserByID), varargs...)
 }
 
-// SearchUserByIdCardNumber mocks base method.
-func (m *MockMidSavingServiceClient) SearchUserByIdCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*User, error) {
+// GetUserByIdCardNumber mocks base method.
+func (m *MockMidSavingServiceClient) GetUserByIdCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*User, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "SearchUserByIdCardNumber", varargs...)
+	ret := m.ctrl.Call(m, "GetUserByIdCardNumber", varargs...)
 	ret0, _ := ret[0].(*User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUserByIdCardNumber indicates an expected call of SearchUserByIdCardNumber.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchUserByIdCardNumber(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// GetUserByIdCardNumber indicates an expected call of GetUserByIdCardNumber.
+func (mr *MockMidSavingServiceClientMockRecorder) GetUserByIdCardNumber(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByIdCardNumber", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchUserByIdCardNumber), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByIdCardNumber", reflect.TypeOf((*MockMidSavingServiceClient)(nil).GetUserByIdCardNumber), varargs...)
 }
 
-// SearchUsersByFilter mocks base method.
-func (m *MockMidSavingServiceClient) SearchUsersByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error) {
+// ListAccountsByFilter mocks base method.
+func (m *MockMidSavingServiceClient) ListAccountsByFilter(ctx context.Context, in *Filter, opts ...grpc.CallOption) (*SavingAccountList, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "SearchUsersByFilter", varargs...)
+	ret := m.ctrl.Call(m, "ListAccountsByFilter", varargs...)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAccountsByFilter indicates an expected call of ListAccountsByFilter.
+func (mr *MockMidSavingServiceClientMockRecorder) ListAccountsByFilter(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccountsByFilter", reflect.TypeOf((*MockMidSavingServiceClient)(nil).ListAccountsByFilter), varargs...)
+}
+
+// ListAccountsByIDCardNumber mocks base method.
+func (m *MockMidSavingServiceClient) ListAccountsByIDCardNumber(ctx context.Context, in *IDCardNumber, opts ...grpc.CallOption) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListAccountsByIDCardNumber", varargs...)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAccountsByIDCardNumber indicates an expected call of ListAccountsByIDCardNumber.
+func (mr *MockMidSavingServiceClientMockRecorder) ListAccountsByIDCardNumber(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccountsByIDCardNumber", reflect.TypeOf((*MockMidSavingServiceClient)(nil).ListAccountsByIDCardNumber), varargs...)
+}
+
+// ListAccountsByUserID mocks base method.
+func (m *MockMidSavingServiceClient) ListAccountsByUserID(ctx context.Context, in *AccountInquiryRequest, opts ...grpc.CallOption) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListAccountsByUserID", varargs...)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAccountsByUserID indicates an expected call of ListAccountsByUserID.
+func (mr *MockMidSavingServiceClientMockRecorder) ListAccountsByUserID(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccountsByUserID", reflect.TypeOf((*MockMidSavingServiceClient)(nil).ListAccountsByUserID), varargs...)
+}
+
+// ListUserByNumberAccountRange mocks base method.
+func (m *MockMidSavingServiceClient) ListUserByNumberAccountRange(ctx context.Context, in *NumberAccountRange, opts ...grpc.CallOption) (*ListUserWithAccounts, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListUserByNumberAccountRange", varargs...)
+	ret0, _ := ret[0].(*ListUserWithAccounts)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListUserByNumberAccountRange indicates an expected call of ListUserByNumberAccountRange.
+func (mr *MockMidSavingServiceClientMockRecorder) ListUserByNumberAccountRange(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUserByNumberAccountRange", reflect.TypeOf((*MockMidSavingServiceClient)(nil).ListUserByNumberAccountRange), varargs...)
+}
+
+// ListUsersByFilter mocks base method.
+func (m *MockMidSavingServiceClient) ListUsersByFilter(ctx context.Context, in *UserFilter, opts ...grpc.CallOption) (*UserList, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "ListUsersByFilter", varargs...)
 	ret0, _ := ret[0].(*UserList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUsersByFilter indicates an expected call of SearchUsersByFilter.
-func (mr *MockMidSavingServiceClientMockRecorder) SearchUsersByFilter(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// ListUsersByFilter indicates an expected call of ListUsersByFilter.
+func (mr *MockMidSavingServiceClientMockRecorder) ListUsersByFilter(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUsersByFilter", reflect.TypeOf((*MockMidSavingServiceClient)(nil).SearchUsersByFilter), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUsersByFilter", reflect.TypeOf((*MockMidSavingServiceClient)(nil).ListUsersByFilter), varargs...)
 }
 
-// Withdrawal mocks base method.
-func (m *MockMidSavingServiceClient) Withdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error) {
+// UpdateAccountByWithdrawal mocks base method.
+func (m *MockMidSavingServiceClient) UpdateAccountByWithdrawal(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, in}
 	for _, a := range opts {
 		varargs = append(varargs, a)
 	}
-	ret := m.ctrl.Call(m, "Withdrawal", varargs...)
+	ret := m.ctrl.Call(m, "UpdateAccountByWithdrawal", varargs...)
 	ret0, _ := ret[0].(*WithdrawalResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Withdrawal indicates an expected call of Withdrawal.
-func (mr *MockMidSavingServiceClientMockRecorder) Withdrawal(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+// UpdateAccountByWithdrawal indicates an expected call of UpdateAccountByWithdrawal.
+func (mr *MockMidSavingServiceClientMockRecorder) UpdateAccountByWithdrawal(ctx, in interface{}, opts ...interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	varargs := append([]interface{}{ctx, in}, opts...)
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Withdrawal", reflect.TypeOf((*MockMidSavingServiceClient)(nil).Withdrawal), varargs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateAccountByWithdrawal", reflect.TypeOf((*MockMidSavingServiceClient)(nil).UpdateAccountByWithdrawal), varargs...)
+}
+
+// UpdateUser mocks base method.
+func (m *MockMidSavingServiceClient) UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error) {
+	m.ctrl.T.Helper()
+	varargs := []interface{}{ctx, in}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "UpdateUser", varargs...)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateUser indicates an expected call of UpdateUser.
+func (mr *MockMidSavingServiceClientMockRecorder) UpdateUser(ctx, in interface{}, opts ...interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]interface{}{ctx, in}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockMidSavingServiceClient)(nil).UpdateUser), varargs...)
 }
 
 // MockMidSavingServiceServer is a mock of MidSavingServiceServer interface.
@@ -318,19 +418,94 @@ func (m *MockMidSavingServiceServer) EXPECT() *MockMidSavingServiceServerMockRec
 	return m.recorder
 }
 
-// AccountInquiry mocks base method.
-func (m *MockMidSavingServiceServer) AccountInquiry(arg0 context.Context, arg1 *AccountInquiryRequest) (*SavingAccount, error) {
+// CreateSavingsAccount mocks base method.
+func (m *MockMidSavingServiceServer) CreateSavingsAccount(arg0 context.Context, arg1 *OpenSavingsAccountRequest) (*OpenSavingsAccountResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AccountInquiry", arg0, arg1)
+	ret := m.ctrl.Call(m, "CreateSavingsAccount", arg0, arg1)
+	ret0, _ := ret[0].(*OpenSavingsAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateSavingsAccount indicates an expected call of CreateSavingsAccount.
+func (mr *MockMidSavingServiceServerMockRecorder) CreateSavingsAccount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSavingsAccount", reflect.TypeOf((*MockMidSavingServiceServer)(nil).CreateSavingsAccount), arg0, arg1)
+}
+
+// CreateUser mocks base method.
+func (m *MockMidSavingServiceServer) CreateUser(arg0 context.Context, arg1 *CreateUserRequest) (*CreateUserResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUser", arg0, arg1)
+	ret0, _ := ret[0].(*CreateUserResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockMidSavingServiceServerMockRecorder) CreateUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockMidSavingServiceServer)(nil).CreateUser), arg0, arg1)
+}
+
+// DeleteAccount mocks base method.
+func (m *MockMidSavingServiceServer) DeleteAccount(arg0 context.Context, arg1 *SavingAccount) (*DeleteAccountResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteAccount", arg0, arg1)
+	ret0, _ := ret[0].(*DeleteAccountResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteAccount indicates an expected call of DeleteAccount.
+func (mr *MockMidSavingServiceServerMockRecorder) DeleteAccount(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteAccount", reflect.TypeOf((*MockMidSavingServiceServer)(nil).DeleteAccount), arg0, arg1)
+}
+
+// DeleteUser mocks base method.
+func (m *MockMidSavingServiceServer) DeleteUser(arg0 context.Context, arg1 *User) (*DeleteUserResponse, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUser", arg0, arg1)
+	ret0, _ := ret[0].(*DeleteUserResponse)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// DeleteUser indicates an expected call of DeleteUser.
+func (mr *MockMidSavingServiceServerMockRecorder) DeleteUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUser", reflect.TypeOf((*MockMidSavingServiceServer)(nil).DeleteUser), arg0, arg1)
+}
+
+// GetAccount mocks base method.
+func (m *MockMidSavingServiceServer) GetAccount(arg0 context.Context, arg1 *AccountInquiryRequest) (*SavingAccount, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAccount", arg0, arg1)
 	ret0, _ := ret[0].(*SavingAccount)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// AccountInquiry indicates an expected call of AccountInquiry.
-func (mr *MockMidSavingServiceServerMockRecorder) AccountInquiry(arg0, arg1 interface{}) *gomock.Call {
+// GetAccount indicates an expected call of GetAccount.
+func (mr *MockMidSavingServiceServerMockRecorder) GetAccount(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AccountInquiry", reflect.TypeOf((*MockMidSavingServiceServer)(nil).AccountInquiry), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccount", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetAccount), arg0, arg1)
+}
+
+// GetAccountByID mocks base method.
+func (m *MockMidSavingServiceServer) GetAccountByID(arg0 context.Context, arg1 *AccID) (*SavingAccount, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAccountByID", arg0, arg1)
+	ret0, _ := ret[0].(*SavingAccount)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAccountByID indicates an expected call of GetAccountByID.
+func (mr *MockMidSavingServiceServerMockRecorder) GetAccountByID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccountByID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetAccountByID), arg0, arg1)
 }
 
 // GetCurrentKYC mocks base method.
@@ -348,167 +523,167 @@ func (mr *MockMidSavingServiceServerMockRecorder) GetCurrentKYC(arg0, arg1 inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentKYC", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetCurrentKYC), arg0, arg1)
 }
 
-// OpenSavingsAccount mocks base method.
-func (m *MockMidSavingServiceServer) OpenSavingsAccount(arg0 context.Context, arg1 *OpenSavingsAccountRequest) (*OpenSavingsAccountResponse, error) {
+// GetJWT mocks base method.
+func (m *MockMidSavingServiceServer) GetJWT(arg0 context.Context, arg1 *LoginRequest) (*JWT, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "OpenSavingsAccount", arg0, arg1)
-	ret0, _ := ret[0].(*OpenSavingsAccountResponse)
+	ret := m.ctrl.Call(m, "GetJWT", arg0, arg1)
+	ret0, _ := ret[0].(*JWT)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// OpenSavingsAccount indicates an expected call of OpenSavingsAccount.
-func (mr *MockMidSavingServiceServerMockRecorder) OpenSavingsAccount(arg0, arg1 interface{}) *gomock.Call {
+// GetJWT indicates an expected call of GetJWT.
+func (mr *MockMidSavingServiceServerMockRecorder) GetJWT(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "OpenSavingsAccount", reflect.TypeOf((*MockMidSavingServiceServer)(nil).OpenSavingsAccount), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetJWT", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetJWT), arg0, arg1)
 }
 
-// RegisterUser mocks base method.
-func (m *MockMidSavingServiceServer) RegisterUser(arg0 context.Context, arg1 *RegisterUserRequest) (*RegisterUserResponse, error) {
+// GetUserByAccountID mocks base method.
+func (m *MockMidSavingServiceServer) GetUserByAccountID(arg0 context.Context, arg1 *AccountID) (*User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RegisterUser", arg0, arg1)
-	ret0, _ := ret[0].(*RegisterUserResponse)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// RegisterUser indicates an expected call of RegisterUser.
-func (mr *MockMidSavingServiceServerMockRecorder) RegisterUser(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockMidSavingServiceServer)(nil).RegisterUser), arg0, arg1)
-}
-
-// SearchAccountByID mocks base method.
-func (m *MockMidSavingServiceServer) SearchAccountByID(arg0 context.Context, arg1 *AccID) (*SavingAccount, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchAccountByID", arg0, arg1)
-	ret0, _ := ret[0].(*SavingAccount)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountByID indicates an expected call of SearchAccountByID.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchAccountByID(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountByID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchAccountByID), arg0, arg1)
-}
-
-// SearchAccountsByFilter mocks base method.
-func (m *MockMidSavingServiceServer) SearchAccountsByFilter(arg0 context.Context, arg1 *Filter) (*SavingAccountList, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchAccountsByFilter", arg0, arg1)
-	ret0, _ := ret[0].(*SavingAccountList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountsByFilter indicates an expected call of SearchAccountsByFilter.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchAccountsByFilter(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountsByFilter", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchAccountsByFilter), arg0, arg1)
-}
-
-// SearchAccountsByIDCardNumber mocks base method.
-func (m *MockMidSavingServiceServer) SearchAccountsByIDCardNumber(arg0 context.Context, arg1 *IDCardNumber) (*SavingAccountList, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchAccountsByIDCardNumber", arg0, arg1)
-	ret0, _ := ret[0].(*SavingAccountList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountsByIDCardNumber indicates an expected call of SearchAccountsByIDCardNumber.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchAccountsByIDCardNumber(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountsByIDCardNumber", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchAccountsByIDCardNumber), arg0, arg1)
-}
-
-// SearchAccountsByUserID mocks base method.
-func (m *MockMidSavingServiceServer) SearchAccountsByUserID(arg0 context.Context, arg1 *AccountInquiryRequest) (*SavingAccountList, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchAccountsByUserID", arg0, arg1)
-	ret0, _ := ret[0].(*SavingAccountList)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SearchAccountsByUserID indicates an expected call of SearchAccountsByUserID.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchAccountsByUserID(arg0, arg1 interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchAccountsByUserID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchAccountsByUserID), arg0, arg1)
-}
-
-// SearchUserByAccountID mocks base method.
-func (m *MockMidSavingServiceServer) SearchUserByAccountID(arg0 context.Context, arg1 *AccountID) (*User, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchUserByAccountID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUserByAccountID", arg0, arg1)
 	ret0, _ := ret[0].(*User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUserByAccountID indicates an expected call of SearchUserByAccountID.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchUserByAccountID(arg0, arg1 interface{}) *gomock.Call {
+// GetUserByAccountID indicates an expected call of GetUserByAccountID.
+func (mr *MockMidSavingServiceServerMockRecorder) GetUserByAccountID(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByAccountID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchUserByAccountID), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByAccountID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetUserByAccountID), arg0, arg1)
 }
 
-// SearchUserByID mocks base method.
-func (m *MockMidSavingServiceServer) SearchUserByID(arg0 context.Context, arg1 *UserID) (*User, error) {
+// GetUserByID mocks base method.
+func (m *MockMidSavingServiceServer) GetUserByID(arg0 context.Context, arg1 *UserID) (*User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchUserByID", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUserByID", arg0, arg1)
 	ret0, _ := ret[0].(*User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUserByID indicates an expected call of SearchUserByID.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchUserByID(arg0, arg1 interface{}) *gomock.Call {
+// GetUserByID indicates an expected call of GetUserByID.
+func (mr *MockMidSavingServiceServerMockRecorder) GetUserByID(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchUserByID), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetUserByID), arg0, arg1)
 }
 
-// SearchUserByIdCardNumber mocks base method.
-func (m *MockMidSavingServiceServer) SearchUserByIdCardNumber(arg0 context.Context, arg1 *IDCardNumber) (*User, error) {
+// GetUserByIdCardNumber mocks base method.
+func (m *MockMidSavingServiceServer) GetUserByIdCardNumber(arg0 context.Context, arg1 *IDCardNumber) (*User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchUserByIdCardNumber", arg0, arg1)
+	ret := m.ctrl.Call(m, "GetUserByIdCardNumber", arg0, arg1)
 	ret0, _ := ret[0].(*User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUserByIdCardNumber indicates an expected call of SearchUserByIdCardNumber.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchUserByIdCardNumber(arg0, arg1 interface{}) *gomock.Call {
+// GetUserByIdCardNumber indicates an expected call of GetUserByIdCardNumber.
+func (mr *MockMidSavingServiceServerMockRecorder) GetUserByIdCardNumber(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUserByIdCardNumber", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchUserByIdCardNumber), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByIdCardNumber", reflect.TypeOf((*MockMidSavingServiceServer)(nil).GetUserByIdCardNumber), arg0, arg1)
 }
 
-// SearchUsersByFilter mocks base method.
-func (m *MockMidSavingServiceServer) SearchUsersByFilter(arg0 context.Context, arg1 *UserFilter) (*UserList, error) {
+// ListAccountsByFilter mocks base method.
+func (m *MockMidSavingServiceServer) ListAccountsByFilter(arg0 context.Context, arg1 *Filter) (*SavingAccountList, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SearchUsersByFilter", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListAccountsByFilter", arg0, arg1)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAccountsByFilter indicates an expected call of ListAccountsByFilter.
+func (mr *MockMidSavingServiceServerMockRecorder) ListAccountsByFilter(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccountsByFilter", reflect.TypeOf((*MockMidSavingServiceServer)(nil).ListAccountsByFilter), arg0, arg1)
+}
+
+// ListAccountsByIDCardNumber mocks base method.
+func (m *MockMidSavingServiceServer) ListAccountsByIDCardNumber(arg0 context.Context, arg1 *IDCardNumber) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListAccountsByIDCardNumber", arg0, arg1)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAccountsByIDCardNumber indicates an expected call of ListAccountsByIDCardNumber.
+func (mr *MockMidSavingServiceServerMockRecorder) ListAccountsByIDCardNumber(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccountsByIDCardNumber", reflect.TypeOf((*MockMidSavingServiceServer)(nil).ListAccountsByIDCardNumber), arg0, arg1)
+}
+
+// ListAccountsByUserID mocks base method.
+func (m *MockMidSavingServiceServer) ListAccountsByUserID(arg0 context.Context, arg1 *AccountInquiryRequest) (*SavingAccountList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListAccountsByUserID", arg0, arg1)
+	ret0, _ := ret[0].(*SavingAccountList)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListAccountsByUserID indicates an expected call of ListAccountsByUserID.
+func (mr *MockMidSavingServiceServerMockRecorder) ListAccountsByUserID(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListAccountsByUserID", reflect.TypeOf((*MockMidSavingServiceServer)(nil).ListAccountsByUserID), arg0, arg1)
+}
+
+// ListUserByNumberAccountRange mocks base method.
+func (m *MockMidSavingServiceServer) ListUserByNumberAccountRange(arg0 context.Context, arg1 *NumberAccountRange) (*ListUserWithAccounts, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListUserByNumberAccountRange", arg0, arg1)
+	ret0, _ := ret[0].(*ListUserWithAccounts)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListUserByNumberAccountRange indicates an expected call of ListUserByNumberAccountRange.
+func (mr *MockMidSavingServiceServerMockRecorder) ListUserByNumberAccountRange(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUserByNumberAccountRange", reflect.TypeOf((*MockMidSavingServiceServer)(nil).ListUserByNumberAccountRange), arg0, arg1)
+}
+
+// ListUsersByFilter mocks base method.
+func (m *MockMidSavingServiceServer) ListUsersByFilter(arg0 context.Context, arg1 *UserFilter) (*UserList, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListUsersByFilter", arg0, arg1)
 	ret0, _ := ret[0].(*UserList)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// SearchUsersByFilter indicates an expected call of SearchUsersByFilter.
-func (mr *MockMidSavingServiceServerMockRecorder) SearchUsersByFilter(arg0, arg1 interface{}) *gomock.Call {
+// ListUsersByFilter indicates an expected call of ListUsersByFilter.
+func (mr *MockMidSavingServiceServerMockRecorder) ListUsersByFilter(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SearchUsersByFilter", reflect.TypeOf((*MockMidSavingServiceServer)(nil).SearchUsersByFilter), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUsersByFilter", reflect.TypeOf((*MockMidSavingServiceServer)(nil).ListUsersByFilter), arg0, arg1)
 }
 
-// Withdrawal mocks base method.
-func (m *MockMidSavingServiceServer) Withdrawal(arg0 context.Context, arg1 *WithdrawalRequest) (*WithdrawalResponse, error) {
+// UpdateAccountByWithdrawal mocks base method.
+func (m *MockMidSavingServiceServer) UpdateAccountByWithdrawal(arg0 context.Context, arg1 *WithdrawalRequest) (*WithdrawalResponse, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Withdrawal", arg0, arg1)
+	ret := m.ctrl.Call(m, "UpdateAccountByWithdrawal", arg0, arg1)
 	ret0, _ := ret[0].(*WithdrawalResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// Withdrawal indicates an expected call of Withdrawal.
-func (mr *MockMidSavingServiceServerMockRecorder) Withdrawal(arg0, arg1 interface{}) *gomock.Call {
+// UpdateAccountByWithdrawal indicates an expected call of UpdateAccountByWithdrawal.
+func (mr *MockMidSavingServiceServerMockRecorder) UpdateAccountByWithdrawal(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Withdrawal", reflect.TypeOf((*MockMidSavingServiceServer)(nil).Withdrawal), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateAccountByWithdrawal", reflect.TypeOf((*MockMidSavingServiceServer)(nil).UpdateAccountByWithdrawal), arg0, arg1)
+}
+
+// UpdateUser mocks base method.
+func (m *MockMidSavingServiceServer) UpdateUser(arg0 context.Context, arg1 *User) (*User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUser", arg0, arg1)
+	ret0, _ := ret[0].(*User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateUser indicates an expected call of UpdateUser.
+func (mr *MockMidSavingServiceServerMockRecorder) UpdateUser(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockMidSavingServiceServer)(nil).UpdateUser), arg0, arg1)
 }
